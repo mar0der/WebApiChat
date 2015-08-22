@@ -11,17 +11,17 @@
 
     #endregion
 
-    public class ChatDbContext : IdentityDbContext<User>
+    public class WebApiChatDbContext : IdentityDbContext<User>
     {
-        public ChatDbContext()
+        public WebApiChatDbContext()
             : base("ChatConnection", false)
         {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ChatDbContext, Configuration>());
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebApiChatDbContext, Configuration>());
         }
 
-        public static ChatDbContext Create()
+        public static WebApiChatDbContext Create()
         {
-            return new ChatDbContext();
+            return new WebApiChatDbContext();
         }
     }
 }

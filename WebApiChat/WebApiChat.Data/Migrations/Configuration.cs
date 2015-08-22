@@ -6,7 +6,7 @@ namespace WebApiChat.Data.Migrations
 
     #endregion
 
-    internal sealed class Configuration : DbMigrationsConfiguration<ChatDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<WebApiChatDbContext>
     {
         public Configuration()
         {
@@ -14,7 +14,7 @@ namespace WebApiChat.Data.Migrations
             this.AutomaticMigrationDataLossAllowed = false;
         }
 
-        protected override void Seed(ChatDbContext context)
+        protected override void Seed(WebApiChatDbContext context)
         {
             // This method will be called after migrating to the latest version.
 
