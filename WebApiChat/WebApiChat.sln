@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.Data", "WebApiCh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.Models", "WebApiChat.Models\WebApiChat.Models.csproj", "{F746ED32-4FFF-4A71-BD65-93238737C2FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.Services", "WebApiChat.Services\WebApiChat.Services.csproj", "{6CBDF15B-E280-4ED4-BA69-F58D62C4CA9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.Web", "WebApiChat.Web\WebApiChat.Web.csproj", "{542CB259-453B-4908-9CB7-84710396101C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F746ED32-4FFF-4A71-BD65-93238737C2FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F746ED32-4FFF-4A71-BD65-93238737C2FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F746ED32-4FFF-4A71-BD65-93238737C2FD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CBDF15B-E280-4ED4-BA69-F58D62C4CA9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CBDF15B-E280-4ED4-BA69-F58D62C4CA9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CBDF15B-E280-4ED4-BA69-F58D62C4CA9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CBDF15B-E280-4ED4-BA69-F58D62C4CA9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{542CB259-453B-4908-9CB7-84710396101C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{542CB259-453B-4908-9CB7-84710396101C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{542CB259-453B-4908-9CB7-84710396101C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{542CB259-453B-4908-9CB7-84710396101C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
