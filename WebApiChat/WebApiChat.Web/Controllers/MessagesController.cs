@@ -9,6 +9,7 @@
     using WebApiChat.Data.Interfaces;
     using WebApiChat.Data.Repositories;
     using WebApiChat.Models.Models;
+    using WebApiChat.Web.Models.Messages;
 
     #endregion
 
@@ -27,23 +28,13 @@
         public IChatData Data { get; set; }
 
         [HttpGet]
+        [Route("api/messages/get")]
+        [Authorize]
         public IHttpActionResult Get()
         {
-            //var message = new Message
-            //                  {
-            //                      Text = "hi", 
-            //                      SenderId = "d51f5c5d-827e-48e7-827e-1a056b6fa749", 
-            //                      ReceiverId = "d51f5c5d-827e-48e7-827e-1a056b6fa749"
-            //                  };
-            //this.Data.Messages.Add(message);
-            //this.Data.SaveChanges();
-            var db = new WebApiChatDbContext();
+            var messages = this.Data.Messages.All().Select(MessageViewModel.ViewModel);
 
-            var msg = this.Data.Contacts.Find(2);
-           // msg.
-            
-            var usersCount = this.Data.Users.All().Count();
-            return this.Ok(usersCount);
+            return this.Ok(messages);
         }
     }
 }

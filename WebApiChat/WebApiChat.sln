@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.Models", "WebApi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.Web", "WebApiChat.Web\WebApiChat.Web.csproj", "{542CB259-453B-4908-9CB7-84710396101C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{68A87F89-FA7B-497A-9E50-B7D00B2D26DB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiChat.JSClient", "JSClient\WebApiChat.JSClient.csproj", "{DCB226AC-F8B2-4980-B43A-DA4C49CDB4AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +34,10 @@ Global
 		{542CB259-453B-4908-9CB7-84710396101C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{542CB259-453B-4908-9CB7-84710396101C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{542CB259-453B-4908-9CB7-84710396101C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCB226AC-F8B2-4980-B43A-DA4C49CDB4AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCB226AC-F8B2-4980-B43A-DA4C49CDB4AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCB226AC-F8B2-4980-B43A-DA4C49CDB4AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCB226AC-F8B2-4980-B43A-DA4C49CDB4AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

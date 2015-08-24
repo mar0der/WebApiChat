@@ -31,7 +31,9 @@ namespace WebApiChat.Web
     {
         public void Configuration(IAppBuilder app)
         {
+
             this.ConfigureAuth(app);
+            app.MapSignalR();
             //app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(GlobalConfiguration.Configuration);
         }
 
