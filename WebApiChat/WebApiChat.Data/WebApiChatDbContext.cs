@@ -19,13 +19,22 @@
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebApiChatDbContext, Configuration>());
         }
 
+        public IDbSet<Chat> Chats { get; set; }
+
+        public IDbSet<Message> Messages { get; set; }
+
         public static WebApiChatDbContext Create()
         {
             return new WebApiChatDbContext();
         }
 
-        public IDbSet<Chat> Chats { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasMany(u => u.Contacts).WithRequired(c => c.User);
 
-        public IDbSet<Message> Messages { get; set; }
+            modelBuilder.Entity<Contact>().HasRequired(c => c.User);
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

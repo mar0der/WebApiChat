@@ -23,7 +23,6 @@
 
         public virtual User Sender { get; set; }
 
-       
         [ForeignKey("Chat")]
         public int ChatId { get; set; }
 

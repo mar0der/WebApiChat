@@ -38,6 +38,9 @@
             //this.Data.Messages.Add(message);
             //this.Data.SaveChanges();
             var db = new WebApiChatDbContext();
+
+            var msg = this.Data.Contacts.Find(2);
+           // msg.
             
             var usersCount = this.Data.Users.All().Count();
             return this.Ok(usersCount);

@@ -15,7 +15,7 @@
     {
         private readonly DbContext context;
 
-        private IDictionary<Type, object> repositories;
+        private readonly IDictionary<Type, object> repositories;
 
         public WebApiChatData(DbContext context)
         {
@@ -36,6 +36,22 @@
             get
             {
                 return this.GetRepository<Message>();
+            }
+        }
+
+        public IRepository<Chat> Chats
+        {
+            get
+            {
+                return this.GetRepository<Chat>();
+            }
+        }
+
+        public IRepository<Contact> Contacts
+        {
+            get
+            {
+                return this.GetRepository<Contact>();
             }
         }
 
