@@ -11,18 +11,22 @@
     public class Message
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
+        [Required]
+        [MinLength(1)]
         public string Text { get; set; }
 
+        [Required]
         [ForeignKey("Sender")]
         public string SenderId { get; set; }
 
-        public User Sender { get; set; }
+        public virtual User Sender { get; set; }
 
-        [ForeignKey("Receiver")]
-        public string ReceiverId { get; set; }
+       
+        [ForeignKey("Chat")]
+        public int ChatId { get; set; }
 
-        public User Receiver { get; set; }
+        public virtual Chat Chat { get; set; }
     }
 }

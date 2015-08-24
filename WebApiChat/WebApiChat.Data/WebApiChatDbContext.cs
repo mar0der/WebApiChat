@@ -23,5 +23,9 @@
         {
             return new WebApiChatDbContext();
         }
+
+        public IDbSet<Chat> Chats { get; set; }
+
+        public IDbSet<Message> Messages { get; set; }
     }
 }

@@ -37,6 +37,8 @@
             //                  };
             //this.Data.Messages.Add(message);
             //this.Data.SaveChanges();
+            var db = new WebApiChatDbContext();
+            
             var usersCount = this.Data.Users.All().Count();
             return this.Ok(usersCount);
         }

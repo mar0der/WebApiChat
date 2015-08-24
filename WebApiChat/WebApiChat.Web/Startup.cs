@@ -32,23 +32,23 @@ namespace WebApiChat.Web
         public void Configuration(IAppBuilder app)
         {
             this.ConfigureAuth(app);
-            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(GlobalConfiguration.Configuration);
+            //app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(GlobalConfiguration.Configuration);
         }
 
-        private static StandardKernel CreateKernel()
-        {
-            var kernel = new StandardKernel();
-            kernel.Load(Assembly.GetExecutingAssembly());
+        //private static StandardKernel CreateKernel()
+        //{
+        //    var kernel = new StandardKernel();
+        //    kernel.Load(Assembly.GetExecutingAssembly());
 
-            RegisterMappings(kernel);
-            return kernel;
-        }
+        //    RegisterMappings(kernel);
+        //    return kernel;
+        //}
 
-        public static void RegisterMappings(StandardKernel kernel)
-        {
-            kernel.Bind<IChatData>()
-                .To<WebApiChatData>()
-                .WithConstructorArgument("context", c => new WebApiChatDbContext());
-        }
+        //public static void RegisterMappings(StandardKernel kernel)
+        //{
+        //    kernel.Bind<IChatData>()
+        //        .To<WebApiChatData>()
+        //        .WithConstructorArgument("context", c => new WebApiChatDbContext());
+        //}
     }
 }
