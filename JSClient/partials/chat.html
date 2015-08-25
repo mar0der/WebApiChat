@@ -1,0 +1,16 @@
+﻿<div class="media-body media-left" ng-controller ="chatController">
+
+   
+    <h1 ng-init="getAllChats()">im chat</h1>
+
+
+    <form comment-controller-directive ng-submit="addCommentToPost(post, newCommentData.commentContent);" class="my-inline" name="addCommentToPostForm">
+        <div class="form-group">
+            <textarea ng-model="newCommentData.commentContent" class="form-control msd-elastic" placeholder="Message" rows="1" required></textarea>
+        </div>
+        <button ng-disabled="addCommentToPostForm.$invalid" type="submit" class="btn btn-primary btn-sm">Send Message</button>
+    </form>
+</div>
+<div id="chat-text">
+    
+</div>
