@@ -94,6 +94,8 @@
     <None Include="partials\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="js\controllers\contactsController.js" />
+    <Content Include="js\services\contactService.js" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>

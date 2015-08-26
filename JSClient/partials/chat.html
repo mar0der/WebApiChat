@@ -1,8 +1,15 @@
 ﻿<div class="media-body media-left" ng-controller ="chatController">
 
-   
+
     <h1 ng-init="getAllChats()">im chat</h1>
 
+    <div>
+        
+        <h2 ng-controller="contactsController" ng-init="getAllContacts()">Contacts</h2>
+        <ul >
+            <li ng-repeat="contact in contacts">{{contact.User}}</li>
+        </ul>
+    </div>
 
     <form comment-controller-directive ng-submit="addCommentToPost(post, newCommentData.commentContent);" class="my-inline" name="addCommentToPostForm">
         <div class="form-group">

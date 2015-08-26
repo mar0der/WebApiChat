@@ -1,4 +1,4 @@
-﻿///<reference path="chatService.js" />
+﻿//<reference path="chatService.js" />
 
 'use strict';
 webchat.factory('chatService',function ($http, $q) {

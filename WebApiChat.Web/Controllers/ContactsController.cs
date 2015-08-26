@@ -10,6 +10,9 @@ namespace WebApiChat.Web.Controllers
         public IHttpActionResult GetContacts()
         {
             var currentUserId = this.User.Identity.GetUserId();
+           // var courrentUserId = this.User.T
+
+
             var contacts = this.Data.Contacts.All().Where(c => c.UserId == currentUserId);
 
             // TODO create view for contats
