@@ -1,0 +1,11 @@
+<div class="chatwindow">
+    <ul ng-repeat="chatMessage in chatMessages">
+       <li><span>{{chatMessage.Sender}} :</span>{{chatMessage.Text}}</li>
+    </ul>
+    <form  class="my-inline" name="">
+        <div class="form-group">
+            <textarea  ng-model="message.Text" class="form-control msd-elastic" placeholder="Message" rows="1" required></textarea>
+        </div>
+        <button ng-click="sendMessage(message)" type="submit" class="btn btn-primary btn-sm">Send Message</button>
+    </form>
+</div>

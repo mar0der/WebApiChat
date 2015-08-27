@@ -1,0 +1,32 @@
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\WebApiChat.Data.dll.config
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\WebApiChat.Data.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\WebApiChat.Data.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\EntityFramework.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\WebApiChat.Models.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\WebApiChat.Models.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\EntityFramework.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\obj\Debug\WebApiChat.Data.csprojResolveAssemblyReference.cache
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\obj\Debug\WebApiChat.Data.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork\WebApiChat.Data\obj\Debug\WebApiChat.Data.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\WebApiChat.Data.dll.config
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\WebApiChat.Data.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\WebApiChat.Data.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\EntityFramework.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\WebApiChat.Models.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\WebApiChat.Models.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\EntityFramework.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\obj\Debug\WebApiChat.Data.csprojResolveAssemblyReference.cache
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\obj\Debug\WebApiChat.Data.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Data\obj\Debug\WebApiChat.Data.pdb
