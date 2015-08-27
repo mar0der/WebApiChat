@@ -30,6 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -94,8 +95,8 @@
     <None Include="partials\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <Content Include="js\controllers\contactsController.js" />
     <Content Include="js\services\contactService.js" />
+    <Content Include="partials\contactsTemplate.html" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -110,7 +111,6 @@
     <Content Include="index.html" />
     <Content Include="js\app.js" />
     <Content Include="js\controllers\authenticationController.js" />
-    <Content Include="js\controllers\chatController.js" />
     <Content Include="js\services\chatService.js" />
     <Content Include="js\services\userServices.js" />
     <Content Include="packages.config" />

@@ -22,6 +22,9 @@ webchat.factory('userServices', function ($http, $q) {
     };
 
 
+
+
+
     //function GetHeaders() {
     //    return {
     //        'Authorization': 'Bearer ' + sessionStorage['accessToken']

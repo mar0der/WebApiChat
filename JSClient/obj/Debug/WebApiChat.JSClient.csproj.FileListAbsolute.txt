@@ -58,3 +58,23 @@ C:\Users\ibaky\Desktop\WebChatTeamWork\JSClient\bin\System.Web.Http.Cors.xml
 C:\Users\ibaky\Desktop\WebChatTeamWork\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
 C:\Users\ibaky\Desktop\WebChatTeamWork\JSClient\obj\Debug\JSClient.dll
 C:\Users\ibaky\Desktop\WebChatTeamWork\JSClient\obj\Debug\JSClient.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\JSClient.dll.config
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\JSClient.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\JSClient.pdb
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Microsoft.Owin.Cors.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Microsoft.Owin.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Newtonsoft.Json.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Owin.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Net.Http.Formatting.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Web.Cors.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Web.Http.Cors.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Web.Http.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Microsoft.Owin.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Microsoft.Owin.Cors.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\Newtonsoft.Json.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Net.Http.Formatting.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Web.Http.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Web.Http.Cors.xml
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\obj\Debug\JSClient.dll
+C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\obj\Debug\JSClient.pdb
