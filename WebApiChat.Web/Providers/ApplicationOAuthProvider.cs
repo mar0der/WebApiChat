@@ -1,4 +1,6 @@
 ﻿using System.Web.Http.Cors;
+using Microsoft.AspNet.SignalR;
+using WebApiChat.Web.Hubs;
 
 namespace WebApiChat.Web.Providers
 {
@@ -47,7 +49,14 @@ namespace WebApiChat.Web.Providers
                 return;
             }
 
+          
+            var _hubContext = GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
 
+            _hubContext.Clients.All.userLogged(new
+            {
+               id = user.Id,
+               name = user.UserName
+            });
 
             var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
             var cookiesIdentity =

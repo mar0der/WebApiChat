@@ -3,8 +3,8 @@
 'use strict';
 webchat.factory('chatService',function ($http, $q) {
 
-    var serviceUrl = webchat.BASE_URL + 'messages/';
-    var service2 = webchat.BASE_URL + 'chat/'
+    //var serviceUrl = webchat.BASE_URL + 'messages/';
+    var service2 = webchat.BASE_URL + 'chat/';
     var service = {};
 
     service.getChatMessages = function () {
@@ -35,7 +35,7 @@ webchat.factory('chatService',function ($http, $q) {
         var deferred = $q.defer();
         SetHeaders($http);
         message['senderName'] = sessionStorage.username;
-        $http.post(serviceUrl + chatId, message )
+        $http.post(service2 +'send/' + chatId, message )
             .success(function (data) {
                 deferred.resolve(data);
             }).error(function (error) {
@@ -48,59 +48,4 @@ webchat.factory('chatService',function ($http, $q) {
     return service;
 
 
-//declaring the hub connection
-    //var hub = new Hub('mesagessHub', {
-
-    //    //client side methods
-    //    listeners: {
-    //        'receiveMessage': function (msg) {
-    //            alert(1);
-    //        }
-    //    },
-
-    //    //server side methods
-    //    methods: ['lock', 'unlock'],
-
-    //    //query params sent on initial connection
-    //    queryParams: {
-    //        'token': 'exampletoken'
-    //    },
-
-    //    //handle connection error
-    //    errorHandler: function (error) {
-    //        console.error(error);
-    //    },
-
-    //    //specify a non default root
-    //    //rootPath: '/api
-
-    //    stateChanged: function (state) {
-    //        switch (state.newState) {
-    //            case $.signalR.connectionState.connecting:
-    //                //your code here
-    //                break;
-    //            case $.signalR.connectionState.connected:
-    //                //your code here
-    //                break;
-    //            case $.signalR.connectionState.reconnecting:
-    //                //your code here
-    //                break;
-    //            case $.signalR.connectionState.disconnected:
-    //                //your code here
-    //                break;
-    //        }
-    //    }
-    //});
-
-    //var edit = function (employee) {
-    //    hub.lock(employee.Id); //Calling a server method
-    //};
-    //var done = function (employee) {
-    //    hub.unlock(employee.Id); //Calling a server method
-    //}
-
-    //return {
-    //    editEmployee: edit,
-    //    doneWithEmployee: done
-    //};
 });

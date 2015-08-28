@@ -1,4 +1,4 @@
-﻿<form class="form-signin" ng-controller="authenticationController" ng-submit="login()">
+﻿<form class="form-signin">
     <h1 id="wellcomeMessage">Wellcome to <span class="label label-default">ChatApp!</span></h1>
 
     <h3 class="form-signin-heading">Please sign in</h3>
@@ -6,11 +6,10 @@
            required="" autofocus="">
     <input ng-model="loginData.password" type="password" id="inputPassword" class="form-control" placeholder="Password"
            required="">
-
     <div class="checkbox">
         <label>
             <a href="#/chat">Register</a>
         </label>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-primary btn-block" ng-click="login()" type="submit">Sign in</button>
 </form>

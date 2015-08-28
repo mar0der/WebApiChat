@@ -1,4 +1,6 @@
-﻿namespace WebApiChat.Models.Models
+﻿using System.Diagnostics.Eventing.Reader;
+
+namespace WebApiChat.Models.Models
 {
     #region
 
@@ -26,6 +28,9 @@
 
         [ForeignKey("Chat")]
         public int ChatId { get; set; }
+
+        public bool IsRevieved { get; set; }
+       
 
         public virtual Chat Chat { get; set; }
     }

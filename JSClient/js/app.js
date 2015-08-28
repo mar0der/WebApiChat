@@ -4,13 +4,14 @@ var webchat = angular.module('webchat', ['ngRoute', 'ngResource']);
 webchat.config(function($routeProvider) {
 
     $routeProvider
-        //.when('/chat', {
-        //    templateUrl: 'partials/chat.html',
-        //    controller: 'chatController'
-        //})
+
          .when('/login', {
              templateUrl: 'partials/login.html',
-             controller: 'authenticationController'
+              controller: 'authenticationController'
+        })
+        .when('/chat', {
+            templateUrl: 'partials/online-users-template.html',
+            controller: 'contactsController'
         })
         .otherwise({ redirectTo: '/login' });
 });

@@ -1,6 +1,12 @@
-﻿<div>
-    <h2 ng-controller="contactsController" ng-init="getAllContacts()">Contacts</h2>
+﻿<div ng-init="getAllFriends()"></div>
+
+<div>
+    <h2 ng-init="getAllContacts();">Contacts</h2>
     <ul>
-        <li class="contactName" ng-click="GetChatWithUser(contact.ContactUserId)" ng-repeat="contact in contacts">{{contact.User}}</li>
+        <li class="contactName" ng-click="GetChatWithUser(contact.ContactUserId)"
+            ng-repeat="contact in contacts">{{contact.User}}</li>
     </ul>
 </div>
+
+
+

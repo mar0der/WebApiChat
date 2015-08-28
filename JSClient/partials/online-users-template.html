@@ -1,0 +1,26 @@
+<div>
+    <h1  ng-init="getAllOnlineUsers()">online users</h1>
+        <ul >
+            <li ng-repeat="onlineUser in onlineUsers ">{{onlineUser.Name}}</li>
+
+        </ul>
+</div>
+
+<div ng-init="getAllFriends()" ng-controller="chatController">
+    <h1>Contacts</h1>
+    <ul >
+        <li ng-repeat="contact in contacts" ng-click="getChatWithUser(contact.Id)">{{contact.Name}} <span>{{ contact.IsOnline | yesNo }}</span></li>
+
+    </ul>
+    <h1>chat history</h1>
+    <ul>
+        <li ng-repeat="chat in chatLog">{{chat.Sender}} : {{chat.Text}}</li>
+        <form action=""
+                >
+            <input class="commentReply" ng-model="messageData.text" type="text"
+                   class="form-control" aria-label="...">
+            <button  ng-click="sendMessageToUser(messageData, contactId); ">Send msg</button>
+        </form>
+    </ul>
+</div>
+
