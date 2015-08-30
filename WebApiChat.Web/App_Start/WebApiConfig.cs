@@ -1,10 +1,8 @@
-﻿using System.Net.Http.Headers;
-using System.Web.Http.Cors;
-
-namespace WebApiChat.Web
+﻿namespace WebApiChat.Web
 {
     #region
 
+    using System.Net.Http.Headers;
     using System.Web.Http;
 
     using Microsoft.Owin.Security.OAuth;
@@ -15,9 +13,9 @@ namespace WebApiChat.Web
     {
         public static void Register(HttpConfiguration config)
         {
-            //var cors = new EnableCorsAttribute("www.example.com", "*", "*");
-           // config.EnableCors();
-            //config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+            // var cors = new EnableCorsAttribute("www.example.com", "*", "*");
+            // config.EnableCors();
+            // config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
             // Web API configuration and services
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
@@ -28,8 +26,6 @@ namespace WebApiChat.Web
 
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
-
-
         }
     }
 }

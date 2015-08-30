@@ -1,8 +1,4 @@
-﻿using System.Web.Http.Cors;
-using Microsoft.AspNet.SignalR;
-using WebApiChat.Web.Hubs;
-
-namespace WebApiChat.Web.Providers
+﻿namespace WebApiChat.Web.Providers
 {
     #region
 
@@ -11,9 +7,12 @@ namespace WebApiChat.Web.Providers
     using System.Threading.Tasks;
 
     using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.AspNet.SignalR;
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
+
+    using WebApiChat.Web.Hubs;
 
     #endregion
 
@@ -31,17 +30,13 @@ namespace WebApiChat.Web.Providers
             this._publicClientId = publicClientId;
         }
 
-        //[EnableCors(origins: "http://localhost:29807", headers: "*", methods: "*")]
+        // [EnableCors(origins: "http://localhost:29807", headers: "*", methods: "*")]
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-
-            //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
+            // context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
             var user = await userManager.FindAsync(context.UserName, context.Password);
-
-
-
 
             if (user == null)
             {
@@ -49,14 +44,9 @@ namespace WebApiChat.Web.Providers
                 return;
             }
 
-          
             var _hubContext = GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
 
-            _hubContext.Clients.All.userLogged(new
-            {
-               id = user.Id,
-               name = user.UserName
-            });
+            _hubContext.Clients.All.userLogged(new { id = user.Id, name = user.UserName });
 
             var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);
             var cookiesIdentity =

@@ -78,3 +78,23 @@ C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\bin\System.Web.Http.Cors.
 C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
 C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\obj\Debug\JSClient.dll
 C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\JSClient\obj\Debug\JSClient.pdb
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\JSClient.dll.config
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\JSClient.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\JSClient.pdb
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Microsoft.Owin.Cors.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Microsoft.Owin.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Newtonsoft.Json.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Owin.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Net.Http.Formatting.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Web.Cors.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Web.Http.Cors.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Web.Http.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Microsoft.Owin.xml
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Microsoft.Owin.Cors.xml
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\Newtonsoft.Json.xml
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Net.Http.Formatting.xml
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Web.Http.xml
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\bin\System.Web.Http.Cors.xml
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\obj\Debug\JSClient.dll
+C:\Users\peter\Source\Repos\WebApiChat\JSClient\obj\Debug\JSClient.pdb

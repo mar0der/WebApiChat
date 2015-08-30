@@ -1,6 +1,4 @@
-﻿using Microsoft.Owin.Cors;
-
-namespace WebApiChat.Web
+﻿namespace WebApiChat.Web
 {
     #region
 
@@ -8,13 +6,13 @@ namespace WebApiChat.Web
 
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin;
+    using Microsoft.Owin.Cors;
     using Microsoft.Owin.Security.Cookies;
     using Microsoft.Owin.Security.OAuth;
 
     using Owin;
 
     using WebApiChat.Data;
-    using WebApiChat.Web.Models;
     using WebApiChat.Web.Providers;
 
     #endregion
@@ -23,15 +21,12 @@ namespace WebApiChat.Web
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
-
-
         public static string PublicClientId { get; private set; }
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-            //new code
-           
+            // new code
 
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(WebApiChatDbContext.Create);
@@ -42,14 +37,16 @@ namespace WebApiChat.Web
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
-
             // Configure the application for OAuth based flow
             PublicClientId = "self";
             OAuthOptions = new OAuthAuthorizationServerOptions
                                {
-                                   TokenEndpointPath = new PathString("/api/Account/Login"),
-                                 //  TokenEndpointPath = new PathString("/Token"), 
-                                   Provider = new ApplicationOAuthProvider(PublicClientId), 
+                                   TokenEndpointPath =
+                                       new PathString("/api/Account/Login"), 
+
+                                   // TokenEndpointPath = new PathString("/Token"), 
+                                   Provider =
+                                       new ApplicationOAuthProvider(PublicClientId), 
                                    AuthorizeEndpointPath =
                                        new PathString("/api/Account/ExternalLogin"), 
                                    AccessTokenExpireTimeSpan = TimeSpan.FromDays(14), 
@@ -59,11 +56,10 @@ namespace WebApiChat.Web
                                };
 
             // Enable the application to use bearer tokens to authenticate users
-           // app.UseOAuthBearerTokens(OAuthOptions);
-
-
+            // app.UseOAuthBearerTokens(OAuthOptions);
             app.UseCors(CorsOptions.AllowAll);
             app.UseOAuthBearerTokens(OAuthOptions);
+
             // Uncomment the following lines to enable logging in with third party login providers
             // app.UseMicrosoftAccountAuthentication(
             // clientId: "",
