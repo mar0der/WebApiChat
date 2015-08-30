@@ -1,19 +1,17 @@
 ﻿namespace WebApiChat.Models.Models
 {
-    #region
-
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using WebApiChat.Models.Enums;
 
-    #endregion
-
     public class Chat
     {
-        private ICollection<Message> messages;
-
         private ICollection<User> users;
+
+        private ICollection<Message> messages;
 
         public Chat()
         {
@@ -51,5 +49,7 @@
                 this.messages = value;
             }
         }
+
+
     }
 }

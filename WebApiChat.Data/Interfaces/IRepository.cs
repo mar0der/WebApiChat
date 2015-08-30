@@ -1,13 +1,8 @@
 ﻿namespace WebApiChat.Data.Interfaces
 {
-    #region
-
     using System.Linq;
 
-    #endregion
-
-    public interface IRepository<T>
-        where T : class
+    public interface IRepository<T> where T : class
     {
         IQueryable<T> All();
 

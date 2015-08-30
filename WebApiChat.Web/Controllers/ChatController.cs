@@ -1,32 +1,33 @@
-﻿namespace WebApiChat.Web.Controllers
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
+using WebApiChat.Models.Models;
+using WebApiChat.Web.Hubs;
+using WebApiChat.Web.Models.Messages;
+using WebGrease.Css.Extensions;
+
+namespace WebApiChat.Web.Controllers
 {
-    #region
-
-    using System.Linq;
-    using System.Web.Http;
-
-    using Microsoft.AspNet.Identity;
-
-    using WebApiChat.Models.Models;
-    using WebApiChat.Web.Hubs;
-    using WebApiChat.Web.Models.Messages;
-
-    #endregion
-
     [RoutePrefix("api/chat")]
     public class ChatController : ApiControllerWithHub<BaseHub>
     {
+
         [HttpGet]
-        [Authorize]
+        [System.Web.Http.Authorize]
         public IHttpActionResult GetChatWithContact(string id)
         {
-            var currentUserId = this.User.Identity.GetUserId();
 
-            var chats =
-                this.Data.Users.All()
-                    .Where(u => u.Id == currentUserId)
-                    .Select(u => u.Chats.Where(c => c.Users.Any(chu => chu.Id == id)).Select(c => c.Id))
-                    .First();
+
+            string currentUserId = this.User.Identity.GetUserId();
+
+            var chats = this.Data.Users.All().Where(u => u.Id == currentUserId)
+                 .Select(u => u.Chats
+                     .Where(c => c.Users
+                         .Any(chu => chu.Id == id)
+                     ).Select(c => c.Id)).First();
+
 
             if (!chats.Any())
             {
@@ -41,26 +42,34 @@
                 return this.Ok("new chat has been created");
             }
 
-            var messages =
-                this.Data.Users.All()
-                    .Where(u => u.Id == currentUserId)
-                    .Select(
-                        u =>
-                        u.Chats.Where(ch => ch.Users.Any(uc => uc.Id == id))
-                            .Select(
-                                ch =>
-                                new
-                                    {
-                                        Messages = ch.Messages.Select(m => new { Sender = m.Sender.UserName, m.Text }), 
-                                        Name = ch.Id
-                                    }))
-                    .FirstOrDefault();
+
+
+
+            var messages = this.Data.Users.All()
+                .Where(u => u.Id == currentUserId)
+                .Select(u => u.Chats
+                    .Where(ch => ch.Users
+                        .Any(uc => uc.Id == id))
+                    .Select(ch => new
+                    {
+                        Messages = ch.Messages
+                            .Select(m => new
+                            {
+                                Sender = m.Sender.UserName,
+                                m.Text
+                            }),
+                        Name = ch.Id
+                    })).FirstOrDefault();
+
+
+
 
             return this.Ok(messages);
         }
 
+
         [HttpPost]
-        [Authorize]
+        [System.Web.Http.Authorize]
         [Route("send/{chatId}")]
         public IHttpActionResult AddMessage(int chatId, MessageBindingModel messageBindingModel)
         {
@@ -74,45 +83,65 @@
                 return this.BadRequest("no data provided for message");
             }
 
-            var message = new Message
-                              {
-                                  ChatId = chatId, 
-                                  SenderId = this.User.Identity.GetUserId(), 
-                                  Text = messageBindingModel.Text
-                              };
+            var message = new Message()
+            {
+                ChatId = chatId,
+                SenderId = this.User.Identity.GetUserId(),
+                Text = messageBindingModel.Text
+            };
+
 
             var currentUserId = this.User.Identity.GetUserId();
             var currentUserUsername = this.User.Identity.GetUserName();
 
-            var recieverUsernames =
-                this.Data.Chats.All()
-                    .Where(c => c.Id == chatId)
-                    .SelectMany(
-                        x => x.Users.Where(u => u.Id != currentUserId).Select(u => new { username = u.UserName }))
-                    .Select(us => us.username)
-                    .ToList();
+            var recieverUsernames = this.Data.Chats
+                .All()
+                .Where(c => c.Id == chatId)
+                .SelectMany(x => x.Users
+                    .Where(u => u.Id != currentUserId).Select(u => new
+                    {
+                        username = u.UserName
+                    })
+                ).Select(us => us.username).ToList();
 
             var onlineUsers = ConnectionManager.Users.Keys;
-            var offlineUsers =
-                this.Data.Chats.All()
-                    .Where(c => c.Id == chatId)
-                    .SelectMany(
-                        x =>
-                        x.Users.Where(u => !onlineUsers.Contains(u.UserName) && u.UserName != currentUserUsername)
-                            .Select(u => new { username = u.UserName }))
-                    .Select(us => us.username)
-                    .ToList();
+            var offlineUsers = this.Data.Chats
+                .All()
+                .Where(c => c.Id == chatId)
+                .SelectMany(x => x.Users
+                    .Where(u => !onlineUsers.Contains(u.UserName) && u.UserName != currentUserUsername).Select(u => new
+                    {
+                        username = u.UserName
+                    })
+                ).Select(us => us.username).ToList();
+                    
 
-            // logic for recieved
-            // this.Data.Messages.All()
-            // .Where(m => m.IsRevieved == false).ForEach(m => m.IsRevieved = true);
-            this.HubContex.Clients.Users(recieverUsernames)
-                .toggleMessage(new { message.Text, Sender = messageBindingModel.SenderName });
+
+            //logic for recieved
+            //this.Data.Messages.All()
+            //    .Where(m => m.IsRevieved == false).ForEach(m => m.IsRevieved = true);
+
+
+            this.HubContex.Clients.Users(recieverUsernames).toggleMessage(new
+            {
+                Text = message.Text,
+                Sender = messageBindingModel.SenderName
+            });
+
+
 
             this.Data.Messages.Add(message);
+            
+
+            
+
 
             this.Data.SaveChanges();
-            return this.Ok(new { message.Text, Sender = messageBindingModel.SenderName });
+            return this.Ok(new
+            {
+                Text = message.Text,
+                Sender = messageBindingModel.SenderName
+            });
         }
     }
 }

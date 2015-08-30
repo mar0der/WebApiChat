@@ -26,17 +26,3 @@ C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Models\bin\Debug\Entity
 C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Models\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\ibaky\Desktop\WebChatTeamWork - Copy\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\WebApiChat.Models.dll.config
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\WebApiChat.Models.dll
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\WebApiChat.Models.pdb
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\EntityFramework.dll
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\EntityFramework.SqlServer.dll
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.Core.dll
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\EntityFramework.xml
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\EntityFramework.SqlServer.xml
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.Core.xml
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.csprojResolveAssemblyReference.cache
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.dll
-C:\Users\peter\Source\Repos\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.pdb
