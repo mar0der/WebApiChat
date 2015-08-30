@@ -16,9 +16,9 @@
     {
         public override Task OnConnected()
         {
-            string userName = this.Context.User.Identity.Name;
-            string connectionId = this.Context.ConnectionId;
-            string id = this.Context.User.Identity.GetUserId();
+            var userName = this.Context.User.Identity.Name;
+            var connectionId = this.Context.ConnectionId;
+            var id = this.Context.User.Identity.GetUserId();
 
             var user = ConnectionManager.Users.GetOrAdd(
                 userName, 
@@ -44,8 +44,8 @@
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            string userName = this.Context.User.Identity.Name;
-            string connectionId = this.Context.ConnectionId;
+            var userName = this.Context.User.Identity.Name;
+            var connectionId = this.Context.ConnectionId;
 
             ConnectedUser user;
             ConnectionManager.Users.TryGetValue(userName, out user);

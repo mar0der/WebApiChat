@@ -1,13 +1,14 @@
-using System.Linq;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using WebApiChat.Models.Models;
-
 namespace WebApiChat.Data.Migrations
 {
     #region
 
     using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+
+    using WebApiChat.Models.Models;
 
     #endregion
 
@@ -21,58 +22,52 @@ namespace WebApiChat.Data.Migrations
 
         protected override void Seed(WebApiChatDbContext context)
         {
-            SeedUsersWithMessages(context);
+            this.SeedUsersWithMessages(context);
         }
 
         private void SeedUsersWithMessages(WebApiChatDbContext context)
         {
-
             if (!context.Users.Any())
             {
-
                 var store = new UserStore<User>(context);
                 var manager = new UserManager<User>(store);
                 var userPesho = new User
-                {
-                    UserName = "pesho",
-                    FirstName = "Pesho",
-                    LastName = "Petrov",
-                    Email = "pesho@peshev.com",
-                };
+                                    {
+                                        UserName = "pesho", 
+                                        FirstName = "Pesho", 
+                                        LastName = "Petrov", 
+                                        Email = "pesho@peshev.com"
+                                    };
 
                 manager.Create(userPesho, "parola");
 
-                
                 var userGosho = new User
-                {
-                    UserName = "gosho",
-                    FirstName = "Gosho",
-                    LastName = "Goshev",
-                    Email = "goshoGoshev@gmail.com",
-                };
-
+                                    {
+                                        UserName = "gosho", 
+                                        FirstName = "Gosho", 
+                                        LastName = "Goshev", 
+                                        Email = "goshoGoshev@gmail.com"
+                                    };
 
                 var userChocho = new User
-                {
-                    UserName = "chocho",
-                    FirstName = "Chocho",
-                    LastName = "Chochev",
-                    Email = "chocho@gmail.com",
-                };
+                                     {
+                                         UserName = "chocho", 
+                                         FirstName = "Chocho", 
+                                         LastName = "Chochev", 
+                                         Email = "chocho@gmail.com"
+                                     };
 
                 var userMinka = new User
-                {
-                    UserName = "minka",
-                    FirstName = "Minka",
-                    LastName = "Chocheva",
-                    Email = "minka@gmail.com",
-                };
+                                    {
+                                        UserName = "minka", 
+                                        FirstName = "Minka", 
+                                        LastName = "Chocheva", 
+                                        Email = "minka@gmail.com"
+                                    };
 
                 manager.Create(userMinka, "parola");
                 manager.Create(userGosho, "parola");
                 manager.Create(userChocho, "parola");
-
-
 
                 var chat = new Chat();
                 chat.Users.Add(userPesho);
@@ -80,48 +75,21 @@ namespace WebApiChat.Data.Migrations
 
                 context.Chats.Add(chat);
 
-                chat.Messages.Add(new Message()
-                {
-                    Sender = userPesho,
-                    Text = "Whats up Gosho?!"
-                });
+                chat.Messages.Add(new Message { Sender = userPesho, Text = "Whats up Gosho?!" });
 
+                chat.Messages.Add(new Message { Sender = userGosho, Text = "Chillin" });
 
+                var contact = new Contact { User = userPesho, ContactUser = userGosho, IsBlocked = false };
 
-                chat.Messages.Add(new Message()
-                {
-                    Sender = userGosho,
-                    Text = "Chillin"
-                });
+                var contact2 = new Contact { User = userPesho, ContactUser = userChocho, IsBlocked = false };
 
-                var contact = new Contact()
-                {
-                    User = userPesho,
-                    ContactUser = userGosho,
-                    IsBlocked = false
-                };
-
-
-                var contact2 = new Contact()
-                {
-                    User = userPesho,
-                    ContactUser = userChocho,
-                    IsBlocked = false
-                };
-
-                var contact3 = new Contact()
-                {
-                    User = userPesho,
-                    ContactUser = userMinka,
-                    IsBlocked = false
-                };
+                var contact3 = new Contact { User = userPesho, ContactUser = userMinka, IsBlocked = false };
 
                 context.Contacts.Add(contact);
                 context.Contacts.Add(contact2);
                 context.Contacts.Add(contact3);
 
                 context.SaveChanges();
-
             }
         }
     }

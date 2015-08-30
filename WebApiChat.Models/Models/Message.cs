@@ -1,10 +1,7 @@
-﻿using System.Diagnostics.Eventing.Reader;
-
-namespace WebApiChat.Models.Models
+﻿namespace WebApiChat.Models.Models
 {
     #region
 
-    using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,7 +17,7 @@ namespace WebApiChat.Models.Models
         public string Text { get; set; }
 
         // TODO return the attribute.
-        //[Required]
+        // [Required]
         [ForeignKey("Sender")]
         public string SenderId { get; set; }
 
@@ -30,7 +27,6 @@ namespace WebApiChat.Models.Models
         public int ChatId { get; set; }
 
         public bool IsRevieved { get; set; }
-       
 
         public virtual Chat Chat { get; set; }
     }

@@ -2,9 +2,7 @@
 {
     #region
 
-    using System;
     using System.Data.Entity;
-    using System.Data.Entity.Migrations;
     using System.Linq;
 
     using WebApiChat.Data.Interfaces;
@@ -14,9 +12,9 @@
     public class EfRepository<T> : IRepository<T>
         where T : class
     {
-        private DbContext context;
+        private readonly DbContext context;
 
-        private IDbSet<T> set;
+        private readonly IDbSet<T> set;
 
         public EfRepository(DbContext context)
         {

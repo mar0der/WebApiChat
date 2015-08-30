@@ -23,7 +23,7 @@
 
         public IDbSet<Message> Messages { get; set; }
 
-        public IDbSet<Contact> Contacts { get; set; } 
+        public IDbSet<Contact> Contacts { get; set; }
 
         public static WebApiChatDbContext Create()
         {

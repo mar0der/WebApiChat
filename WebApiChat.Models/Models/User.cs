@@ -26,7 +26,6 @@
             this.contacts = new HashSet<Contact>();
         }
 
-
         public int Age { get; set; }
 
         // [Required]
