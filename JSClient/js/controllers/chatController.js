@@ -16,7 +16,7 @@ webchat.controller("chatController", function ($scope,
 
         chatService.GetChatWithUser(userId)
             .then(function (data) {
-                console.log(data[0].Name)
+                console.log(data[0].Name);
                 console.log(data[0].Messages);
                 $scope.currentChanelId = data[0].Name;
                 $scope.currentContactId = userId;

@@ -1,6 +1,11 @@
 webchat.controller("contactsController",
     function ($scope, contactService, $location, $rootScope, signalR) {
 
+        signalR.on('onDisconnected', function(){
+            // TODO logic 
+
+        });
+
         signalR.on('userLogged', function (userLogged) {
 
             var user = {

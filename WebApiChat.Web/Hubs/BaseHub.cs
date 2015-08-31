@@ -1,30 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Http;
-using System.Web.Http.Cors;
-using Eaf.InfrastructureLayer.Communication.SignalR;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Infrastructure;
-using WebApiChat.Data;
-using WebApiChat.Data.Repositories;
-using WebApiChat.Models.Models;
-
-namespace WebApiChat.Web.Hubs
+﻿namespace WebApiChat.Web.Hubs
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Web.Http.Cors;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.SignalR;
+
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Microsoft.AspNet.SignalR.Authorize]
     public class BaseHub : Hub
     {
         public override Task OnConnected()
         {
-
+            //
             string userName = Context.User.Identity.Name;
             string connectionId = Context.ConnectionId;
             string id = Context.User.Identity.GetUserId();
