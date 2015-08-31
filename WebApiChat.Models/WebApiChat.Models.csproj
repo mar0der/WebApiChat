@@ -56,9 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums\ChatType.cs" />
+    <Compile Include="Enums\MessageStatusEnum.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessageReceiver.cs" />
     <Compile Include="Models\Startup.Auth.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

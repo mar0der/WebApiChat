@@ -37,6 +37,6 @@ C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.csprojResolveAssemblyReference.cache
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.dll
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.pdb
+C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\WebApiChat.Models\obj\Debug\WebApiChat.Models.csprojResolveAssemblyReference.cache

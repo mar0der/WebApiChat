@@ -95,6 +95,5 @@ C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\bin\Newto
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\bin\System.Net.Http.Formatting.xml
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\bin\System.Web.Http.xml
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\bin\System.Web.Http.Cors.xml
-C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\obj\Debug\JSClient.dll
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\obj\Debug\JSClient.pdb

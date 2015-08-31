@@ -41,7 +41,6 @@ namespace WebApiChat.Data.Migrations
                 };
 
                 manager.Create(userPesho, "parola");
-
                 
                 var userGosho = new User
                 {
@@ -116,9 +115,17 @@ namespace WebApiChat.Data.Migrations
                     IsBlocked = false
                 };
 
+                var contact4 = new Contact()
+                {
+                    User = userGosho,
+                    ContactUser = userPesho,
+                    IsBlocked = false
+                };
+
                 context.Contacts.Add(contact);
                 context.Contacts.Add(contact2);
                 context.Contacts.Add(contact3);
+                context.Contacts.Add(contact4);
 
                 context.SaveChanges();
 

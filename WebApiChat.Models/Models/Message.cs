@@ -5,6 +5,8 @@ namespace WebApiChat.Models.Models
     #region
 
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +14,13 @@ namespace WebApiChat.Models.Models
 
     public class Message
     {
+        private ICollection<MessageReceiver> receivers;
+
+        public Message()
+        {
+            this.receivers = new HashSet<MessageReceiver>();
+        }
+
         [Key]
         public int Id { get; set; }
 
@@ -29,9 +38,19 @@ namespace WebApiChat.Models.Models
         [ForeignKey("Chat")]
         public int ChatId { get; set; }
 
-        public bool IsRevieved { get; set; }
-       
-
         public virtual Chat Chat { get; set; }
+
+        public virtual ICollection<MessageReceiver> Receivers 
+        {
+            get
+            {
+                return this.receivers;
+            }
+
+            set
+            {
+                this.receivers = value;
+            }
+        }
     }
 }
