@@ -86,49 +86,58 @@
                 return this.BadRequest("Invalid chat id");
             }
 
-            var messageReceivers =
-                chat.Users.Where(u => u.Id != currentUserId)
-                    .Select(u => new MessageReceiver()
-                                     {
-                                         ReceiverId = u.Id,
-                                         Status = MessageStatusEnum.Sent
-                                     })
-                    .ToList();
-
             var message = new Message
-                              {
-                                  ChatId = chatId,
-                                  SenderId = this.User.Identity.GetUserId(),
-                                  Text = messageBindingModel.Text,
-                                  Receivers = messageReceivers
-                              };
+            {
+                ChatId = chatId,
+                SenderId = this.User.Identity.GetUserId(),
+                Text = messageBindingModel.Text
+            };
 
-            var messageReceiversUsername =
-                this.Data.Chats.All()
-                    .Where(c => c.Id == chatId)
-                    .SelectMany(
-                        x => x.Users.Where(u => u.Id != currentUserId).Select(u => new { username = u.UserName }))
-                    .Select(us => us.username)
+            this.Data.Messages.Add(message);
+            this.Data.SaveChanges();
+
+            var messageReceivers =
+                chat.Users
+                .Where(u => u.Id != currentUserId)
+                    .Select(u => new MessageReceiver()
+                    {
+                        MessageId = message.Id,
+                        ReceiverId = u.Id,
+                        Status = MessageStatusEnum.Sent
+                    })
                     .ToList();
+
+            message.Receivers = messageReceivers;
+
+            this.Data.SaveChanges();
+
+            var messageReceiversUsername = messageReceivers.Select(m => m.Receiver.UserName).ToList();
+                //this.Data.Chats.All()
+                //    .Where(c => c.Id == chatId)
+                //    .SelectMany(
+                //        x => x.Users.Where(u => u.Id != currentUserId).Select(u => new { username = u.UserName }))
+                //    .Select(us => us.username)
+                //    .ToList();
 
             var onlineUsers = ConnectionManager.Users.Keys;
-            var offlineUsers =
-                this.Data.Chats.All()
-                    .Where(c => c.Id == chatId)
-                    .SelectMany(
-                        x =>
-                        x.Users.Where(u => !onlineUsers.Contains(u.UserName) && u.UserName != currentUserUsername)
-                            .Select(u => new { username = u.UserName }))
-                    .Select(us => us.username)
-                    .ToList();
+            var offlineUsers = messageReceivers
+                .Where(m => !onlineUsers.Contains(m.Receiver.UserName))
+                .Select(m => m.Receiver.UserName)
+                .ToList();
+                //this.Data.Chats.All()
+                //    .Where(c => c.Id == chatId)
+                //    .SelectMany(
+                //        x =>
+                //        x.Users.Where(u => !onlineUsers.Contains(u.UserName) && u.UserName != currentUserUsername)
+                //            .Select(u => new { username = u.UserName }))
+                //    .Select(us => us.username)
+                //    .ToList();
 
             // logic for recieved
             // this.Data.Messages.All()
             // .Where(m => m.IsRevieved == false).ForEach(m => m.IsRevieved = true);
             this.HubContex.Clients.Users(messageReceiversUsername)
                 .toggleMessage(new { message.Text, Sender = messageBindingModel.SenderName });
-
-            this.Data.Messages.Add(message);
 
             this.Data.SaveChanges();
             return this.Ok(new { message.Text, Sender = messageBindingModel.SenderName });

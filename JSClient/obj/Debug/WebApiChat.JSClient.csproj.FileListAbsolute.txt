@@ -97,3 +97,23 @@ C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\bin\Syste
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\bin\System.Web.Http.Cors.xml
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\obj\Debug\JSClient.dll
 C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\obj\Debug\JSClient.pdb
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\JSClient.dll.config
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\JSClient.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\JSClient.pdb
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Microsoft.Owin.Cors.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Microsoft.Owin.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Newtonsoft.Json.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Owin.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Net.Http.Formatting.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Web.Cors.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Web.Http.Cors.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Web.Http.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Microsoft.Owin.xml
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Microsoft.Owin.Cors.xml
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\Newtonsoft.Json.xml
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Net.Http.Formatting.xml
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Web.Http.xml
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\bin\System.Web.Http.Cors.xml
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\obj\Debug\JSClient.dll
+D:\softuni\BackEnd\WebServices\TeamWork\trunk\JSClient\obj\Debug\JSClient.pdb
