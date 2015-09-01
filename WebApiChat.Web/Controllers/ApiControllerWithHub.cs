@@ -9,6 +9,8 @@ using Microsoft.AspNet.SignalR.Hubs;
 
 namespace WebApiChat.Web.Controllers
 {
+    using Microsoft.AspNet.Identity;
+
     public abstract class ApiControllerWithHub<THub> : BaseController
         where THub : IHub
     {
@@ -17,9 +19,16 @@ namespace WebApiChat.Web.Controllers
         );
 
         public IHubContext HubContex
-
         {
             get { return hub.Value; }
         }
+
+        //public string CurrentUserId
+        //{
+        //    get
+        //    {
+        //        return this.User.Identity.GetUserId();
+        //    }   
+        //}
     }
 }
