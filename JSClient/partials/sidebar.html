@@ -1,0 +1,32 @@
+﻿<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" ng-click="toggleSidebar('contacts');">Contacts</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" ng-click="toggleSidebar('groups');">Groups</button>
+    </div>
+</div>
+<div>
+    <div ng-if="currentSidebar.isContacts">
+        <button class="btn btn-warning col-lg-24" type="button">
+            Pesho <span class="badge">2</span>
+        </button>
+        <button class="btn btn-success col-lg-24" type="button">
+            Gosho <span class="badge"></span>
+        </button>
+        <button class="btn btn-default col-lg-24" type="button">
+            Ivan <span class="badge"></span>
+        </button>
+    </div>
+    <div ng-if="currentSidebar.isGroups">
+        <button class="btn btn-warning col-lg-24" type="button">
+            Pesho, Ivan <span class="badge">2</span>
+        </button>
+        <button class="btn btn-success col-lg-24" type="button">
+            Gosho, Atanas <span class="badge"></span>
+        </button>
+        <button class="btn btn-default col-lg-24" type="button">
+            Za Seks <span class="badge"></span>
+        </button>
+    </div>
+</div>

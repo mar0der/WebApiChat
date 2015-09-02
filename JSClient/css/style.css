@@ -1,0 +1,153 @@
+html {
+    overflow-y: scroll;
+}
+
+/*navigation*/
+.my-custom-badge {
+    background-color: #ff0000;
+    color: #fff;
+    position: relative;
+    top: -1.5em;
+    left: -0.3em;
+    border-radius: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    font-size: 80%;
+}
+
+/*avatar sizes*/
+.my-avatar-42 {
+    width: 42px;
+    height: 42px;
+}
+
+.my-avatar-64 {
+    width: 64px;
+    height: 64px;
+}
+
+.my-avatar-96 {
+    height: 96px;
+    width: 96px;
+}
+
+/*search form*/
+.drop-down-search {
+    position: absolute;
+    min-width: 275px;
+    z-index: 1;
+}
+
+.drop-down-pending-requests {
+    position: absolute;
+    min-width: 325px;
+    z-index: 1;
+}
+
+/*general stuff*/
+
+.my-inline {
+    display: inline;
+}
+
+.my-margin-bottom-15 {
+    margin-bottom: 10px;
+}
+
+.my-margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.my-margin-right-15 {
+    margin-right: 15px;
+}
+
+.my-margin-top-5 {
+    margin-top: 5px;
+}
+
+.my-margin-left-5 {
+    margin-left: 5px;
+}
+
+/* form validations*/
+#changePasswordForm .ng-dirty.ng-valid, #loginForm .ng-dirty.ng-valid, #registerForm .ng-dirty.ng-valid {
+    border:1px solid #00ff00;
+}
+#changePasswordForm .ng-dirty.ng-invalid, #loginForm .ng-dirty.ng-invalid, #registerForm .ng-dirty.ng-invalid {
+    border:1px solid #ff0000;
+}
+
+/*wall*/
+.wall-header {
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
+    height: 135px;
+    margin-bottom: 20px;
+}
+
+.my-image-halo{
+    border-radius: 100%;
+    padding: 5px;
+    background: #E9EAED;
+    position: relative;
+    top: 28px;
+    left: 18px;
+}
+
+.my-wall-avatar {
+    height: 125px;
+    width: 125px;
+}
+.my-wall-name{
+    font-size: 2em;
+    font-weight: bold;
+    display: inline-block;
+    color: white;
+    position: relative;
+    top: 65px;
+    left: 40px;
+    padding: 5px;
+}
+
+.my-friend-status {
+    margin-right: 5px;
+    margin-top: 107px;
+}
+
+/*likes and buttons without pointer*/
+.my-like-unlike {
+    cursor: pointer;
+}
+
+/*.post-caret {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 17px;
+    cursor: pointer;
+    color: lightgray;
+}*/
+
+.drop-down-post-caret {
+    color: #505050;
+}
+
+.dropdown-menu-right {
+    min-width: 0;
+}
+
+/*.comment-caret {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 17px;
+    cursor: pointer;
+    color: #505050;
+}*/
+#chatContent {
+    height: 300px;
+    overflow-y: scroll;
+}

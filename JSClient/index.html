@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Chat application</title>
-    <link href="Content/bootstrap.css" rel="stylesheet" />
-    <link href="css/main.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet" />
+    <!--<link href="css/bootstrap/bootstrap-theme-cerulean.css" rel="stylesheet" />-->
+    <link href="css/custom-icons.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
 </head>
-<body ng-app="webchat">
-    <div ng-view></div>
+<body ng-app="webchat" ng-controller="authenticationController">
+    <div class="rown well-lg" ng-view></div>
 
+    <!-- Angular JS libs-->
     <script src="Scripts/jquery-1.6.4.js"></script>
     <script src="scripts/angular.js"></script>
     <script src="scripts/angular-route.js"></script>
@@ -16,20 +19,30 @@
     <script src="scripts/jquery.signalR-2.2.0.js"></script>
     <script src="http://localhost:3660/signalr/hubs"></script>
     <script src="Scripts/signalr-hub.js"></script>
-    <script src="js/app.js"></script>
+    <script src="Scripts/bootstrap/bootstrap.js"></script>
+    <script src="Scripts/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
 
+    <!-- My JS code -->
+    <script src="js/app.js"></script>
     <script src="js/stream/stream.js"></script>
+    <!-- directives -->
+
+    <!--filters-->
+    <script src="js/filters/isOnline.js"></script>
+
+    <!-- services -->
+    <script src="js/services/configService.js"></script>
+    <script src="js/services/authenticationService.js"></script>
     <script src="helpers/credentials.js"></script>
     <script src="js/services/chatService.js"></script>
+    <script src="js/services/usersService.js"></script>
 
-    <script src="js/services/userServices.js"></script>
+    <!-- controllers -->
     <script src="js/controllers/authenticationController.js"></script>
     <script src="js/controllers/contactsController.js"></script>
     <script src="js/services/contactService.js"></script>
-    <script src="js/filters/isOnline.js"></script>
+
     <script src="js/services/chatService.js"></script>
     <script src="js/controllers/chatController.js"></script>
-
 </body>
-
 </html>

@@ -89,29 +89,38 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
     <None Include="partials\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="partials\Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <Content Include="css\main.css" />
+    <Content Include="css\bootstrap\bootstrap-theme-cerulean.css" />
+    <Content Include="css\bootstrap\bootstrap.css" />
+    <Content Include="css\bootstrap\bootstrap.min.css" />
+    <Content Include="css\custom-icons.css" />
+    <Content Include="css\style.css" />
     <Content Include="js\controllers\chatController.js" />
     <Content Include="js\controllers\contactsController.js" />
     <Content Include="js\filters\isOnline.js" />
+    <Content Include="js\services\authenticationService.js" />
+    <Content Include="js\services\configService.js" />
     <Content Include="js\services\contactService.js" />
     <Content Include="js\stream\stream.js" />
-    <Content Include="partials\chat-window-template.html" />
-    <Content Include="partials\contacts-template.html" />
-    <Content Include="partials\online-users-template.html" />
+    <Content Include="partials\chatBox.html" />
+    <Content Include="partials\contactsList.html" />
+    <Content Include="partials\groupList.html" />
+    <None Include="partials\onlineUsers.html.del" />
+    <Content Include="Scripts\bootstrap\config.json" />
     <None Include="Scripts\jquery-1.9.1-vsdoc.js" />
+    <Content Include="partials\register.html" />
+    <Content Include="partials\sidebar.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap\ui-bootstrap-tpls-0.13.0.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
@@ -126,15 +135,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="helpers\credentials.js" />
     <Content Include="index.html" />
     <Content Include="js\app.js" />
     <Content Include="js\controllers\authenticationController.js" />
     <Content Include="js\services\chatService.js" />
-    <Content Include="js\services\userServices.js" />
+    <Content Include="js\services\usersService.js" />
     <Content Include="packages.config" />
-    <Content Include="partials\chat.html" />
+    <Content Include="partials\chatContainer.html" />
     <Content Include="partials\login.html" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />

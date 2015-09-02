@@ -38,5 +38,17 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     };
 
 
-
+    $scope.toggleSidebar = function (clickedButton) {
+        if (clickedButton === 'contacts') {
+            $scope.currentSidebar = {
+                isContacts: true,
+                isGroups: false
+            };
+        } else {
+            $scope.currentSidebar = {
+                isContacts: false,
+                isGroups: true
+            };
+        }
+    }
 });

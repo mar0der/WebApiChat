@@ -4,25 +4,28 @@ var webchat = angular.module('webchat', ['ngRoute', 'ngResource']);
 webchat.config(function ($routeProvider) {
 
     $routeProvider
-
-               .when('/login', {
-                     templateUrl: 'partials/login.html',
-                     controller: 'authenticationController'
-                 })
-             .when('/chat', {
-                 templateUrl: 'partials/online-users-template.html',
-                 controller: 'contactsController'
-             })
-           .when('/chats/private', {
-               templateUrl: '',
-               controller: 'privateChatsController'
-           })
-          .when('/chats/group', {
-              templateUrl: '',
-              controller: 'groupsController'
-          })
-
+        .when('/register', {
+            templateUrl: 'partials/register.html'
+        })
+        .when('/login', {
+            templateUrl: 'partials/login.html'
+        })
+        .when('/', {
+            templateUrl: 'partials/chatContainer.html',
+            controller: 'chatController'
+        })
         .otherwise({ redirectTo: '/login' });
 });
 
-webchat.BASE_URL = 'http://localhost:3660/api/';
+webchat.run(function ($rootScope, $location, authenticationService) {
+    $rootScope.$on('$locationChangeStart', function (event) {
+        if ($location.path().indexOf('login') === -1 && $location.path().indexOf('register') === -1 && !authenticationService.isLoggedIn()) {
+            $location.path('/login');
+        }
+        var deniedPaths = ['/login', '/register'];
+
+        if (authenticationService.isLoggedIn() && deniedPaths.indexOf($location.path()) !== -1) {
+            $location.path("/");
+        }
+    });
+});
