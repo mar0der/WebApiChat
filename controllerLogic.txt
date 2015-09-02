@@ -1,0 +1,23 @@
+contactsController
+	-search
+	-add
+	-getAll
+	-block
+	-listens for SignalR for online contact
+	$rootScope.contacts
+
+privateChatsController
+	-sendMessage
+	-getChatMessages - on click on user
+	-get messges from to 
+	-listener for SignalR
+	$rootScope.chats
+	
+groupsControoler 
+	-createGroup
+	-getMessages
+	-addUserToGroup
+	-leaveGroup ?
+	-getAllGroups
+	-listener for SignalR
+	$rootScope.groups

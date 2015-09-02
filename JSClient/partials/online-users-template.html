@@ -1,0 +1,22 @@
+<div class="well-lg bs-component" ng-init="getAllFriends()" ng-controller="chatController">
+    <div class="col-lg-1">
+        <div>
+            <h2>Contacts</h2>
+            <ul>
+                <li ng-repeat="contact in contacts" ng-click="getChatWithUser(contact.Id)">{{contact.Name}} <span>{{ contact.IsOnline | yesNo }}</span></li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-11">
+        <div>
+            <h2>Chat history</h2>
+            <ul>
+                <li ng-repeat="chat in chatLog">{{chat.Sender}} : {{chat.Text}}</li>
+            </ul>
+            <form>
+                <input class="commentReply form-control" ng-model="messageData.text" type="text" placeholder="...">
+                <button ng-click="sendMessageToUser(messageData, contactId);">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
