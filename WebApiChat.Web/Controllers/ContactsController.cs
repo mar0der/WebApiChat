@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using WebApiChat.Models.Models;
 using WebApiChat.Web.Hubs;
+using WebApiChat.Web.Models;
 
 namespace WebApiChat.Web.Controllers
 {
@@ -49,10 +50,16 @@ namespace WebApiChat.Web.Controllers
             }
 
             var currentUser = this.Data.Users.Find(this.User.Identity.GetUserId());
+            var contact = currentUser.Contacts.FirstOrDefault(c => c.ContactUserId == id);
+
+            if (contact != null)
+            {
+                return this.BadRequest("Already friends.");
+            }
 
             userContact.Contacts.Add(new Contact()
             {
-                User =  userContact,
+                User = userContact,
                 ContactUser = currentUser
             });
 
@@ -77,7 +84,7 @@ namespace WebApiChat.Web.Controllers
         /// <param name="id">id</param>
         /// <returns>message</returns>
         [HttpPost]
-        [Route("block")]
+        [Route("block/{id}")]
         public IHttpActionResult BlockContact(string id)
         {
             var user = this.Data.Users.Find(id);
@@ -95,8 +102,24 @@ namespace WebApiChat.Web.Controllers
             }
 
             currentUser.Contacts.First(c => c.ContactUser == user).IsBlocked = true;
+            this.Data.SaveChanges();
 
             return this.Ok("contact blocked");
+        }
+
+        [HttpGet]
+        [Route("searchByUsername")]
+        public IQueryable<UserSearchBindingModel> SearchUserByName([FromUri]string username)
+        {
+            return
+                this.Data.Users.All()
+                .Where(u => u.UserName.StartsWith(username))
+                .Select(u => new UserSearchBindingModel
+                {
+                    Id = u.Id,
+                    Username = u.UserName
+                })
+                .AsQueryable();
         }
     }
 }
