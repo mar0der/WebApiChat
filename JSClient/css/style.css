@@ -149,5 +149,13 @@ html {
 }*/
 #chatContent {
     height: 300px;
-    overflow-y: scroll;
+    overflow-y: auto
+}
+#contactList{
+    height: 380px;
+    overflow-y: auto;
+}
+::-webkit-scrollbar{
+  width:0px;
+  background: transparent;
 }

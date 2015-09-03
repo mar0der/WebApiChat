@@ -51,4 +51,5 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
             };
         }
     }
+
 });
