@@ -20,24 +20,33 @@
         </div>
     </nav>
     <div id="chatContent" class="col-lg-24 well">
-     
-        <div ng-include="'partials/leftMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
-        <div ng-include="'partials/rightMessageBox.html'"></div>
+
+
+        <!--left-->
+        <div ng-repeat="message in chatLog">
+            <div ng-include="'partials/leftMessageBox.html'"></div>
+            <div ng-include="'partials/rightMessageBox.html'"></div>
+        </div>
+        <!--right-->
+
+
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
+        <!--<div ng-include="'partials/rightMessageBox.html'"></div>-->
 
     </div>
     <div class="col-lg-24 well">
         <div class="input-group">
-            <input ng-model="messageData.Text"  type="text" class="form-control">
+            <input ng-model="messageData.Text" type="text" class="form-control">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="submit" ng-click="sendMessageToUser(messageData)">Send</button>
             </span>
-        </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
+        </div>
+        <!-- /input-group -->
+    </div>
+    <!-- /.col-lg-6 -->
 </div>

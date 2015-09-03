@@ -31,13 +31,6 @@ namespace WebApiChat.Web.Controllers
                 return this.BadRequest("no such user in contacts");
             }
 
-
-            //var chats =
-            //       this.Data.Users.All()
-            //           .Where(u => u.Id == this.CurrentUserId)
-            //           .Select(u => u.Chats.Where(c => c.Users.Any(chu => chu.Id == userId)).Select(c => c.Id))
-            //           .FirstOrDefault();
-
             var chat = this.Data.Users.All()
                 .Where(u => u.Id == CurrentUserId)
                 .Select(u => u.Chats.FirstOrDefault(c => c.Users.Any(chu => chu.Id == userId))).FirstOrDefault();
@@ -62,20 +55,20 @@ namespace WebApiChat.Web.Controllers
                 });
             }
 
-          
+
 
             //TODO finish this
 
             return this.Ok(new
             {
-                  Id = chat.Id,
-                    Messages = chat.Messages.Select(m => new
-                    {
-                        Text = m.Text,
-                        Sender = m.Sender.UserName
-                    })
-                });
-            
+                Id = chat.Id,
+                Messages = chat.Messages.Select(m => new
+                {
+                    Text = m.Text,
+                    Sender = m.Sender.UserName
+                })
+            });
+
         }
 
         [HttpPost]
@@ -101,7 +94,7 @@ namespace WebApiChat.Web.Controllers
             var reciever = chat.Users
                 .Where(u => u.UserName != senderName)
                 .Select(u => u.UserName)
-                .ToString();
+                .FirstOrDefault();
 
             var message = new PrivateMessage()
             {
@@ -119,22 +112,28 @@ namespace WebApiChat.Web.Controllers
             {
                 message.Status = MessageStatus.Sent;
 
-                //TODO test this on the UI
-                this.HubContex.Clients.User(reciever).toggleMessage(message);
+
             }
 
             chat.Messages.Add(message);
+
+            this.HubContex.Clients.User(reciever).toggleMessage(new
+            {
+                Text = message.Text,
+                Sender = this.CurrentUserUserName,
+                Status = message.Status.ToString(),
+                SenderId = this.CurrentUserId,
+                CurrentChatId = chat.Id
+            });
+
             this.Data.SaveChanges();
 
             // TODO fix the return model for the UI
             return this.Ok(new
             {
-                Id = chat.Id,
-                Messages = chat.Messages.Select(m=> new
-                {
-                    Text = m.Text,
-                    Sender = m.Sender.UserName
-                })
+                Text = message.Text,
+                Sender = this.CurrentUserUserName,
+                Status = message.Status.ToString()
             });
         }
     }

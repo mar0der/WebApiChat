@@ -2,13 +2,16 @@
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope) {
 
-    $scope.chatLog = [];
+    $rootScope.chatLog = [];
     $rootScope.currentContactId = "";
     $rootScope.currentChanelId = "";
+    $scope.me = localStorage['username'];
 
 
     signalR.on('toggleMessage', function (message) {
-        $scope.chatLog.push(message);
+         console.log(message)
+
+        //TODO FIX
 
     });
 
@@ -18,7 +21,10 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
             .then(function (data) {
                 //console.log(data.data.Id)
                 $rootScope.currentChanelId = data.data.Id;
-                console.log($rootScope.currentChanelId)
+                //console.log($rootScope.currentChanelId)
+                //console.log(data.data.Messages)
+                $rootScope.chatLog = data.data.Messages;
+                console.log($scope.chatLog)
             }, function (err) {
                 console.log(err);
             });

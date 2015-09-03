@@ -8,7 +8,7 @@
 </div>
 <div>
     <div ng-if="currentSidebar.isContacts"  ng-controller="contactsController" ng-init="getAllFriends()">
-        <div id="contactList" ng-controller="chatController">
+        <div id="contactList">
             <button class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in contacts">
                 <div class="col-lg-18 pull-left" ng-click="getChatWithUser(contact.Id)">
                     <svg height="10" width="10" ng-show="contact.IsOnline">
