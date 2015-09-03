@@ -110,3 +110,17 @@ C:\Users\ibaky\Desktop\asd\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity
 C:\Users\ibaky\Desktop\asd\WebApiChat.Models\obj\Debug\WebApiChat.Models.csprojResolveAssemblyReference.cache
 C:\Users\ibaky\Desktop\asd\WebApiChat.Models\obj\Debug\WebApiChat.Models.dll
 C:\Users\ibaky\Desktop\asd\WebApiChat.Models\obj\Debug\WebApiChat.Models.pdb
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\WebApiChat.Models.dll.config
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\WebApiChat.Models.dll
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\WebApiChat.Models.pdb
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\EntityFramework.dll
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\EntityFramework.SqlServer.dll
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\EntityFramework.xml
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\EntityFramework.SqlServer.xml
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\obj\Debug\WebApiChat.Models.csprojResolveAssemblyReference.cache
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\obj\Debug\WebApiChat.Models.dll
+D:\softuni\BackEnd\WebServices\TeamWork\WebApiChat.Models\obj\Debug\WebApiChat.Models.pdb

@@ -1,5 +1,7 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.Web.Http.Cors;
+using System.Web.Http;
+using System.Web.OData.Extensions;
 
 namespace WebApiChat.Web
 {
@@ -22,6 +24,7 @@ namespace WebApiChat.Web
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+            config.AddODataQueryFilter();
 
             // Web API routes
             config.MapHttpAttributeRoutes();
