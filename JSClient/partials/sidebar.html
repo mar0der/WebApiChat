@@ -15,7 +15,11 @@
                         <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />
                         Sorry, your browser does not support inline SVG.
                     </svg>
-                    {{contact.UserName}} <span class="badge">2</span>
+                        {{contact.UserName}} <span class="badge">
+                        <span ng-if="contact.UnreceivedMessages >0">
+                            {{contact.UnreceivedMessages}}
+                        </span>
+                    </span>
 
                 </div>
             </button>

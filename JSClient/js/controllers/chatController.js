@@ -10,8 +10,16 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
 
     signalR.on('toggleMessage', function (message) {
          console.log(message)
+        if(message.CurrentChatId == $rootScope.currentChanelId){
+            $rootScope.chatLog.push(message);
+        }
 
-        //TODO FIX
+        for(var i = 0; i < $rootScope.contacts.length; i ++){
+            if($rootScope.contacts[i].UserName == message.Sender){
+                $rootScope.contacts[i].UnreceivedMessages++;
+                break;
+            }
+        }
 
     });
 
@@ -21,6 +29,15 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
             .then(function (data) {
                 //console.log(data.data.Id)
                 $rootScope.currentChanelId = data.data.Id;
+
+                for(var i = 0; i < $rootScope.contacts.length; i ++){
+                    if($rootScope.contacts[i].Id ==userId){
+                        $rootScope.contacts[i].UnreceivedMessages=0;
+                        break;
+                    }
+                }
+
+
                 //console.log($rootScope.currentChanelId)
                 //console.log(data.data.Messages)
                 $rootScope.chatLog = data.data.Messages;
@@ -35,10 +52,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
         console.log(messageData)
         chatService.sendMessage(messageData, $rootScope.currentChanelId)
             .then(function (data) {
-                console.log(data);
-                //console.log(data);
-                //$scope.chatLog.push(data);
-                messageData = '';
+              $rootScope.chatLog.push(data.data)
             }, function (err) {
                 console.log(err);
             });
