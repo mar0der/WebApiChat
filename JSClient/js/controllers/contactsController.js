@@ -1,6 +1,8 @@
 webchat.controller("contactsController",
     function ($scope, contactService, $location, $rootScope, signalR) {
 
+        $scope.contacts = [];
+
         signalR.on('onDisconnected', function(){
             // TODO logic 
 
@@ -9,55 +11,42 @@ webchat.controller("contactsController",
         signalR.on('userLogged', function (userLogged) {
 
             var user = {
-                Id: userLogged.id,
-                Name: userLogged.name,
+                Id: userLogged.Id,
+                UserName: userLogged.UserName,
                 IsOnline: true
             };
 
-            var found = false;
-            for (var i = 0; i < $scope.onlineUsers.length; i++) {
-                if ($scope.onlineUsers[i].Name == user.Name) {
-                    found = true;
+            console.log(user);
+
+            for(var i = 0; i<  $scope.contacts.length; i++){
+                if($scope.contacts[i].UserName == user.UserName){
+                    $scope.contacts[i].IsOnline = true;
+                    console.log("contact status changed");
                     break;
                 }
             }
-
-            //this is useless - if statement
-            //if (found == true) {
-                for (var k = 0; k < $scope.contacts.length; k++) {
-                    if ($scope.contacts[k].Name == user.Name) {
-                        $scope.contacts[k].IsOnline = true;
-                        break;
-                    }
-                }
-            //}
-
-            if (found == false) {
-                $scope.onlineUsers.push(user);
-            }
-
 
         });
 
         $scope.getAllOnlineUsers = function () {
             contactService.getAllOnlineUsers()
-                .then(function (data) {
+                .then(function(data) {
                     $scope.onlineUsers = data;
                     console.log(data);
-                }, function (err) {
+                }, function(err) {
                     console.error(err.responseText)
-                })
+                });
 
         };
 
         $scope.getAllFriends = function () {
             contactService.getAllFriends()
-                .then(function (data) {
-                    console.log(data)
-                    $scope.contacts = data;
-                }, function (err) {
+                .then(function(data) {
+                    console.log(data.data)
+                    $scope.contacts = data.data;
+                }, function(err) {
                     console.error(err.responseText)
-                })
+                });
 
         }
 

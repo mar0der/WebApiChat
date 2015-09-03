@@ -26,9 +26,7 @@ webchat.factory('authenticationService', function () {
 
     service.getHeaders = function getHeaders() {
         return {
-            headers: {
-                Authorization: "Bearer " + localStorage['accessToken']
-            }
+            Authorization: "Bearer " + localStorage['accessToken']
         }
     };
 
@@ -38,6 +36,11 @@ webchat.factory('authenticationService', function () {
         }
         return false;
     };
+
+    service.setHeaders = function ($http) {
+        $http.defaults.headers.common = service.getHeaders();
+    };
+
 
     return service;
 });

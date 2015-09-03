@@ -6,20 +6,17 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     $scope.currentContactId = "";
     $scope.currentChanelId = "";
 
+
     signalR.on('toggleMessage', function (message) {
         $scope.chatLog.push(message);
 
     });
 
     $scope.getChatWithUser = function (userId) {
+
         chatService.GetChatWithUser(userId)
             .then(function (data) {
-                console.log(data[0].Name);
-                console.log(data[0].Messages);
-                $scope.currentChanelId = data[0].Name;
-                $scope.currentContactId = userId;
-                $scope.chatLog = data[0].Messages;
-                console.log($scope.currentChanelId);
+                console.log(data.data.Id)
             }, function (err) {
                 console.log(err);
             });

@@ -49,13 +49,13 @@ namespace WebApiChat.Web.Providers
                 return;
             }
 
-          
+
             var _hubContext = GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
 
             _hubContext.Clients.All.userLogged(new
             {
-               id = user.Id,
-               name = user.UserName
+                Id = user.Id,
+                UserName = user.UserName
             });
 
             var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, OAuthDefaults.AuthenticationType);

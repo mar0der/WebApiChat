@@ -26,9 +26,9 @@ namespace WebApiChat.Web.Controllers
 
             return this.Ok(contacts.Select(c => new
             {
-                ContactsOwer = c.ContactUser.UserName,
-                User = c.ContactUser.UserName,
-                ContactUserId = c.ContactUserId,
+                //ContactsOwer = c.ContactUser.UserName,
+                Id = c.ContactUserId,
+                UserName = c.ContactUser.UserName,
                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName)
             }).ToList());
         }

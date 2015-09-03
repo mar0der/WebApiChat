@@ -4,6 +4,7 @@ using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Web.Http;
 using WebApiChat.Models.Enums;
 using WebApiChat.Models.Models;
@@ -31,25 +32,50 @@ namespace WebApiChat.Web.Controllers
             }
 
 
-            var chats =
-                   this.Data.Users.All()
-                       .Where(u => u.Id == this.CurrentUserId)
-                       .Select(u => u.Chats.Where(c => c.Users.Any(chu => chu.Id == userId)).Select(c => c.Id))
-                       .FirstOrDefault();
+            //var chats =
+            //       this.Data.Users.All()
+            //           .Where(u => u.Id == this.CurrentUserId)
+            //           .Select(u => u.Chats.Where(c => c.Users.Any(chu => chu.Id == userId)).Select(c => c.Id))
+            //           .FirstOrDefault();
 
-            if (!chats.Any())
+            var chat = this.Data.Users.All()
+                .Where(u => u.Id == CurrentUserId)
+                .Select(u => u.Chats.FirstOrDefault(c => c.Users.Any(chu => chu.Id == userId))).FirstOrDefault();
+
+
+
+            if (chat == null)
             {
                 var createdChat = new PrivateChat();
                 createdChat.Users.Add(this.Data.Users.All().FirstOrDefault(u => u.Id == this.CurrentUserId));
                 createdChat.Users.Add(this.Data.Users.All().FirstOrDefault(u => u.Id == userId));
                 this.Data.Chats.Add(createdChat);
                 this.Data.SaveChanges();
-                return this.Ok("new chat has been created");
+                return this.Ok(new
+                {
+                    Id = createdChat.Id,
+                    Messages = createdChat.Messages.Select(m => new
+                    {
+                        Text = m.Text,
+                        Sender = m.Sender.UserName
+                    })
+                });
             }
 
-            // TODO add logic for displaying meessages wich havent been read or last 20 messages
+          
 
-            return this.Ok("not implemented");
+            //TODO finish this
+
+            return this.Ok(new
+            {
+                  Id = chat.Id,
+                    Messages = chat.Messages.Select(m => new
+                    {
+                        Text = m.Text,
+                        Sender = m.Sender.UserName
+                    })
+                });
+            
         }
 
         [HttpPost]
@@ -74,7 +100,7 @@ namespace WebApiChat.Web.Controllers
 
             var reciever = chat.Users
                 .Where(u => u.UserName != senderName)
-                .Select(u=>u.UserName)
+                .Select(u => u.UserName)
                 .ToString();
 
             var message = new PrivateMessage()
@@ -96,18 +122,20 @@ namespace WebApiChat.Web.Controllers
                 //TODO test this on the UI
                 this.HubContex.Clients.User(reciever).toggleMessage(message);
             }
-            
+
             chat.Messages.Add(message);
             this.Data.SaveChanges();
 
             // TODO fix the return model for the UI
-            return this.Ok( new
+            return this.Ok(new
             {
-                message.Id,
-                message.Status,
-                this.CurrentUserUserName,
-                message.Text
+                Id = chat.Id,
+                Messages = chat.Messages.Select(m=> new
+                {
+                    Text = m.Text,
+                    Sender = m.Sender.UserName
+                })
             });
-        } 
+        }
     }
 }
