@@ -18,7 +18,6 @@ namespace WebApiChat.Web.Controllers
     public class ChatController : ApiControllerWithHub<BaseHub>
     {
         [HttpGet]
-        [Authorize]
         [Route("{userId}")]
         public IHttpActionResult GetCurrentChat(string userId)
         {
@@ -136,5 +135,38 @@ namespace WebApiChat.Web.Controllers
                 Status = message.Status.ToString()
             });
         }
+
+
+        //[HttpGet]
+        //[Route("unreceived")]
+        //public IHttpActionResult GetUnrecievedMessages()
+        //{
+        //    //var messages = this.Data.Users.All()
+        //    //    .Where(u => u.Id == this.CurrentUserId)
+        //    //    .Select(
+        //    //        x => new {
+
+        //    //           users = x.UserName,
+        //    //           count = x.Messages.Where(m => m.SenderId != this.CurrentUserId && m.Status == MessageStatus.NotDelivered)
+        //    //                .GroupBy(m => m.SenderId).Count()
+        //    //                }
+
+        //    //    ).ToList();
+
+
+        //    var messages = this.CurrentUser.Contacts
+        //        .Select(c => new
+        //        {
+        //            user = c.ContactUser.UserName,
+        //            count = c.ContactUser.Messages.Where(m => m.)
+        //        })
+
+        //    //{gosho : 3 , pesho : 2}
+
+
+        //    return this.Ok(messages);
+        //}
+
+       
     }
 }

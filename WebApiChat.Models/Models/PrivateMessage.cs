@@ -29,10 +29,17 @@ namespace WebApiChat.Models.Models
 
         public virtual User Sender { get; set; }
 
+        
         [ForeignKey("Chat")]
         public int ChatId { get; set; }
 
         public virtual PrivateChat Chat { get; set; }
+
+        [Required]
+        //[ForeignKey("Reciever")]
+        public string RecieverId { get; set; }
+
+        public virtual User Reciever { get; set; }
 
         public MessageStatus Status { get; set; }
     }

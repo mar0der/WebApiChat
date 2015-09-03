@@ -20,14 +20,24 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
                 break;
             }
         }
-
     });
+
+
+    $scope.getUnreceived = function(){
+        chatService.getUnreceived()
+            .then(function(data){
+                console.log(data)
+            }, function(error){
+                console.log(error)
+            })
+
+    };
+
 
     $scope.getChatWithUser = function (userId) {
 
         chatService.GetChatWithUser(userId)
             .then(function (data) {
-                //console.log(data.data.Id)
                 $rootScope.currentChanelId = data.data.Id;
 
                 for(var i = 0; i < $rootScope.contacts.length; i ++){
@@ -37,9 +47,6 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
                     }
                 }
 
-
-                //console.log($rootScope.currentChanelId)
-                //console.log(data.data.Messages)
                 $rootScope.chatLog = data.data.Messages;
                 console.log($scope.chatLog)
             }, function (err) {
@@ -58,7 +65,6 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
             });
     };
 
-
     $scope.toggleSidebar = function (clickedButton) {
         if (clickedButton === 'contacts') {
             $scope.currentSidebar = {
@@ -72,5 +78,4 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
             };
         }
     }
-
 });

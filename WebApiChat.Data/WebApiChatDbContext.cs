@@ -29,7 +29,7 @@ namespace WebApiChat.Data
 
         public IDbSet<GroupChat> GroupChats { get; set; }
 
-        public IDbSet<GroupMessage> GroupMessages { get; set; } 
+        public IDbSet<GroupMessage> GroupMessages { get; set; }
 
         public static WebApiChatDbContext Create()
         {
@@ -45,16 +45,22 @@ namespace WebApiChat.Data
             modelBuilder.Entity<User>().HasMany(g => g.GroupMessages).WithMany(gm => gm.UnRecievedUsers);
             modelBuilder.Entity<User>().HasMany(g => g.GroupMessages).WithMany(gm => gm.RecievedUsers);
 
-            modelBuilder.Properties<DateTime>()
-.Configure(c => c.HasColumnType("datetime2"));
-            //modelBuilder.Entity<GroupMessage>().HasMany(g => g.RecievedUsers).WithMany(x => x.GroupMessages);
-            //modelBuilder.Entity<GroupMessage>().HasMany(g => g.UnRecievedUsers).WithMany(x => x.GroupMessages);
+            modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
 
-            //modelBuilder.Entity<GroupChat>().HasMany(c => c.GroupMessages).WithRequired(m => m.RecievedUsers);
+            modelBuilder.Entity<PrivateMessage>()
+                .HasRequired(pm => pm.Reciever).WithMany(u => u.Messages).HasForeignKey(c => c.RecieverId).WillCascadeOnDelete(false);
 
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Messages).WithRequired(m => m.Reciever).HasForeignKey(x=>x.RecieverId).WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<PrivateMessage>().HasRequired(x => x.Reciever).WithMany(u => u.Messages).WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<User>()k
+            
+
+            
             base.OnModelCreating(modelBuilder);
-
-
 
         }
     }

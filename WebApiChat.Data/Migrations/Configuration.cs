@@ -21,7 +21,7 @@ namespace WebApiChat.Data.Migrations
 
         protected override void Seed(WebApiChatDbContext context)
         {
-            SeedUsersWithMessages(context);
+           // SeedUsersWithMessages(context);
         }
 
         private void SeedUsersWithMessages(WebApiChatDbContext context)
@@ -73,25 +73,25 @@ namespace WebApiChat.Data.Migrations
 
 
 
-                var chat = new PrivateChat();
-                chat.Users.Add(userPesho);
-                chat.Users.Add(userGosho);
+                //var chat = new PrivateChat();
+                //chat.Users.Add(userPesho);
+                //chat.Users.Add(userGosho);
 
-                context.PrivateChats.Add(chat);
+                //context.PrivateChats.Add(chat);
 
-                chat.Messages.Add(new PrivateMessage()
-                {
-                    Sender = userPesho,
-                    Text = "Whats up Gosho?!"
-                });
+                //chat.Messages.Add(new PrivateMessage()
+                //{
+                //    Sender = userPesho,
+                //    Text = "Whats up Gosho?!"
+                //});
 
 
 
-                chat.Messages.Add(new PrivateMessage()
-                {
-                    Sender = userGosho,
-                    Text = "Chillin"
-                });
+                //chat.Messages.Add(new PrivateMessage()
+                //{
+                //    Sender = userGosho,
+                //    Text = "Chillin"
+                //});
 
                 var contact = new Contact()
                 {
