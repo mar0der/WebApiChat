@@ -5,11 +5,24 @@ webchat.factory('chatService',function ($http, $q, authenticationService, config
 
     var serviceUrl = configService.baseServiceUrl  + 'chat/';
     var service = {};
-    //
-    //service.getChatMessages = function () {
+
+    service.GetChatWithUser = function(userId){
+        authenticationService.setHeaders($http);
+        return $http.get(serviceUrl + userId);
+    };
+
+    service.sendMessage = function(message, chatId){
+        console.log(chatId);
+        authenticationService.setHeaders($http);
+        return $http.post(serviceUrl + chatId, message);
+    };
+
+
+    //service.sendMessage = function (message, chatId) {
     //    var deferred = $q.defer();
     //    SetHeaders($http);
-    //    $http.get(serviceUrl)
+    //    message['senderName'] = sessionStorage.username;
+    //    $http.post(serviceUrl +'send/' + chatId, message )
     //        .success(function (data) {
     //            deferred.resolve(data);
     //        }).error(function (error) {
@@ -17,38 +30,6 @@ webchat.factory('chatService',function ($http, $q, authenticationService, config
     //        });
     //    return deferred.promise;
     //};
-
-    service.GetChatWithUser = function(userId){
-        authenticationService.setHeaders($http);
-        return $http.get(serviceUrl + userId);
-    };
-
-
-    //
-    //service.GetChatWithUser = function(userId){
-    //    var deferred = $q.defer();
-    //    SetHeaders($http);
-    //    $http.get(serviceUrl + userId)
-    //        .success(function (data) {
-    //            deferred.resolve(data);
-    //        }).error(function (error) {
-    //            deferred.reject(error);
-    //        });
-    //    return deferred.promise;
-   // };
-    
-    service.sendMessage = function (message, chatId) {
-        var deferred = $q.defer();
-        SetHeaders($http);
-        message['senderName'] = sessionStorage.username;
-        $http.post(serviceUrl +'send/' + chatId, message )
-            .success(function (data) {
-                deferred.resolve(data);
-            }).error(function (error) {
-                deferred.reject(error);
-            });
-        return deferred.promise;
-    };
 
 
     return service;

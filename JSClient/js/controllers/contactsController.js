@@ -3,7 +3,7 @@ webchat.controller("contactsController",
 
         $scope.contacts = [];
 
-        signalR.on('onDisconnected', function(){
+        signalR.on('onDisconnected', function () {
             // TODO logic 
 
         });
@@ -18,8 +18,8 @@ webchat.controller("contactsController",
 
             console.log(user);
 
-            for(var i = 0; i<  $scope.contacts.length; i++){
-                if($scope.contacts[i].UserName == user.UserName){
+            for (var i = 0; i < $scope.contacts.length; i++) {
+                if ($scope.contacts[i].UserName == user.UserName) {
                     $scope.contacts[i].IsOnline = true;
                     console.log("contact status changed");
                     break;
@@ -30,26 +30,21 @@ webchat.controller("contactsController",
 
         $scope.getAllOnlineUsers = function () {
             contactService.getAllOnlineUsers()
-                .then(function(data) {
+                .then(function (data) {
                     $scope.onlineUsers = data;
                     console.log(data);
-                }, function(err) {
-                    console.error(err.responseText)
+                }, function (err) {
+                    console.error(err.responseText);
                 });
-
         };
 
         $scope.getAllFriends = function () {
             contactService.getAllFriends()
-                .then(function(data) {
-                    console.log(data.data)
+                .then(function (data) {
+                    console.log(data.data);
                     $scope.contacts = data.data;
-                }, function(err) {
-                    console.error(err.responseText)
+                }, function (err) {
+                    console.error(err.responseText);
                 });
-
         }
-
-
-
     });
