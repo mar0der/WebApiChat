@@ -2,9 +2,17 @@ webchat.controller("contactsController",
     function ($scope, contactService, $location, $rootScope, signalR) {
 
         $rootScope.contacts = [];
+        $rootScope.searchedUsers = []
 
-        signalR.on('onDisconnected', function () {
-            // TODO logic 
+        signalR.on('userDisconnected', function (username) {
+
+            for (var i = 0; i < $rootScope.contacts.length; i++) {
+                if ($rootScope.contacts[i].UserName == username) {
+                    $rootScope.contacts[i].IsOnline = false;
+                    console.log("contact status changed");
+                    break;
+                }
+            }
 
         });
 
@@ -14,7 +22,7 @@ webchat.controller("contactsController",
                 Id: userLogged.Id,
                 UserName: userLogged.UserName,
                 IsOnline: true,
-                UnreceivedMessages :0
+                UnreceivedMessages: 0
             };
 
             console.log(user);
@@ -46,5 +54,17 @@ webchat.controller("contactsController",
                 }, function (err) {
                     console.error(err.responseText);
                 });
-        }
+        };
+
+        $scope.searchUser = function () {
+            contactService.searchContact($scope.search.data)
+                .then(function (data) {
+                    $rootScope.searchedUsers = data.data;
+                    console.log($rootScope.searchedUsers)
+                }, function (err) {
+                    console.log(err)
+                });
+
+        };
+
     });

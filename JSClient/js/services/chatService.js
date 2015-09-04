@@ -21,6 +21,11 @@ webchat.factory('chatService', function ($http, $q, authenticationService, confi
         return $http.get(serviceUrl + 'unreceived');
     };
 
+    service.updateMessageStatus = function(id){
+        authenticationService.setHeaders($http);
+        return $http.post(serviceUrl + 'unreceived/' + id)
+    };
+
     //service.sendMessage = function (message, chatId) {
     //    var deferred = $q.defer();
     //    SetHeaders($http);

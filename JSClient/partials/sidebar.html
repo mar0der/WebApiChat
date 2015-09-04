@@ -1,4 +1,5 @@
 ﻿<div class="btn-group btn-group-justified" role="group" aria-label="...">
+
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-default" ng-click="toggleSidebar('contacts');">Contacts</button>
     </div>
@@ -7,12 +8,14 @@
     </div>
 </div>
 <div>
-    <div ng-if="currentSidebar.isContacts"  ng-controller="contactsController" ng-init="getAllFriends()">
+    <button ng-click="logout()">logout</button>
+    <div ng-if="currentSidebar.isContacts" ng-controller="contactsController"
+         ng-init="getAllFriends(); getUnreceived()">
         <div id="contactList">
             <button class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in contacts">
                 <div class="col-lg-18 pull-left" ng-click="getChatWithUser(contact.Id); setCurrentReceiver(contact.Id)">
                     <svg height="10" width="10" ng-show="contact.IsOnline">
-                        <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />
+                        <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00"/>
                         Sorry, your browser does not support inline SVG.
                     </svg>
                     {{contact.UserName}} <span class="badge">
@@ -24,56 +27,77 @@
                 </div>
             </button>
             <!--<button class="btn btn-success col-lg-24" type="button">-->
-                <!--<div class="col-lg-18 pull-left">-->
-                    <!--<svg height="10" width="10">-->
-                        <!--<circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />-->
-                        <!--Sorry, your browser does not support inline SVG.-->
-                    <!--</svg>-->
-                    <!--as <span class="badge">2</span>-->
-                <!--</div>-->
+            <!--<div class="col-lg-18 pull-left">-->
+            <!--<svg height="10" width="10">-->
+            <!--<circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />-->
+            <!--Sorry, your browser does not support inline SVG.-->
+            <!--</svg>-->
+            <!--as <span class="badge">2</span>-->
+            <!--</div>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--<svg height="10" width="10">-->
-                    <!--<circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="red" />-->
-                    <!--Sorry, your browser does not support inline SVG.-->
-                <!--</svg>-->
-                <!--Pamela <span class="badge"></span>-->
+            <!--<svg height="10" width="10">-->
+            <!--<circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="red" />-->
+            <!--Sorry, your browser does not support inline SVG.-->
+            <!--</svg>-->
+            <!--Pamela <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Desislava <span class="badge"></span>-->
+            <!--Desislava <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Viktoria <span class="badge"></span>-->
+            <!--Viktoria <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Katrina <span class="badge"></span>-->
+            <!--Katrina <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Aseniya <span class="badge"></span>-->
+            <!--Aseniya <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Mihaela <span class="badge"></span>-->
+            <!--Mihaela <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Plamena <span class="badge"></span>-->
+            <!--Plamena <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Iliq <span class="badge"></span>-->
+            <!--Iliq <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Rositsa <span class="badge"></span>-->
+            <!--Rositsa <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Dimitar <span class="badge"></span>-->
+            <!--Dimitar <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Petar <span class="badge"></span>-->
+            <!--Petar <span class="badge"></span>-->
             <!--</button>-->
             <!--<button class="btn btn-default col-lg-24" type="button">-->
-                <!--Ivan <span class="badge"></span>-->
+            <!--Ivan <span class="badge"></span>-->
             <!--</button>-->
         </div>
         <br/>
+
+        <!--todo make this pretty-->
+
+        <div class="form-group">
+            <input ng-model="search.data" ng-keyup="searchUser()" data-toggle="dropdown" type="text"
+                   class="form-control"
+                   placeholder="Search" autocomplete="off"/>
+            <ul>
+                <li ng-repeat="user in searchedUsers">
+                    <div>
+                        <span>{{user.Username}}</span>
+                        <span>{{user.Id}}</span>
+                        <span>{{user.IsOnline}}</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+        <!--todo make this pretty-->
+
         <button class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
             + Add Contact <span class="badge"></span>
         </button>

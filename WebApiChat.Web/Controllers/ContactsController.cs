@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
@@ -113,15 +114,24 @@ namespace WebApiChat.Web.Controllers
         [Route("searchByUsername")]
         public IQueryable<UserSearchBindingModel> SearchUserByName([FromUri]string username)
         {
+            var onlineUsers = ConnectionManager.Users.Keys;
+
             return
                 this.Data.Users.All()
                 .Where(u => u.UserName.StartsWith(username))
                 .Select(u => new UserSearchBindingModel
                 {
                     Id = u.Id,
-                    Username = u.UserName
-                })
+                    Username = u.UserName,
+                    IsOnline = onlineUsers.Contains(u.UserName),
+
+
+                }).Where(x => x.Username != this.CurrentUserUserName)
                 .AsQueryable();
+
+               
+             
+            
         }
     }
 }

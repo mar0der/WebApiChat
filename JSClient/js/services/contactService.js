@@ -11,6 +11,14 @@ webchat.factory('contactService', function ($http, $q, authenticationService, co
          return $http.get(serviceUrl);
     };
 
+    service.searchContact = function (username) {
+        authenticationService.setHeaders($http);
+        return $http.get(serviceUrl + 'searchByUsername?username=' + username);
+    };
+
     return service;
+
+
+
 
 });

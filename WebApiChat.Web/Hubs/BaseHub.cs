@@ -34,7 +34,7 @@
 
                 // Or you might want to only broadcast this info if this 
                 // is the first connection of the user
-                if (user.ConnectionsIds != null || user.ConnectionsIds!= string.Empty)
+                if (user.ConnectionsIds != null || user.ConnectionsIds != string.Empty)
                 {
 
                     Clients.Others.userConnected(userName);
@@ -70,7 +70,8 @@
                         // You might want to only broadcast this info if this 
                         // is the last connection of the user and the user actual is 
                         // now disconnected from all connections.
-                        Clients.Others.userDisconnected(userName);
+                        // Clients.Others.userDisconnected(userName);
+                        Clients.All.userDisconnected(userName);
                     }
                 }
             }
@@ -81,82 +82,82 @@
 
 
 
-    //    public static ConnectionMapping<string> connectedUsers = new ConnectionMapping<string>();
+        //    public static ConnectionMapping<string> connectedUsers = new ConnectionMapping<string>();
 
-    //    //public WebApiChatData Data;
-   
-    //    public void GetOnlineUsers()
-    //    {
+        //    //public WebApiChatData Data;
 
-    //        var users = ConnectionManager.DictUses.ToList();
+        //    public void GetOnlineUsers()
+        //    {
 
-    //        var currentUserConnectionId = Context.ConnectionId;
+        //        var users = ConnectionManager.DictUses.ToList();
 
-    //    }
+        //        var currentUserConnectionId = Context.ConnectionId;
 
-    //    public override Task OnConnected()
-    //    {
-    //        string name = Context.User.Identity.Name;
+        //    }
 
-    //        string userId = Context.User.Identity.GetUserId();
+        //    public override Task OnConnected()
+        //    {
+        //        string name = Context.User.Identity.Name;
 
-    //        //connectedUsers.Add(userId, Context.ConnectionId);
+        //        string userId = Context.User.Identity.GetUserId();
 
-    //        ConnectionManager.Add(name, Context.ConnectionId);
+        //        //connectedUsers.Add(userId, Context.ConnectionId);
 
-    //        return base.OnConnected();
-    //        ConnectionManager.GetConnectedUsers(Context);
-    //    }
+        //        ConnectionManager.Add(name, Context.ConnectionId);
 
-    //    //login join 
-    //    public void Join()
-    //    {
-    //        var name = Context.User.Identity.GetUserName();
-    //        var userId = Context.User.Identity.GetUserId();
+        //        return base.OnConnected();
+        //        ConnectionManager.GetConnectedUsers(Context);
+        //    }
 
-    //        var connectionId = Context.ConnectionId;
+        //    //login join 
+        //    public void Join()
+        //    {
+        //        var name = Context.User.Identity.GetUserName();
+        //        var userId = Context.User.Identity.GetUserId();
 
-
-
-
-    //        Clients.All.join(new
-    //        {
-    //            Key = name,
-    //            Value = userId,
-    //            ConnectionId = connectionId
-    //        });
-    //    }
-
-    //    public override Task OnDisconnected(bool stopCalled)
-    //    {
-    //        string name = Context.User.Identity.Name;
-
-    //        var id = Context.ConnectionId;
-    //        connectedUsers.Remove(name, Context.ConnectionId);
-
-    //        ConnectionManager.Remove(name, id);
-
-    //        return base.OnDisconnected(stopCalled);
-    //    }
-
-    //    public override Task OnReconnected()
-    //    {
-    //        string name = Context.User.Identity.Name;
-
-    //        if (!connectedUsers.GetConnections(name).Contains(Context.ConnectionId))
-    //        {
-    //            connectedUsers.Add(name, Context.ConnectionId);
-    //            ConnectionManager.Add(name, Context.ConnectionId);
-    //        }
-
-    //        return base.OnReconnected();
-    //    }
+        //        var connectionId = Context.ConnectionId;
 
 
 
-    //    public void SendMessage(string message, string recieverUsername)
-    //    {
-    //        Clients.All.sendMessage("hello");
-    //    }
+
+        //        Clients.All.join(new
+        //        {
+        //            Key = name,
+        //            Value = userId,
+        //            ConnectionId = connectionId
+        //        });
+        //    }
+
+        //    public override Task OnDisconnected(bool stopCalled)
+        //    {
+        //        string name = Context.User.Identity.Name;
+
+        //        var id = Context.ConnectionId;
+        //        connectedUsers.Remove(name, Context.ConnectionId);
+
+        //        ConnectionManager.Remove(name, id);
+
+        //        return base.OnDisconnected(stopCalled);
+        //    }
+
+        //    public override Task OnReconnected()
+        //    {
+        //        string name = Context.User.Identity.Name;
+
+        //        if (!connectedUsers.GetConnections(name).Contains(Context.ConnectionId))
+        //        {
+        //            connectedUsers.Add(name, Context.ConnectionId);
+        //            ConnectionManager.Add(name, Context.ConnectionId);
+        //        }
+
+        //        return base.OnReconnected();
+        //    }
+
+
+
+        //    public void SendMessage(string message, string recieverUsername)
+        //    {
+        //        Clients.All.sendMessage("hello");
+        //    }
     }
 }

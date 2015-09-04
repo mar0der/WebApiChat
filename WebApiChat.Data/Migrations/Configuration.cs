@@ -65,6 +65,8 @@ namespace WebApiChat.Data.Migrations
                     Email = "minka@gmail.com",
                 };
 
+              
+
                 manager.Create(userPesho, "parola");
                 manager.Create(userMinka, "parola");
                 manager.Create(userGosho, "parola");
@@ -112,10 +114,28 @@ namespace WebApiChat.Data.Migrations
                     IsBlocked = false
                 };
 
+                var contact5 = new Contact()
+                {
+                    User = userMinka,
+                    ContactUser =  userPesho,
+                    IsBlocked = false
+                };
+
+                var contact6 = new Contact()
+                {
+                    User =  userChocho,
+                    ContactUser = userPesho,
+                    IsBlocked =  false
+                }; 
+
+
                 context.Contacts.Add(contact);
                 context.Contacts.Add(contact2);
                 context.Contacts.Add(contact3);
                 context.Contacts.Add(contact4);
+                context.Contacts.Add(contact5);
+                context.Contacts.Add(contact6);
+
 
                 context.SaveChanges();
 

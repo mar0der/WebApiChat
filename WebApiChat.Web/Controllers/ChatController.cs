@@ -1,4 +1,9 @@
-﻿namespace WebApiChat.Web.Controllers
+﻿using System.Data.SqlTypes;
+using System.Security.Cryptography.X509Certificates;
+using System.Web.OData.Routing;
+using Microsoft.Ajax.Utilities;
+
+namespace WebApiChat.Web.Controllers
 {
     #region
 
@@ -32,13 +37,54 @@
                 this.BadRequest("You cannot chat with yourself!");
             }
 
-            var privateChatMessages =
-                this.Data.Messages.All()
-                    .OrderBy(m => m.Id)
-                    .Take(20)
-                    .Select(m => new { m.Text, Sender = m.Sender.UserName });
+            this.CurrentUser.ReceivedMessages.Where(m => m.SenderId == userId)
+                .Select(m => m.Status = MessageStatus.Sent).ToList();
+
+            this.Data.SaveChanges();
+
+            var privateChatMessages = this.Data.Messages.All()
+                   .Where(u => u.SenderId == userId && u.ReceiverId == this.CurrentUserId
+                       || u.ReceiverId == userId && u.SenderId == this.CurrentUserId)
+                   .OrderBy(m => m.Id)
+                   .Take(20)
+                   .Select(m => new { m.Text, Sender = m.Sender.UserName });
 
             return this.Ok(privateChatMessages);
+        }
+
+
+        [HttpGet]
+        [Route("unreceived")]
+        public IHttpActionResult GetUrecievedMessages()
+        {
+            var messages = this.CurrentUser.ReceivedMessages
+                .Where(m => m.Status == MessageStatus.NotDelivered && m.ReceiverId == this.CurrentUserId)
+                .Select(x => new
+                {
+                    sender = x.Sender.UserName,
+                    count =
+                        x.Sender.SentMessages.Where(
+                            m => m.ReceiverId == this.CurrentUserId && m.Status == MessageStatus.NotDelivered)
+                })
+                .GroupBy(x => new { sender = x.sender })
+                .Select(x => new
+                {
+                    sender = x.Key.sender,
+                    count = x.Count()
+                })
+                .ToList();
+
+            return this.Ok(messages);
+        }
+
+        [HttpPost]
+        [Route("unreceived/{id}")]
+        public IHttpActionResult UpdateMessageStatus(int id)
+        {
+            var message = this.Data.Messages.Find(id);
+            message.Status = MessageStatus.NotDelivered;
+            this.Data.SaveChanges();
+            return this.Ok("message updated");
         }
 
         [HttpPost]
@@ -60,40 +106,35 @@
 
             var message = new PrivateMessage
                               {
-                                  Sender = this.CurrentUser, 
+                                  Sender = this.CurrentUser,
                                   SenderId = this.CurrentUserId,
-                                  Receiver = receiver, 
+                                  Receiver = receiver,
                                   ReceiverId = receiver.Id,
                                   Text = messageBindingModel.Text
                               };
 
-            if (!currentUsers.Contains(receiver.UserName))
-            {
-                message.Status = MessageStatus.NotDelivered;
-            }
-            else
-            {
-                message.Status = MessageStatus.Sent;
-            }
+            message.Status = !currentUsers.Contains(receiver.UserName) ? MessageStatus.NotDelivered : MessageStatus.Sent;
+
+            this.Data.Messages.Add(message);
+            this.Data.SaveChanges();
+
 
             this.HubContex.Clients.User(receiver.UserName)
                 .toggleMessage(
                     new
                         {
-                            message.Text, 
-                            Sender = this.CurrentUserUserName, 
-                            Receiver = receiver.UserName, 
-                            Status = message.Status.ToString(), 
-                            SenderId = this.CurrentUserId, 
-                            ReceiverId = receiver.Id
+                            message.Text,
+                            Sender = this.CurrentUserUserName,
+                            Receiver = receiver.UserName,
+                            Status = message.Status.ToString(),
+                            SenderId = this.CurrentUserId,
+                            ReceiverId = receiver.Id,
+                            MessageId = message.Id
                         });
 
-            this.Data.Messages.Add(message);
-
-            this.Data.SaveChanges();
 
             // TODO use viewModel
-            return this.Ok(new { message.Text, Sender = this.CurrentUserUserName, Status = message.Status.ToString() });
+            return this.Ok(new { message.Text, Sender = this.CurrentUserUserName, Status = message.Status.ToString(), MessageId = message.Id });
         }
     }
 }

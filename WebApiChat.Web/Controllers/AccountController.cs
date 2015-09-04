@@ -1,4 +1,7 @@
-﻿namespace SocialNetwork.Services.Controllers
+﻿using Microsoft.AspNet.SignalR;
+using WebApiChat.Web.Hubs;
+
+namespace SocialNetwork.Services.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -72,6 +75,8 @@
         public IHttpActionResult Logout()
         {
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
+            hubContext.Clients.All.userDisconnected(this.User.Identity.GetUserName());
             return Ok();
         }
 

@@ -47,7 +47,8 @@
             .then(function () {
                 authenticationService.clearCredentials();
                 $rootScope.$broadcast('logout');
-                localStorage.clear();
+                sessionStorage.clear();
+                console.log('bye')
                 //notyService.showInfo("Successful Logout!");
                 $location.path('/login');
             }, function () {

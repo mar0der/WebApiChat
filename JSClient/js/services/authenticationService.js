@@ -4,16 +4,16 @@ webchat.factory('authenticationService', function () {
     var service = {};
 
     service.setCredentials = function setCredentials(serverData) {
-        localStorage['accessToken'] = serverData.access_token;
-        localStorage['username'] = serverData.userName;
+        sessionStorage['accessToken'] = serverData.access_token;
+        sessionStorage['username'] = serverData.userName;
     };
 
     service.getUsername = function getUsername() {
-        return localStorage['username'];
+        return sessionStorage['username'];
     };
 
     service.clearCredentials = function clearCredentials() {
-        localStorage.clear();
+        sessionStorage.clear();
     };
 
     service.getLoginHeaders = function getLoginHeaders() {
@@ -26,12 +26,12 @@ webchat.factory('authenticationService', function () {
 
     service.getHeaders = function getHeaders() {
         return {
-            Authorization: "Bearer " + localStorage['accessToken']
+            Authorization: "Bearer " + sessionStorage['accessToken']
         }
     };
 
     service.isLoggedIn = function isLoggedIn() {
-        if (localStorage['accessToken']) {
+        if (sessionStorage['accessToken']) {
             return true;
         }
         return false;
