@@ -1,9 +1,8 @@
-﻿using System;
-
-namespace WebApiChat.Data
+﻿namespace WebApiChat.Data
 {
     #region
 
+    using System;
     using System.Data.Entity;
 
     using Microsoft.AspNet.Identity.EntityFramework;
@@ -20,8 +19,6 @@ namespace WebApiChat.Data
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<WebApiChatDbContext, Configuration>());
         }
-
-        public IDbSet<PrivateChat> PrivateChats { get; set; }
 
         public IDbSet<PrivateMessage> PrivateMessages { get; set; }
 
@@ -47,21 +44,24 @@ namespace WebApiChat.Data
 
             modelBuilder.Properties<DateTime>().Configure(c => c.HasColumnType("datetime2"));
 
-            modelBuilder.Entity<PrivateMessage>()
-                .HasRequired(pm => pm.Reciever).WithMany(u => u.Messages).HasForeignKey(c => c.RecieverId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<User>().HasMany(u => u.SentMessages).WithRequired(m => m.Sender).HasForeignKey(m => m.SenderId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<User>().HasMany(u => u.ReceivedMessages).WithRequired(m => m.Receiver).HasForeignKey(m => m.ReceiverId).WillCascadeOnDelete(false);
+            //modelBuilder.Entity<PrivateMessage>()
+            //    .HasRequired(pm => pm.Receiver)
+            //    .WithMany(u => u.ReceivedMessages)
+            //    .HasForeignKey(c => c.ReceiverId)
+            //    .WillCascadeOnDelete(false);
 
+            //modelBuilder.Entity<User>()
+            //    .HasMany(u => u.ReceivedMessages)
+            //    .WithRequired(m => m.Receiver)
+            //    .HasForeignKey(x => x.ReceiverId)
+            //    .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.Messages).WithRequired(m => m.Reciever).HasForeignKey(x=>x.RecieverId).WillCascadeOnDelete(false);
+            // modelBuilder.Entity<PrivateMessage>().HasRequired(x => x.Reciever).WithMany(u => u.Messages).WillCascadeOnDelete(false);
 
-            //modelBuilder.Entity<PrivateMessage>().HasRequired(x => x.Reciever).WithMany(u => u.Messages).WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<User>()k
-            
-
-            
+            // modelBuilder.Entity<User>()k
             base.OnModelCreating(modelBuilder);
-
         }
     }
 }

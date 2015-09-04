@@ -15,7 +15,7 @@
         {
             get
             {
-                return m => new MessageViewModel { Id = m.Id, Text = m.Text, SenderId = m.SenderId, ChatId = m.ChatId };
+                return m => new MessageViewModel { Id = m.Id, Text = m.Text, SenderId = m.SenderId };
             }
         }
 

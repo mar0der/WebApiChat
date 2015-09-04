@@ -11,10 +11,9 @@ webchat.factory('chatService', function ($http, $q, authenticationService, confi
         return $http.get(serviceUrl + userId);
     };
 
-    service.sendMessage = function (message, chatId) {
-        console.log(chatId);
+    service.sendMessage = function (messageData) {
         authenticationService.setHeaders($http);
-        return $http.post(serviceUrl + chatId, message);
+        return $http.post(serviceUrl, messageData);
     };
 
     service.getUnreceived = function () {

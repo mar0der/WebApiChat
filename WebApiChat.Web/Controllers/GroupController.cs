@@ -51,38 +51,38 @@ namespace WebApiChat.Web.Controllers
             });
         }
 
-        [HttpPost]
-        [Route("{chatId}/{userId}")]
-        public IHttpActionResult AddUserToGroupChat(int chatId, string userId)
-        {
-            var groupChat = this.Data.Chats.Find(chatId);
+ //       [HttpPost]
+ //       [Route("{chatId}/{userId}")]
+ //       public IHttpActionResult AddUserToGroupChat(int chatId, string userId)
+ //       {
+ //           var groupChat = this.Data.Chats.Find(chatId);
 
-            if (groupChat == null)
-            {
-                return this.BadRequest("no such chat");
-            }
+ //           if (groupChat == null)
+ //           {
+ //               return this.BadRequest("no such chat");
+ //           }
 
-            var userToAdd = this.Data.Contacts
-                .All()
-                .Where(c => c.UserId == this.CurrentUserId && c.ContactUserId == userId)
-                .Select(x => x.User)
- .              FirstOrDefault();
+ //           var userToAdd = this.Data.Contacts
+ //               .All()
+ //               .Where(c => c.UserId == this.CurrentUserId && c.ContactUserId == userId)
+ //               .Select(x => x.User)
+ //.              FirstOrDefault();
 
 
-            if (userToAdd == null)
-            {
-                return this.BadRequest("no such user in the contacts");
-            }
+ //           if (userToAdd == null)
+ //           {
+ //               return this.BadRequest("no such user in the contacts");
+ //           }
 
-            groupChat.Users.Add(userToAdd);
+ //           groupChat.Users.Add(userToAdd);
 
-            // TODO test 
+ //           // TODO test 
 
-            return this.Ok(new
-            {
-                userToAdd.Id,
-                userToAdd.UserName
-            });
-        }
+ //           return this.Ok(new
+ //           {
+ //               userToAdd.Id,
+ //               userToAdd.UserName
+ //           });
+ //       }
     }
 }

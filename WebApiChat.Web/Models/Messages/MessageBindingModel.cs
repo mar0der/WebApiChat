@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Mime;
-using System.Web;
-
-namespace WebApiChat.Web.Models.Messages
+﻿namespace WebApiChat.Web.Models.Messages
 {
+    #region
+
+    using System.ComponentModel.DataAnnotations;
+
+    #endregion
+
     public class MessageBindingModel
     {
         [Required]
         [StringLength(5000, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
         [Display(Name = "Message text")]
-        public string  Text{ get; set; }
+        public string Text { get; set; }
 
+        [Required]
+        public string ReceiverId { get; set; }
     }
 }

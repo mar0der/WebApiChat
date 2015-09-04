@@ -10,12 +10,12 @@
     <div ng-if="currentSidebar.isContacts"  ng-controller="contactsController" ng-init="getAllFriends()">
         <div id="contactList">
             <button class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in contacts">
-                <div class="col-lg-18 pull-left" ng-click="getChatWithUser(contact.Id)">
+                <div class="col-lg-18 pull-left" ng-click="getChatWithUser(contact.Id); setCurrentReceiver(contact.Id)">
                     <svg height="10" width="10" ng-show="contact.IsOnline">
                         <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />
                         Sorry, your browser does not support inline SVG.
                     </svg>
-                        {{contact.UserName}} <span class="badge">
+                    {{contact.UserName}} <span class="badge">
                         <span ng-if="contact.UnreceivedMessages >0">
                             {{contact.UnreceivedMessages}}
                         </span>

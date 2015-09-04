@@ -7,59 +7,64 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     $rootScope.currentChanelId = "";
     $scope.me = localStorage['username'];
 
+    function updateChatWindow() {
+        setTimeout(function () {
+            $('#chatContent').stop().animate({
+                scrollTop: $("#chatContent")[0].scrollHeight
+            }, 400);
+        }, 100);
+    }
 
     signalR.on('toggleMessage', function (message) {
-         console.log(message)
-        if(message.CurrentChatId == $rootScope.currentChanelId){
+        if (message.SenderId === $rootScope.currentPrivateChatReceiver) {
             $rootScope.chatLog.push(message);
+            updateChatWindow();
         }
 
-        for(var i = 0; i < $rootScope.contacts.length; i ++){
-            if($rootScope.contacts[i].UserName == message.Sender){
+        for (var i = 0; i < $rootScope.contacts.length; i++) {
+            if ($rootScope.contacts[i].UserName === message.Sender) {
                 $rootScope.contacts[i].UnreceivedMessages++;
                 break;
             }
         }
     });
 
-
-    $scope.getUnreceived = function(){
+    $scope.getUnreceived = function () {
         chatService.getUnreceived()
-            .then(function(data){
-                console.log(data)
-            }, function(error){
-                console.log(error)
-            })
-
+            .then(function (data) {
+                console.log(data);
+            }, function (error) {
+                console.log(error);
+            });
     };
 
+    $scope.setCurrentReceiver = function setCurrentReceiver(receiverId) {
+        $rootScope.currentPrivateChatReceiver = receiverId;
+    }
 
     $scope.getChatWithUser = function (userId) {
-
         chatService.GetChatWithUser(userId)
-            .then(function (data) {
-                $rootScope.currentChanelId = data.data.Id;
+            .then(function (serverResponse) {
 
-                for(var i = 0; i < $rootScope.contacts.length; i ++){
-                    if($rootScope.contacts[i].Id ==userId){
-                        $rootScope.contacts[i].UnreceivedMessages=0;
+                for (var i = 0; i < $rootScope.contacts.length; i++) {
+                    if ($rootScope.contacts[i].Id === userId) {
+                        $rootScope.contacts[i].UnreceivedMessages = 0;
                         break;
                     }
                 }
-
-                $rootScope.chatLog = data.data.Messages;
-                console.log($scope.chatLog)
+                $rootScope.chatLog = serverResponse.data;
             }, function (err) {
                 console.log(err);
             });
     };
 
     $scope.sendMessageToUser = function (messageData) {
-        console.log($rootScope.currentChanelId);
-        console.log(messageData)
-        chatService.sendMessage(messageData, $rootScope.currentChanelId)
+        messageData.receiverId = $rootScope.currentPrivateChatReceiver;
+        chatService.sendMessage(messageData)
             .then(function (data) {
-              $rootScope.chatLog.push(data.data)
+                $rootScope.chatLog.push(data.data);
+                updateChatWindow();
+                messageData.Text = '';
             }, function (err) {
                 console.log(err);
             });

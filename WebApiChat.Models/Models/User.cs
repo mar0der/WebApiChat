@@ -13,25 +13,24 @@
 
     public class User : IdentityUser
     {
-        private ICollection<PrivateChat> chats;
-
         private ICollection<Contact> contacts;
-
-        private ICollection<PrivateMessage> privateMessages;
 
         private ICollection<GroupChat> groupChats;
 
-        private ICollection<GroupMessage> groupMessages; 
+        private ICollection<GroupMessage> groupMessages;
+
+        private ICollection<PrivateMessage> privateSentMessages;
+
+        private ICollection<PrivateMessage> privateReceivedMessages;
 
         public User()
         {
-            this.privateMessages = new HashSet<PrivateMessage>();
-            this.chats = new HashSet<PrivateChat>();
+            this.privateSentMessages = new HashSet<PrivateMessage>();
+            this.privateReceivedMessages = new HashSet<PrivateMessage>();
             this.contacts = new HashSet<Contact>();
-            this.groupChats= new HashSet<GroupChat>();
+            this.groupChats = new HashSet<GroupChat>();
             this.groupMessages = new HashSet<GroupMessage>();
         }
-
 
         public int Age { get; set; }
 
@@ -41,29 +40,29 @@
         // [Required]
         public string LastName { get; set; }
 
-        public virtual ICollection<PrivateMessage> Messages
+        public virtual ICollection<PrivateMessage> SentMessages
         {
             get
             {
-                return this.privateMessages;
+                return this.privateSentMessages;
             }
 
             set
             {
-                this.privateMessages = value;
+                this.privateSentMessages = value;
             }
         }
 
-        public virtual ICollection<PrivateChat> Chats
+        public virtual ICollection<PrivateMessage> ReceivedMessages
         {
             get
             {
-                return this.chats;
+                return this.privateReceivedMessages;
             }
 
             set
             {
-                this.chats = value;
+                this.privateReceivedMessages = value;
             }
         }
 
@@ -82,19 +81,32 @@
 
         public virtual ICollection<GroupChat> GroupChats
         {
-            get { return this.groupChats; }
-            set { this.groupChats = value; }
+            get
+            {
+                return this.groupChats;
+            }
+
+            set
+            {
+                this.groupChats = value;
+            }
         }
 
         public virtual ICollection<GroupMessage> GroupMessages
         {
-            get { return this.groupMessages; }
-            set { this.groupMessages = value; }
+            get
+            {
+                return this.groupMessages;
+            }
+
+            set
+            {
+                this.groupMessages = value;
+            }
         }
 
-        
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
-            UserManager<User> manager, 
+            UserManager<User> manager,
             string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

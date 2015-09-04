@@ -39,14 +39,6 @@
             }
         }
 
-        public IRepository<PrivateChat> Chats
-        {
-            get
-            {
-                return this.GetRepository<PrivateChat>();
-            }
-        }
-
         public IRepository<Contact> Contacts
         {
             get
