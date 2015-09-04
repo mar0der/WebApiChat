@@ -16,11 +16,19 @@ namespace WebApiChat.Models.Models
             this.unRecievedUsers = new HashSet<User>();
         }
 
-        public int GroupId { get; set; }
+        public int GroupChatId { get; set; }
 
         public virtual GroupChat GroupChat { get; set; }
 
         public int Id { get; set; }
+
+        public string Text { get; set; }
+
+        public string SenderId { get; set; }
+
+        public virtual User Sender { get; set; }
+
+        public DateTime Date { get; set; }
 
         public virtual ICollection<User> RecievedUsers
         {

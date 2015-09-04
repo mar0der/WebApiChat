@@ -1,8 +1,8 @@
 contactsController
-	-search
-	-add
-	-getAll
-	-block
+	+search
+	+add
+	+getAll
+	+block
 	-listens for SignalR for online contact
 	$rootScope.contacts
 
