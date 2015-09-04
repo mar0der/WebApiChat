@@ -1,11 +1,13 @@
-﻿<div class="media">
-    <div class="media-left pull-left">
-        <a href="#">
-            <img class="media-object" src="http://dummyimage.com/48/abc/0011ff" alt="...">
-        </a>
-    </div>
-    <div class="pull-left col-lg-20">
-        <h4 class="media-heading">Gosho</h4>
-        <div class="list-group-item-text">Ko staa be gosho sadfasdfadsadfa asd f asdfasdf asdfasd fasd fa sdf adf asd f asdf asd fasdfasdfa fasdf adfasdfasdf</div>
+﻿<div ng-show="message.Sender== me">
+    <div class="media">
+        <div class="media-left pull-left">
+            <a href="#">
+                <img class="media-object" src="http://dummyimage.com/48/abc/0011ff" alt="...">
+            </a>
+        </div>
+        <div class="pull-left col-lg-20">
+            <h4 class="media-heading">{{message.Sender}}</h4>
+            <div class="list-group-item-text">{{message.Text}}</div>
+        </div>
     </div>
 </div>

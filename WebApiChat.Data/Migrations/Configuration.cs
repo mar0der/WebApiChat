@@ -21,7 +21,7 @@ namespace WebApiChat.Data.Migrations
 
         protected override void Seed(WebApiChatDbContext context)
         {
-            SeedUsersWithMessages(context);
+           SeedUsersWithMessages(context);
         }
 
         private void SeedUsersWithMessages(WebApiChatDbContext context)
@@ -39,8 +39,6 @@ namespace WebApiChat.Data.Migrations
                     LastName = "Petrov",
                     Email = "pesho@peshev.com",
                 };
-
-                manager.Create(userPesho, "parola");
 
                 var userGosho = new User
                 {
@@ -67,29 +65,22 @@ namespace WebApiChat.Data.Migrations
                     Email = "minka@gmail.com",
                 };
 
+                manager.Create(userPesho, "parola");
                 manager.Create(userMinka, "parola");
                 manager.Create(userGosho, "parola");
                 manager.Create(userChocho, "parola");
 
-
-
-                var chat = new PrivateChat();
-                chat.Users.Add(userPesho);
-                chat.Users.Add(userGosho);
-
-                context.PrivateChats.Add(chat);
-
-                chat.Messages.Add(new PrivateMessage()
+                context.PrivateMessages.Add(new PrivateMessage()
                 {
                     Sender = userPesho,
+                    Receiver = userGosho,
                     Text = "Whats up Gosho?!"
                 });
 
-
-
-                chat.Messages.Add(new PrivateMessage()
+                context.PrivateMessages.Add(new PrivateMessage()
                 {
                     Sender = userGosho,
+                    Receiver = userPesho,
                     Text = "Chillin"
                 });
 
@@ -99,7 +90,6 @@ namespace WebApiChat.Data.Migrations
                     ContactUser = userGosho,
                     IsBlocked = false
                 };
-
 
                 var contact2 = new Contact()
                 {

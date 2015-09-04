@@ -1,141 +1,99 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Core.Mapping;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Mime;
-using System.Web.Http;
-using WebApiChat.Models.Enums;
-using WebApiChat.Models.Models;
-using WebApiChat.Web.Hubs;
-using WebApiChat.Web.Models.Messages;
-
-namespace WebApiChat.Web.Controllers
+﻿namespace WebApiChat.Web.Controllers
 {
+    #region
+
+    using System.Linq;
+    using System.Web.Http;
+
+    using WebApiChat.Models.Enums;
+    using WebApiChat.Models.Models;
+    using WebApiChat.Web.Hubs;
+    using WebApiChat.Web.Models.Messages;
+
+    #endregion
+
     [RoutePrefix("api/chat")]
     [Authorize]
     public class ChatController : ApiControllerWithHub<BaseHub>
     {
         [HttpGet]
-        [Authorize]
         [Route("{userId}")]
-        public IHttpActionResult GetCurrentChat(string userId)
+        public IHttpActionResult GetPrivateChatHistory(string userId)
         {
-
-            var selectedUser =
-                this.Data.Contacts.All().FirstOrDefault(c => c.UserId == this.CurrentUserId && c.ContactUser.Id == userId);
+            var selectedUser = this.Data.Users.Find(userId);
 
             if (selectedUser == null)
             {
-                return this.BadRequest("no such user in contacts");
+                return this.BadRequest("No such user!");
             }
 
-
-            //var chats =
-            //       this.Data.Users.All()
-            //           .Where(u => u.Id == this.CurrentUserId)
-            //           .Select(u => u.Chats.Where(c => c.Users.Any(chu => chu.Id == userId)).Select(c => c.Id))
-            //           .FirstOrDefault();
-
-            var chat = this.Data.Users.All()
-                .Where(u => u.Id == CurrentUserId)
-                .Select(u => u.Chats.FirstOrDefault(c => c.Users.Any(chu => chu.Id == userId))).FirstOrDefault();
-
-
-
-            if (chat == null)
+            if (selectedUser.Id == this.CurrentUserId)
             {
-                var createdChat = new PrivateChat();
-                createdChat.Users.Add(this.Data.Users.All().FirstOrDefault(u => u.Id == this.CurrentUserId));
-                createdChat.Users.Add(this.Data.Users.All().FirstOrDefault(u => u.Id == userId));
-                this.Data.Chats.Add(createdChat);
-                this.Data.SaveChanges();
-                return this.Ok(new
-                {
-                    Id = createdChat.Id,
-                    Messages = createdChat.Messages.Select(m => new
-                    {
-                        Text = m.Text,
-                        Sender = m.Sender.UserName
-                    })
-                });
+                this.BadRequest("You cannot chat with yourself!");
             }
 
-          
+            var privateChatMessages =
+                this.Data.Messages.All()
+                    .OrderBy(m => m.Id)
+                    .Take(20)
+                    .Select(m => new { m.Text, Sender = m.Sender.UserName });
 
-            //TODO finish this
-
-            return this.Ok(new
-            {
-                  Id = chat.Id,
-                    Messages = chat.Messages.Select(m => new
-                    {
-                        Text = m.Text,
-                        Sender = m.Sender.UserName
-                    })
-                });
-            
+            return this.Ok(privateChatMessages);
         }
 
         [HttpPost]
-        [Route("{id}")]
-        public IHttpActionResult PostMessageToChat(int id, MessageBindingModel messageBindingModel)
+        public IHttpActionResult PostMessageToChat(MessageBindingModel messageBindingModel)
         {
-            var chat = this.Data.Chats.Find(id);
-
-            if (chat == null)
-            {
-                return this.BadRequest("no such chat");
-            }
-
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
+            var receiver = this.Data.Users.Find(messageBindingModel.ReceiverId);
+
+            if (receiver == null)
+            {
+                return this.BadRequest("The user you are trying to message does not exists!");
+            }
+
             var currentUsers = ConnectionManager.Users.Keys;
 
-            var senderName = this.CurrentUserUserName;
+            var message = new PrivateMessage
+                              {
+                                  Sender = this.CurrentUser, 
+                                  SenderId = this.CurrentUserId,
+                                  Receiver = receiver, 
+                                  ReceiverId = receiver.Id,
+                                  Text = messageBindingModel.Text
+                              };
 
-            var reciever = chat.Users
-                .Where(u => u.UserName != senderName)
-                .Select(u => u.UserName)
-                .ToString();
-
-            var message = new PrivateMessage()
-            {
-                ChatId = id,
-                SenderId = this.CurrentUserId,
-                Text = messageBindingModel.Text
-            };
-
-            if (!currentUsers.Contains(reciever))
+            if (!currentUsers.Contains(receiver.UserName))
             {
                 message.Status = MessageStatus.NotDelivered;
             }
-
             else
             {
                 message.Status = MessageStatus.Sent;
-
-                //TODO test this on the UI
-                this.HubContex.Clients.User(reciever).toggleMessage(message);
             }
 
-            chat.Messages.Add(message);
+            this.HubContex.Clients.User(receiver.UserName)
+                .toggleMessage(
+                    new
+                        {
+                            message.Text, 
+                            Sender = this.CurrentUserUserName, 
+                            Receiver = receiver.UserName, 
+                            Status = message.Status.ToString(), 
+                            SenderId = this.CurrentUserId, 
+                            ReceiverId = receiver.Id
+                        });
+
+            this.Data.Messages.Add(message);
+
             this.Data.SaveChanges();
 
-            // TODO fix the return model for the UI
-            return this.Ok(new
-            {
-                Id = chat.Id,
-                Messages = chat.Messages.Select(m=> new
-                {
-                    Text = m.Text,
-                    Sender = m.Sender.UserName
-                })
-            });
+            // TODO use viewModel
+            return this.Ok(new { message.Text, Sender = this.CurrentUserUserName, Status = message.Status.ToString() });
         }
     }
 }

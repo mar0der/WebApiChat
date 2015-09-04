@@ -30,7 +30,9 @@ namespace WebApiChat.Web.Controllers
                 //ContactsOwer = c.ContactUser.UserName,
                 Id = c.ContactUserId,
                 UserName = c.ContactUser.UserName,
-                IsOnline = onlineUsers.Contains(c.ContactUser.UserName)
+                IsOnline = onlineUsers.Contains(c.ContactUser.UserName),
+                UnreceivedMessages = 0
+
             }).ToList());
         }
 

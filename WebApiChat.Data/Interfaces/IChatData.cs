@@ -12,8 +12,6 @@
 
         IRepository<PrivateMessage> Messages { get; }
 
-        IRepository<PrivateChat> Chats { get; }
-
         IRepository<Contact> Contacts { get; }
 
         IRepository<GroupChat> GroupChats { get; }

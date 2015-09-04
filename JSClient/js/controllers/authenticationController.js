@@ -6,6 +6,7 @@
         $scope.passwordData = "";
     };
 
+
     $scope.login = function login(loginData) {
         usersService.login(loginData)
         .then(function (serverData) {
@@ -13,6 +14,7 @@
             authenticationService.setCredentials(serverData.data);
             $rootScope.$broadcast('login');
             clearData();
+
             $location.path('/');
         },
         function (serverError) {
@@ -34,7 +36,8 @@
             $location.path('/');
         },
         function (serverError) {
-            //usSpinnerService.stop('spinner');
+            //usSpinnerService.stop('s
+            // pinner');
             //notyService.showError("Unsuccessful Registeration!", serverError);
         });
     };

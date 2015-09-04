@@ -111,6 +111,8 @@
     <Content Include="partials\contactsList.html" />
     <Content Include="partials\groupList.html" />
     <None Include="partials\onlineUsers.html.del" />
+    <Content Include="partials\leftMessageBox.html" />
+    <Content Include="partials\rightMessageBox.html" />
     <Content Include="Scripts\bootstrap\config.json" />
     <None Include="Scripts\jquery-1.9.1-vsdoc.js" />
     <Content Include="partials\register.html" />

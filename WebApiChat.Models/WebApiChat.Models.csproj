@@ -59,7 +59,6 @@
     <Compile Include="Enums\PrivateMessageStatus.cs" />
     <Compile Include="Models\GroupChat.cs" />
     <Compile Include="Models\GroupMessage.cs" />
-    <Compile Include="Models\PrivateChat.cs" />
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\PrivateMessage.cs" />
     <Compile Include="Models\User.cs" />
