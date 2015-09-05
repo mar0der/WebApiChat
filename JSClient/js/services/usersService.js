@@ -37,7 +37,17 @@ webchat.factory('usersService', function ($http, $q, authenticationService, conf
 
     //GET api/users/{username}/wall?StartPostId={StartPostId}&PageSize={PageSize}	
     service.getUsersWallByPages = function getFriendUsersByPages(friendName, startPostId, pageSize) {
-        return $http.get(serviceUrl + friendName + '/wall?StartPostId=' + startPostId + '&PageSize=' + pageSize, authenticationService.getHeaders());
+        return $http.get(serviceUrl + friendName + '/wall?StartPostId=' + startPostId + '&PageSize=' + pageSize,
+            authenticationService.getHeaders());
     }
+
+    //Post api/users/userStatusUpdate
+    service.userStatusUpdate = function userStatusUpdate() {
+        console.log(configService.baseServiceUrl + 'users/userStatusUpdate');
+        console.log(authenticationService.getHeaders());
+
+        return $http.post(configService.baseServiceUrl + 'users/userStatusUpdate', authenticationService.getHeaders());
+    };
+
     return service;
 });

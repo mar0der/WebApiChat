@@ -82,6 +82,9 @@ namespace WebApiChat.Web.Controllers
                 UnreceivedMessages = 0
             };
 
+            this.HubContex.Clients.User(userContact.UserName)
+                .contactListUpdate();
+
             return this.Ok(addedContactUser);
         }
 

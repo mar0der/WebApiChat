@@ -152,7 +152,7 @@ html {
     overflow-y: auto
 }
 #contactList{
-    height: 380px;
+    /*height: 380px;*/
     overflow-y: auto;
 }
 ::-webkit-scrollbar{

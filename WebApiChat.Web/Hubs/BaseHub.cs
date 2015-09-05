@@ -36,7 +36,6 @@
                 // is the first connection of the user
                 if (user.ConnectionsIds != null || user.ConnectionsIds != string.Empty)
                 {
-
                     Clients.Others.userConnected(userName);
                 }
             }
@@ -46,7 +45,6 @@
 
         public override Task OnDisconnected(bool stopCalled)
         {
-
             string userName = Context.User.Identity.Name;
             string connectionId = Context.ConnectionId;
 
@@ -55,10 +53,8 @@
 
             if (user != null)
             {
-
                 lock (user.ConnectionsIds)
                 {
-
                     user.ConnectionsIds = null;
 
                     if (String.IsNullOrEmpty(user.ConnectionsIds))

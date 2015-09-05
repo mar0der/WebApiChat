@@ -41,6 +41,5 @@ webchat.factory('authenticationService', function () {
         $http.defaults.headers.common = service.getHeaders();
     };
 
-
     return service;
 });

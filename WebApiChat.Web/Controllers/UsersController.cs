@@ -1,7 +1,8 @@
 ﻿using System.Linq;
-using System.Web.Http;
 using Microsoft.AspNet.Identity;
 using WebApiChat.Web.Hubs;
+using System.Web.Http;
+using System.Threading;
 
 namespace WebApiChat.Web.Controllers
 {
@@ -35,6 +36,21 @@ namespace WebApiChat.Web.Controllers
                   });
 
             return this.Ok(contacts);
+        }
+
+        [Route("userStatusUpdate")]
+        [HttpPost]
+        public IHttpActionResult UserStatusUpdate()
+        {
+            var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
+
+            hubContext.Clients.All.userLogged(new
+            {
+                Id = this.CurrentUserId,
+                UserName = this.CurrentUser.UserName
+            });
+
+            return this.Ok(Thread.CurrentPrincipal.Identity.GetUserId());
         }
     }
 }

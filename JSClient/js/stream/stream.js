@@ -1,11 +1,11 @@
 'use strict';
 ///<reference path="contactsDirective.js" />
-webchat.factory('signalR', ['$rootScope', function ($rootScope) {
+webchat.factory('signalR', ['$rootScope', 'configService', function ($rootScope, configService) {
     'use strict';
 
     return {
         on: function (eventName, callback) {
-            var connection = $.hubConnection('http://localhost:3660/signalr/');
+            var connection = $.hubConnection(configService.signalRUrl);
             var postHubProxy = connection.createHubProxy('baseHub');
 
             postHubProxy.on(eventName, function () {

@@ -77,6 +77,11 @@ namespace SocialNetwork.Services.Controllers
             Authentication.SignOut(CookieAuthenticationDefaults.AuthenticationType);
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
             hubContext.Clients.All.userDisconnected(this.User.Identity.GetUserName());
+
+            ConnectedUser removedUser;
+            ConnectionManager.Users.TryRemove(this.User.Identity.GetUserName(), out removedUser);
+            hubContext.Clients.All.userDisconnected(removedUser);
+
             return Ok();
         }
 

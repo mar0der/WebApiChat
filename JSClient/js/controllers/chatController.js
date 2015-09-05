@@ -1,11 +1,17 @@
 'use strict';
 
-webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope) {
+webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
+    usersService) {
     $scope.rightContainerTemplate = 'partials/welcomeScreen.html';
     $rootScope.chatLog = [];
     $rootScope.currentContactId = "";
     $rootScope.currentChanelId = "";
-    $scope.me = sessionStorage['username'];
+    $scope.me = authenticationService.getUsername();
+    if ($scope.me.length > 0) {
+        setTimeout(function () {
+            usersService.userStatusUpdate();
+        }, 100);
+    }
 
     function updateChatWindow() {
         setTimeout(function () {
@@ -17,18 +23,18 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
 
     signalR.on('toggleMessage', function (message) {
         if (message.SenderId === $rootScope.currentPrivateChatReceiver) {
-            $rootScope.chatLog.push(message)
-            console.log(message),
+            $rootScope.chatLog.push(message);
             updateChatWindow();
         }
-
         else{
             updateMessageStatus(message);
         }
 
         for (var i = 0; i < $rootScope.contacts.length; i++) {
             if ($rootScope.contacts[i].UserName === message.Sender) {
-                $rootScope.contacts[i].UnreceivedMessages++;
+                if (message.SenderId !== $rootScope.currentPrivateChatReceiver) {
+                    $rootScope.contacts[i].UnreceivedMessages++;
+                }
                 break;
             }
         }
@@ -37,7 +43,6 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     $scope.getUnreceived = function () {
         chatService.getUnreceived()
             .then(function (serverdata) {
-                console.log(serverdata);
                 attachNotificationsToSpecificContacts(serverdata);
             }, function (error) {
                 console.log(error);

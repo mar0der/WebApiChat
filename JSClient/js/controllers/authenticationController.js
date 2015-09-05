@@ -1,4 +1,5 @@
-﻿webchat.controller("authenticationController", function ($scope, usersService, authenticationService, $location, signalR, $rootScope) {
+﻿/// <reference path="authenticationController.js" />
+webchat.controller("authenticationController", function ($scope, usersService, authenticationService, $location, signalR, $rootScope) {
     var clearData = function () {
         //$scope.loginData = "";
         $scope.registerData = "";
@@ -48,7 +49,6 @@
                 authenticationService.clearCredentials();
                 $rootScope.$broadcast('logout');
                 sessionStorage.clear();
-                console.log('bye')
                 //notyService.showInfo("Successful Logout!");
                 $location.path('/login');
             }, function () {

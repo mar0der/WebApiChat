@@ -26,26 +26,28 @@ webchat.controller("contactsController",
                 UnreceivedMessages: 0
             };
 
-            console.log(user);
-
             for (var i = 0; i < $rootScope.contacts.length; i++) {
                 if ($rootScope.contacts[i].UserName == user.UserName) {
                     $rootScope.contacts[i].IsOnline = true;
-                    console.log("contact status changed");
                     break;
                 }
             }
         });
 
-        $scope.getAllOnlineUsers = function () {
-            contactService.getAllOnlineUsers()
-                .then(function (data) {
-                    $scope.onlineUsers = data;
-                    console.log(data);
-                }, function (err) {
-                    console.error(err.responseText);
-                });
-        };
+        signalR.on('contactListUpdate', function () {
+            $scope.getAllFriends();
+        });
+
+        //WTF?!
+        //$scope.getAllOnlineUsers = function () {
+        //    contactService.getAllOnlineUsers()
+        //        .then(function (data) {
+        //            $scope.onlineUsers = data;
+        //            console.log(data);
+        //        }, function (err) {
+        //            console.error(err.responseText);
+        //        });
+        //};
 
         $scope.getAllFriends = function () {
             contactService.getAllFriends()
