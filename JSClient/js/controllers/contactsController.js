@@ -4,6 +4,7 @@ webchat.controller("contactsController",
         $rootScope.contacts = [];
         $rootScope.searchedUsers = []
 
+
         signalR.on('userDisconnected', function (username) {
 
             for (var i = 0; i < $rootScope.contacts.length; i++) {
@@ -56,15 +57,31 @@ webchat.controller("contactsController",
                 });
         };
 
-        $scope.searchUser = function () {
-            contactService.searchContact($scope.search.data)
-                .then(function (data) {
-                    $rootScope.searchedUsers = data.data;
-                    console.log($rootScope.searchedUsers)
-                }, function (err) {
-                    console.log(err)
+        $scope.searchUser = function searchUser(searchPattern) {
+            contactService.searchContact(searchPattern)
+                .then(function (serverResponse) {
+                    $scope.searchContactResults = serverResponse.data;
+                }, function (serverError) {
+                    console.log(serverError)
                 });
+        };
 
+        $scope.addContact = function addContact(userId) {
+            contactService.addContact(userId)
+            .then(function (serverResponse) {
+                $scope.contacts.push(serverResponse.data);
+                var temp = [];
+                var i;
+                for (i = 0; i < $scope.searchContactResults.length; i++) {
+                    if ($scope.searchContactResults[i].Id !== serverResponse.data.Id) {
+                        temp.push($scope.searchContactResults[i]);
+                    }
+                }
+
+                $scope.searchContactResults = temp;
+            }, function (serverError) {
+                console.log(serverError);
+            })
         };
 
     });

@@ -13,8 +13,13 @@ webchat.factory('contactService', function ($http, $q, authenticationService, co
 
     service.searchContact = function (username) {
         authenticationService.setHeaders($http);
-        return $http.get(serviceUrl + 'searchByUsername?username=' + username);
+        return $http.get(serviceUrl + 'searchUser?searchPattern=' + username);
     };
+
+    service.addContact = function addContact(userId) {
+        authenticationService.setHeaders($http);
+        return $http.post(serviceUrl + userId);
+    }
 
     return service;
 

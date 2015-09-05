@@ -32,8 +32,8 @@ namespace WebApiChat.Web.Controllers
                 Id = c.ContactUserId,
                 UserName = c.ContactUser.UserName,
                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName),
-                UnreceivedMessages = 0
-
+                // TODO: Why messages are 0 
+                UnreceivedMessages = 0 
             }).ToList());
         }
 
@@ -73,12 +73,16 @@ namespace WebApiChat.Web.Controllers
             });
 
             this.Data.SaveChanges();
-
-            return this.Ok(new
+            var onlineUsers = ConnectionManager.Users.Keys;
+            var addedContactUser = new
             {
                 Id = userContact.Id,
-                UserName = userContact.UserName
-            });
+                UserName = userContact.UserName,
+                IsOnline = onlineUsers.Contains(userContact.UserName),
+                UnreceivedMessages = 0
+            };
+
+            return this.Ok(addedContactUser);
         }
 
         /// <summary>
@@ -111,27 +115,24 @@ namespace WebApiChat.Web.Controllers
         }
 
         [HttpGet]
-        [Route("searchByUsername")]
-        public IQueryable<UserSearchBindingModel> SearchUserByName([FromUri]string username)
+        [Route("searchUser")]
+        public IHttpActionResult SearchUser([FromUri]string searchPattern)
         {
             var onlineUsers = ConnectionManager.Users.Keys;
+            var contacts = this.Data.Contacts.All()
+                .Where(c => c.UserId == this.CurrentUserId)
+                .Select(u => u.ContactUser.UserName);
 
-            return
-                this.Data.Users.All()
-                .Where(u => u.UserName.StartsWith(username))
-                .Select(u => new UserSearchBindingModel
-                {
-                    Id = u.Id,
-                    Username = u.UserName,
-                    IsOnline = onlineUsers.Contains(u.UserName),
+            var users = this.Data.Users.All()
+                .Where(u => (u.FirstName.Contains(searchPattern) || u.Email.Contains(searchPattern)
+                    || u.PhoneNumber.Contains(searchPattern) || u.LastName.Contains(searchPattern))
+                    && u.UserName != this.CurrentUserUserName
+                    && !contacts.Contains(u.UserName))
+                .Select(UserSearchViewModel.ViewModel)
+                .Take(5)
+                .ToList();
 
-
-                }).Where(x => x.Username != this.CurrentUserUserName)
-                .AsQueryable();
-
-               
-             
-            
+            return this.Ok(users);
         }
     }
 }

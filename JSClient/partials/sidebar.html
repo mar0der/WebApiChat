@@ -9,7 +9,7 @@
 </div>
 <div>
     <button ng-click="logout()">logout</button>
-    <div ng-if="currentSidebar.isContacts" ng-controller="contactsController"
+    <div ng-if="currentSidebar.isContacts" 
          ng-init="getAllFriends(); getUnreceived()">
         <div id="contactList">
             <button class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in contacts">
@@ -98,7 +98,7 @@
 
         <!--todo make this pretty-->
 
-        <button class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
+        <button ng-click="laodAddContactForm();" class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
             + Add Contact <span class="badge"></span>
         </button>
     </div>

@@ -1,11 +1,11 @@
 'use strict';
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope) {
-
+    $scope.rightContainerTemplate = 'partials/welcomeScreen.html';
     $rootScope.chatLog = [];
     $rootScope.currentContactId = "";
     $rootScope.currentChanelId = "";
-    $scope.me = localStorage['username'];
+    $scope.me = sessionStorage['username'];
 
     function updateChatWindow() {
         setTimeout(function () {
@@ -17,13 +17,13 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
 
     signalR.on('toggleMessage', function (message) {
         if (message.SenderId === $rootScope.currentPrivateChatReceiver) {
-            $rootScope.chatLog.push(message.MessageId)
+            $rootScope.chatLog.push(message)
             console.log(message),
             updateChatWindow();
         }
 
         else{
-            updateMessageStatus(message.MessageId);
+            updateMessageStatus(message);
         }
 
         for (var i = 0; i < $rootScope.contacts.length; i++) {
@@ -38,10 +38,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
         chatService.getUnreceived()
             .then(function (serverdata) {
                 console.log(serverdata);
-
                 attachNotificationsToSpecificContacts(serverdata);
-
-
             }, function (error) {
                 console.log(error);
             });
@@ -52,6 +49,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     };
 
     $scope.getChatWithUser = function (userId) {
+        $scope.rightContainerTemplate = 'partials/chatBox.html';
         chatService.GetChatWithUser(userId)
             .then(function (serverResponse) {
                 for (var i = 0; i < $rootScope.contacts.length; i++) {
@@ -61,6 +59,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
                     }
                 }
                 $rootScope.chatLog = serverResponse.data;
+                updateChatWindow();
             }, function (err) {
                 console.log(err);
             });
@@ -91,6 +90,10 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
             };
         }
     };
+
+    $scope.laodAddContactForm = function () {
+        $scope.rightContainerTemplate = 'partials/addContactForm.html';
+    }
 
 
     function attachNotificationsToSpecificContacts(notification){

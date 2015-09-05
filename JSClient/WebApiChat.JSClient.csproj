@@ -89,6 +89,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="partials\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -100,6 +104,7 @@
     <Content Include="css\bootstrap\bootstrap.min.css" />
     <Content Include="css\custom-icons.css" />
     <Content Include="css\style.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\controllers\chatController.js" />
     <Content Include="js\controllers\contactsController.js" />
     <Content Include="js\filters\isOnline.js" />
@@ -107,12 +112,14 @@
     <Content Include="js\services\configService.js" />
     <Content Include="js\services\contactService.js" />
     <Content Include="js\stream\stream.js" />
+    <Content Include="partials\addContactForm.html" />
     <Content Include="partials\chatBox.html" />
     <Content Include="partials\contactsList.html" />
     <Content Include="partials\groupList.html" />
     <None Include="partials\onlineUsers.html.del" />
     <Content Include="partials\leftMessageBox.html" />
     <Content Include="partials\rightMessageBox.html" />
+    <Content Include="partials\welcomeScreen.html" />
     <Content Include="Scripts\bootstrap\config.json" />
     <None Include="Scripts\jquery-1.9.1-vsdoc.js" />
     <Content Include="partials\register.html" />
@@ -944,7 +951,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="fonts\" />
     <Folder Include="img\" />
     <Folder Include="js\directives\" />
   </ItemGroup>
