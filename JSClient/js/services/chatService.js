@@ -1,6 +1,5 @@
-﻿//<reference path="chatService.js" />
+﻿'use strict';
 
-'use strict';
 webchat.factory('chatService', function ($http, $q, authenticationService, configService) {
 
     var serviceUrl = configService.baseServiceUrl + 'chat/';
@@ -21,9 +20,9 @@ webchat.factory('chatService', function ($http, $q, authenticationService, confi
         return $http.get(serviceUrl + 'unreceived');
     };
 
-    service.updateMessageStatus = function(id){
+    service.updateMessageStatus = function (id) {
         authenticationService.setHeaders($http);
-        return $http.post(serviceUrl + 'unreceived/' + id)
+        return $http.post(serviceUrl + 'unreceived/' + id);
     };
 
     //service.sendMessage = function (message, chatId) {
@@ -39,8 +38,6 @@ webchat.factory('chatService', function ($http, $q, authenticationService, confi
     //    return deferred.promise;
     //};
 
-
     return service;
-
 
 });

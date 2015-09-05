@@ -1,9 +1,4 @@
-﻿using System.Data.SqlTypes;
-using System.Security.Cryptography.X509Certificates;
-using System.Web.OData.Routing;
-using Microsoft.Ajax.Utilities;
-
-namespace WebApiChat.Web.Controllers
+﻿namespace WebApiChat.Web.Controllers
 {
     #region
 
@@ -38,41 +33,42 @@ namespace WebApiChat.Web.Controllers
             }
 
             this.CurrentUser.ReceivedMessages.Where(m => m.SenderId == userId)
-                .Select(m => m.Status = MessageStatus.Sent).ToList();
+                .Select(m => m.Status = MessageStatus.Sent)
+                .ToList();
 
             this.Data.SaveChanges();
 
-            var privateChatMessages = this.Data.Messages.All()
-                   .Where(u => u.SenderId == userId && u.ReceiverId == this.CurrentUserId
-                       || u.ReceiverId == userId && u.SenderId == this.CurrentUserId)
-                   .OrderBy(m => m.Id)
-                   .Take(20)
-                   .Select(m => new { m.Text, Sender = m.Sender.UserName });
+            var privateChatMessages =
+                this.Data.Messages.All()
+                    .Where(
+                        u => u.SenderId == userId && u.ReceiverId == this.CurrentUserId
+                        || u.ReceiverId == userId && u.SenderId == this.CurrentUserId)
+                    .OrderBy(m => m.Id)
+                    .Take(20)
+                    .Select(m => new { m.Text, Sender = m.Sender.UserName });
 
             return this.Ok(privateChatMessages);
         }
-
 
         [HttpGet]
         [Route("unreceived")]
         public IHttpActionResult GetUrecievedMessages()
         {
-            var messages = this.CurrentUser.ReceivedMessages
-                .Where(m => m.Status == MessageStatus.NotDelivered && m.ReceiverId == this.CurrentUserId)
-                .Select(x => new
-                {
-                    sender = x.Sender.UserName,
-                    count =
-                        x.Sender.SentMessages.Where(
-                            m => m.ReceiverId == this.CurrentUserId && m.Status == MessageStatus.NotDelivered)
-                })
-                .GroupBy(x => new { sender = x.sender })
-                .Select(x => new
-                {
-                    sender = x.Key.sender,
-                    count = x.Count()
-                })
-                .ToList();
+            var messages =
+                this.CurrentUser.ReceivedMessages.Where(
+                    m => m.Status == MessageStatus.NotDelivered && m.ReceiverId == this.CurrentUserId)
+                    .Select(
+                        x =>
+                        new
+                            {
+                                sender = x.Sender.UserName, 
+                                count =
+                            x.Sender.SentMessages.Where(
+                                m => m.ReceiverId == this.CurrentUserId && m.Status == MessageStatus.NotDelivered)
+                            })
+                    .GroupBy(x => new { x.sender })
+                    .Select(x => new { x.Key.sender, count = x.Count() })
+                    .ToList();
 
             return this.Ok(messages);
         }
@@ -106,10 +102,10 @@ namespace WebApiChat.Web.Controllers
 
             var message = new PrivateMessage
                               {
-                                  Sender = this.CurrentUser,
-                                  SenderId = this.CurrentUserId,
-                                  Receiver = receiver,
-                                  ReceiverId = receiver.Id,
+                                  Sender = this.CurrentUser, 
+                                  SenderId = this.CurrentUserId, 
+                                  Receiver = receiver, 
+                                  ReceiverId = receiver.Id, 
                                   Text = messageBindingModel.Text
                               };
 
@@ -118,23 +114,29 @@ namespace WebApiChat.Web.Controllers
             this.Data.Messages.Add(message);
             this.Data.SaveChanges();
 
-
             this.HubContex.Clients.User(receiver.UserName)
-                .toggleMessage(
+                .pushMessageToClient(
                     new
                         {
-                            message.Text,
-                            Sender = this.CurrentUserUserName,
-                            Receiver = receiver.UserName,
-                            Status = message.Status.ToString(),
-                            SenderId = this.CurrentUserId,
-                            ReceiverId = receiver.Id,
+                            message.Text, 
+                            Sender = this.CurrentUserUserName, 
+                            Receiver = receiver.UserName, 
+                            Status = message.Status.ToString(), 
+                            SenderId = this.CurrentUserId, 
+                            ReceiverId = receiver.Id, 
                             MessageId = message.Id
                         });
 
-
             // TODO use viewModel
-            return this.Ok(new { message.Text, Sender = this.CurrentUserUserName, Status = message.Status.ToString(), MessageId = message.Id });
+            return
+                this.Ok(
+                    new
+                        {
+                            message.Text, 
+                            Sender = this.CurrentUserUserName, 
+                            Status = message.Status.ToString(), 
+                            MessageId = message.Id
+                        });
         }
     }
 }

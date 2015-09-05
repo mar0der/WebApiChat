@@ -1,4 +1,5 @@
-﻿/// <reference path="authenticationController.js" />
+﻿'use strict';
+
 webchat.controller("authenticationController", function ($scope, usersService, authenticationService, $location, signalR, $rootScope) {
     var clearData = function () {
         //$scope.loginData = "";
@@ -7,7 +8,6 @@ webchat.controller("authenticationController", function ($scope, usersService, a
         $scope.passwordData = "";
     };
 
-
     $scope.login = function login(loginData) {
         usersService.login(loginData)
         .then(function (serverData) {
@@ -15,7 +15,6 @@ webchat.controller("authenticationController", function ($scope, usersService, a
             authenticationService.setCredentials(serverData.data);
             $rootScope.$broadcast('login');
             clearData();
-
             $location.path('/');
         },
         function (serverError) {
@@ -23,7 +22,6 @@ webchat.controller("authenticationController", function ($scope, usersService, a
             //notyService.showError("Unsuccessful Login!", serverError);
         });
     };
-
 
     $scope.register = function register(registerData) {
         //usSpinnerService.spin('spinner');

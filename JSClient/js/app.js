@@ -1,4 +1,5 @@
 ﻿'use strict';
+
 var webchat = angular.module('webchat', ['ngRoute', 'ngResource']);
 
 webchat.config(function ($routeProvider) {

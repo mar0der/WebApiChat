@@ -1,8 +1,6 @@
 'use strict';
-///<reference path="contactsDirective.js" />
-webchat.factory('signalR', ['$rootScope', 'configService', function ($rootScope, configService) {
-    'use strict';
 
+webchat.factory('signalR', ['$rootScope', 'configService', function ($rootScope, configService) {
     return {
         on: function (eventName, callback) {
             var connection = $.hubConnection(configService.signalRUrl);
@@ -14,9 +12,7 @@ webchat.factory('signalR', ['$rootScope', 'configService', function ($rootScope,
                     callback.apply(postHubProxy, args);
                 });
             });
-
             connection.start().done(function () { });
-
         }
     }
 }]);

@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using WebApiChat.Models.Enums;
-using WebApiChat.Models.Models;
-using WebApiChat.Web.Hubs;
-using WebApiChat.Web.Models;
-using WebApiChat.Web.Models.GroupChat;
-
-namespace WebApiChat.Web.Controllers
+﻿namespace WebApiChat.Web.Controllers
 {
+    #region
+
+    using System;
+    using System.Linq;
+    using System.Web.Http;
+
+    using WebApiChat.Models.Models;
+    using WebApiChat.Web.Hubs;
+    using WebApiChat.Web.Models;
+    using WebApiChat.Web.Models.GroupChat;
+
+    #endregion
+
     [Authorize]
     [RoutePrefix("api/group")]
     public class GroupController : ApiControllerWithHub<BaseHub>
@@ -19,13 +20,14 @@ namespace WebApiChat.Web.Controllers
         [HttpGet]
         public IHttpActionResult GetAllGroupChats()
         {
-            var groupChats = this.CurrentUser.GroupChats
-                .Select(g => new
-                {
-                    GroupId = g.Id,
-                    GroupName = g.Name.Length == 0 ? string.Join(", ", g.Users.Select(u => u.UserName)) : g.Name
-                });
-
+            var groupChats =
+                this.CurrentUser.GroupChats.Select(
+                    g =>
+                    new
+                        {
+                            GroupId = g.Id, 
+                            GroupName = g.Name.Length == 0 ? string.Join(", ", g.Users.Select(u => u.UserName)) : g.Name
+                        });
 
             return this.Ok(groupChats);
         }
@@ -33,10 +35,7 @@ namespace WebApiChat.Web.Controllers
         [HttpPost]
         public IHttpActionResult CreateGroupChat(GroupChatBindingModel groupChatBindingModel)
         {
-            var groupChat = new GroupChat()
-            {
-                Name = groupChatBindingModel.GroupName
-            };
+            var groupChat = new GroupChat { Name = groupChatBindingModel.GroupName };
 
             groupChat.Users.Add(this.CurrentUser);
 
@@ -59,13 +58,9 @@ namespace WebApiChat.Web.Controllers
             this.Data.GroupChats.Add(groupChat);
             this.Data.SaveChanges();
 
-            //TODO test 
-            //TODO add view for the UI
-            return this.Ok(new
-            {
-                groupChat.Id,
-                users = groupChat.Users.Select(u => u.UserName)
-            });
+            // TODO test 
+            // TODO add view for the UI
+            return this.Ok(new { groupChat.Id, users = groupChat.Users.Select(u => u.UserName) });
         }
 
         [HttpPost]
@@ -88,13 +83,9 @@ namespace WebApiChat.Web.Controllers
 
             groupChat.Users.Add(contact.ContactUser);
             this.Data.SaveChanges();
-            // TODO test 
 
-            return this.Ok(new
-            {
-                contact.ContactUser.Id,
-                contact.ContactUser.UserName
-            });
+            // TODO test 
+            return this.Ok(new { contact.ContactUser.Id, contact.ContactUser.UserName });
         }
 
         [HttpGet]
@@ -107,15 +98,16 @@ namespace WebApiChat.Web.Controllers
                 throw new ApplicationException("Group not found.");
             }
 
-            return group.GroupMessages
-                    .Select(gp => new GroupMessagesBindingModel()
-                    {
-                        Id = gp.Id,
-                        Content = gp.Text,
-                        SenderId = gp.SenderId,
-                        SenderUsername = gp.Sender.UserName
-                    })
-                    .AsQueryable<GroupMessagesBindingModel>();
+            return
+                group.GroupMessages.Select(
+                    gp =>
+                    new GroupMessagesBindingModel
+                        {
+                            Id = gp.Id, 
+                            Content = gp.Text, 
+                            SenderId = gp.SenderId, 
+                            SenderUsername = gp.Sender.UserName
+                        }).AsQueryable();
         }
 
         [HttpPost]
@@ -124,17 +116,13 @@ namespace WebApiChat.Web.Controllers
         {
             var group = this.CurrentUser.GroupChats.FirstOrDefault(g => g.Id == groupMessage.GroupId);
 
-            if(group == null)
+            if (group == null)
             {
                 return this.BadRequest("Group was not found.");
             }
 
-            group.GroupMessages.Add(new GroupMessage()
-            {
-                Text = groupMessage.Text,
-                SenderId = this.CurrentUserId,
-                Date = DateTime.Now
-            });
+            group.GroupMessages.Add(
+                new GroupMessage { Text = groupMessage.Text, SenderId = this.CurrentUserId, Date = DateTime.Now });
 
             this.Data.SaveChanges();
 

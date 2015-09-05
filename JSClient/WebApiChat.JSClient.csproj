@@ -116,7 +116,6 @@
     <Content Include="partials\chatBox.html" />
     <Content Include="partials\contactsList.html" />
     <Content Include="partials\groupList.html" />
-    <None Include="partials\onlineUsers.html.del" />
     <Content Include="partials\leftMessageBox.html" />
     <Content Include="partials\rightMessageBox.html" />
     <Content Include="partials\welcomeScreen.html" />

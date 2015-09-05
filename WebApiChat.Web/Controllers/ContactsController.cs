@@ -1,21 +1,24 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
-using WebApiChat.Models.Models;
-using WebApiChat.Web.Hubs;
-using WebApiChat.Web.Models;
-
-namespace WebApiChat.Web.Controllers
+﻿namespace WebApiChat.Web.Controllers
 {
+    #region
+
+    using System.Linq;
+    using System.Web.Http;
+
+    using Microsoft.AspNet.Identity;
+
+    using WebApiChat.Models.Models;
+    using WebApiChat.Web.Hubs;
+    using WebApiChat.Web.Models;
+
+    #endregion
+
     [RoutePrefix("api/contacts")]
-    [System.Web.Http.Authorize]
+    [Authorize]
     public class ContactsController : ApiControllerWithHub<BaseHub>
     {
         /// <summary>
-        /// Returns all contacts with their status. Uses Current user
+        ///     Returns all contacts with their status. Uses Current user
         /// </summary>
         /// <returns>Array of objects</returns>
         public IHttpActionResult GetContacts()
@@ -26,19 +29,22 @@ namespace WebApiChat.Web.Controllers
 
             var onlineUsers = ConnectionManager.Users.Keys;
 
-            return this.Ok(contacts.Select(c => new
-            {
-                //ContactsOwer = c.ContactUser.UserName,
-                Id = c.ContactUserId,
-                UserName = c.ContactUser.UserName,
-                IsOnline = onlineUsers.Contains(c.ContactUser.UserName),
-                // TODO: Why messages are 0 
-                UnreceivedMessages = 0 
-            }).ToList());
+            return this.Ok(
+                contacts.Select(
+                    c => new
+                             {
+                                 // ContactsOwer = c.ContactUser.UserName,
+                                 Id = c.ContactUserId, 
+                                 c.ContactUser.UserName, 
+                                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName), 
+
+                                 // TODO: Why messages are 0 
+                                 UnreceivedMessages = 0
+                             }).ToList());
         }
 
         /// <summary>
-        /// Add contant to user
+        ///     Add contant to user
         /// </summary>
         /// <param name="id">string userId</param>
         /// <returns>Contact object with Id and UserName</returns>
@@ -60,36 +66,28 @@ namespace WebApiChat.Web.Controllers
                 return this.BadRequest("Already friends.");
             }
 
-            userContact.Contacts.Add(new Contact()
-            {
-                User = userContact,
-                ContactUser = currentUser
-            });
+            userContact.Contacts.Add(new Contact { User = userContact, ContactUser = currentUser });
 
-            currentUser.Contacts.Add(new Contact()
-            {
-                User = currentUser,
-                ContactUser = userContact
-            });
+            currentUser.Contacts.Add(new Contact { User = currentUser, ContactUser = userContact });
 
             this.Data.SaveChanges();
             var onlineUsers = ConnectionManager.Users.Keys;
-            var addedContactUser = new
-            {
-                Id = userContact.Id,
-                UserName = userContact.UserName,
-                IsOnline = onlineUsers.Contains(userContact.UserName),
-                UnreceivedMessages = 0
-            };
+            var addedContactUser =
+                new
+                    {
+                        userContact.Id, 
+                        userContact.UserName, 
+                        IsOnline = onlineUsers.Contains(userContact.UserName), 
+                        UnreceivedMessages = 0
+                    };
 
-            this.HubContex.Clients.User(userContact.UserName)
-                .contactListUpdate();
+            this.HubContex.Clients.User(userContact.UserName).contactListUpdate();
 
             return this.Ok(addedContactUser);
         }
 
         /// <summary>
-        /// Block contact in current user`s contacts by id
+        ///     Block contact in current user`s contacts by id
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>message</returns>
@@ -119,21 +117,22 @@ namespace WebApiChat.Web.Controllers
 
         [HttpGet]
         [Route("searchUser")]
-        public IHttpActionResult SearchUser([FromUri]string searchPattern)
+        public IHttpActionResult SearchUser([FromUri] string searchPattern)
         {
             var onlineUsers = ConnectionManager.Users.Keys;
-            var contacts = this.Data.Contacts.All()
-                .Where(c => c.UserId == this.CurrentUserId)
-                .Select(u => u.ContactUser.UserName);
+            var contacts =
+                this.Data.Contacts.All().Where(c => c.UserId == this.CurrentUserId).Select(u => u.ContactUser.UserName);
 
-            var users = this.Data.Users.All()
-                .Where(u => (u.FirstName.Contains(searchPattern) || u.Email.Contains(searchPattern)
-                    || u.PhoneNumber.Contains(searchPattern) || u.LastName.Contains(searchPattern))
-                    && u.UserName != this.CurrentUserUserName
-                    && !contacts.Contains(u.UserName))
-                .Select(UserSearchViewModel.ViewModel)
-                .Take(5)
-                .ToList();
+            var users =
+                this.Data.Users.All()
+                    .Where(
+                        u =>
+                        (u.FirstName.Contains(searchPattern) || u.Email.Contains(searchPattern)
+                         || u.PhoneNumber.Contains(searchPattern) || u.LastName.Contains(searchPattern))
+                        && u.UserName != this.CurrentUserUserName && !contacts.Contains(u.UserName))
+                    .Select(UserSearchViewModel.ViewModel)
+                    .Take(5)
+                    .ToList();
 
             return this.Ok(users);
         }

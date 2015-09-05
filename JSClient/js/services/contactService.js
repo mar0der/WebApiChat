@@ -1,14 +1,13 @@
-﻿///<reference path="contactService.js" />
+﻿'use strict';
 
-'use strict';
 webchat.factory('contactService', function ($http, $q, authenticationService, configService) {
 
-    var serviceUrl = configService.baseServiceUrl +'Contacts/';
+    var serviceUrl = configService.baseServiceUrl + 'Contacts/';
     var service = {};
 
-    service.getAllFriends = function(){
+    service.getAllFriends = function () {
         authenticationService.setHeaders($http);
-         return $http.get(serviceUrl);
+        return $http.get(serviceUrl);
     };
 
     service.searchContact = function (username) {

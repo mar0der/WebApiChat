@@ -6,5 +6,4 @@
 /// <reference path="bootstrap.js" />
 /// <reference path="respond.js" />
 /// <reference path="jquery.signalr-2.2.0.min.js" />
-/// <reference path="app.js" />
 /// <reference path="jquery-1.6.4.js" />

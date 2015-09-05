@@ -1,12 +1,19 @@
-﻿using System.Linq;
-using Microsoft.AspNet.Identity;
-using WebApiChat.Web.Hubs;
-using System.Web.Http;
-using System.Threading;
-
-namespace WebApiChat.Web.Controllers
+﻿namespace WebApiChat.Web.Controllers
 {
-    [Authorize]
+    #region
+
+    using System.Linq;
+    using System.Threading;
+    using System.Web.Http;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.SignalR;
+
+    using WebApiChat.Web.Hubs;
+
+    #endregion
+
+    [System.Web.Http.Authorize]
     [RoutePrefix("api/users")]
     public class UsersController : ApiControllerWithHub<BaseHub>
     {
@@ -20,20 +27,22 @@ namespace WebApiChat.Web.Controllers
         [Route("friends")]
         public IHttpActionResult GetAllFriends()
         {
-
             var connectedUsers = ConnectionManager.Users.Values;
             var currentUserId = this.User.Identity.GetUserId();
 
             var contats = this.Data.Contacts.All().Where(c => c.UserId == currentUserId).ToList();
-            var contacts = this.Data.Contacts
-                .All()
-                .Where(c => c.UserId == currentUserId).ToList()
-                  .Select(c => new
-                  {
-                      Id = c.ContactUserId,
-                      Name = c.ContactUser.UserName,
-                      IsOnline = connectedUsers.Any(cu => cu.Id == c.ContactUserId)
-                  });
+            var contacts =
+                this.Data.Contacts.All()
+                    .Where(c => c.UserId == currentUserId)
+                    .ToList()
+                    .Select(
+                        c =>
+                        new
+                            {
+                                Id = c.ContactUserId, 
+                                Name = c.ContactUser.UserName, 
+                                IsOnline = connectedUsers.Any(cu => cu.Id == c.ContactUserId)
+                            });
 
             return this.Ok(contacts);
         }
@@ -42,13 +51,9 @@ namespace WebApiChat.Web.Controllers
         [HttpPost]
         public IHttpActionResult UserStatusUpdate()
         {
-            var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<BaseHub>();
 
-            hubContext.Clients.All.userLogged(new
-            {
-                Id = this.CurrentUserId,
-                UserName = this.CurrentUser.UserName
-            });
+            hubContext.Clients.All.userLogged(new { Id = this.CurrentUserId, this.CurrentUser.UserName });
 
             return this.Ok(Thread.CurrentPrincipal.Identity.GetUserId());
         }

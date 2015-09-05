@@ -7,6 +7,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     $rootScope.currentContactId = "";
     $rootScope.currentChanelId = "";
     $scope.me = authenticationService.getUsername();
+
     if ($scope.me.length > 0) {
         setTimeout(function () {
             usersService.userStatusUpdate();
@@ -21,12 +22,34 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
         }, 100);
     }
 
-    signalR.on('toggleMessage', function (message) {
+    function attachNotificationsToSpecificContacts(notification) {
+        for (var i = 0; i < $rootScope.contacts.length; i++) {
+            for (var k = 0 ; k < notification.data.length; k++) {
+                if ($rootScope.contacts[i].UserName === notification.data[k].sender) {
+                    $rootScope.contacts[i].UnreceivedMessages = notification.data[k].count;
+                    break;
+                }
+            }
+        }
+    }
+
+    function updateMessageStatus(messageId) {
+        chatService.updateMessageStatus(messageId)
+            .then(function (data) {
+                console.log(data);
+            }, function (error) {
+                console.log(error);
+            });
+    }
+
+    signalR.on('pushMessageToClient', function (message) {
+        console.log('bah maa mu');
         if (message.SenderId === $rootScope.currentPrivateChatReceiver) {
+            console.log(message);
             $rootScope.chatLog.push(message);
             updateChatWindow();
         }
-        else{
+        else {
             updateMessageStatus(message);
         }
 
@@ -99,31 +122,5 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     $scope.laodAddContactForm = function () {
         $scope.rightContainerTemplate = 'partials/addContactForm.html';
     }
-
-
-    function attachNotificationsToSpecificContacts(notification){
-        for(var i = 0; i < $rootScope.contacts.length; i++){
-            for(var k = 0 ; k < notification.data.length; k++){
-                if($rootScope.contacts[i].UserName == notification.data[k].sender){
-                    $rootScope.contacts[i].UnreceivedMessages = notification.data[k].count;
-                     break;
-                    //maybe break
-                }
-            }
-
-        }
-    }
-
-
-    function updateMessageStatus(messageId){
-        chatService.updateMessageStatus(messageId)
-            .then(function (data) {
-                console.log(data);
-            }, function (error) {
-                console.log(error);
-            })
-    }
-
-
 
 });
