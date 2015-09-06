@@ -1,18 +1,28 @@
 'use strict';
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
-    usersService) {
+    usersService, contactService) {
     $scope.rightContainerTemplate = 'partials/welcomeScreen.html';
-    $rootScope.chatLog = [];
-    $rootScope.currentContactId = "";
+    $scope.chatLog = [];
     $rootScope.currentChanelId = "";
     $scope.me = authenticationService.getUsername();
+    
 
     if ($scope.me.length > 0) {
         setTimeout(function () {
             usersService.userStatusUpdate();
+            usersService.updateUserCurrentChatId(null);
         }, 100);
     }
+
+    $scope.getAllFriends = function () {
+        contactService.getAllFriends()
+            .then(function (data) {
+                $scope.contacts = data.data;
+            }, function (err) {
+                console.error(err.responseText);
+            });
+    };
 
     function updateChatWindow() {
         setTimeout(function () {
@@ -23,10 +33,10 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     }
 
     function attachNotificationsToSpecificContacts(notification) {
-        for (var i = 0; i < $rootScope.contacts.length; i++) {
+        for (var i = 0; i < $scope.contacts.length; i++) {
             for (var k = 0 ; k < notification.data.length; k++) {
-                if ($rootScope.contacts[i].UserName === notification.data[k].sender) {
-                    $rootScope.contacts[i].UnreceivedMessages = notification.data[k].count;
+                if ($scope.contacts[i].UserName === notification.data[k].sender) {
+                    $scope.contacts[i].UnreceivedMessages = notification.data[k].count;
                     break;
                 }
             }
@@ -44,23 +54,27 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
 
     signalR.on('pushMessageToClient', function (message) {
         console.log('bah maa mu');
-        if (message.SenderId === $rootScope.currentPrivateChatReceiver) {
+        if (message.SenderId === $scope.currentPrivateChatReceiver) {
             console.log(message);
-            $rootScope.chatLog.push(message);
+            $scope.chatLog.push(message);
             updateChatWindow();
         }
         else {
             updateMessageStatus(message);
         }
 
-        for (var i = 0; i < $rootScope.contacts.length; i++) {
-            if ($rootScope.contacts[i].UserName === message.Sender) {
-                if (message.SenderId !== $rootScope.currentPrivateChatReceiver) {
-                    $rootScope.contacts[i].UnreceivedMessages++;
+        for (var i = 0; i < $scope.contacts.length; i++) {
+            if ($scope.contacts[i].UserName === message.Sender) {
+                if (message.SenderId !== $scope.currentPrivateChatReceiver) {
+                    $scope.contacts[i].UnreceivedMessages++;
                 }
                 break;
             }
         }
+    });
+
+    signalR.on('seenMessages', function (messages) {
+        $scope.chatLog = messages;
     });
 
     $scope.getUnreceived = function () {
@@ -73,20 +87,23 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     };
 
     $scope.setCurrentReceiver = function setCurrentReceiver(receiverId) {
-        $rootScope.currentPrivateChatReceiver = receiverId;
+        $scope.currentPrivateChatReceiver = receiverId;
     };
 
     $scope.getChatWithUser = function (userId) {
         $scope.rightContainerTemplate = 'partials/chatBox.html';
+
         chatService.GetChatWithUser(userId)
             .then(function (serverResponse) {
-                for (var i = 0; i < $rootScope.contacts.length; i++) {
-                    if ($rootScope.contacts[i].Id === userId) {
-                        $rootScope.contacts[i].UnreceivedMessages = 0;
+                usersService.updateUserCurrentChatId(userId);
+                for (var i = 0; i < $scope.contacts.length; i++) {
+                    if ($scope.contacts[i].Id === userId) {
+                        $scope.contacts[i].UnreceivedMessages = 0;
                         break;
                     }
                 }
-                $rootScope.chatLog = serverResponse.data;
+
+                $scope.chatLog = serverResponse.data;
                 updateChatWindow();
             }, function (err) {
                 console.log(err);
@@ -94,10 +111,10 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     };
 
     $scope.sendMessageToUser = function (messageData) {
-        messageData.receiverId = $rootScope.currentPrivateChatReceiver;
+        messageData.receiverId = $scope.currentPrivateChatReceiver;
         chatService.sendMessage(messageData)
             .then(function (data) {
-                $rootScope.chatLog.push(data.data);
+                $scope.chatLog.push(data.data);
                 updateChatWindow();
                 messageData.Text = '';
             }, function (err) {

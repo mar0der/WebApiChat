@@ -48,15 +48,6 @@ webchat.controller("contactsController", function ($scope, contactService, $loca
     //        });
     //};
 
-    $scope.getAllFriends = function () {
-        contactService.getAllFriends()
-            .then(function (data) {
-                $rootScope.contacts = data.data;
-            }, function (err) {
-                console.error(err.responseText);
-            });
-    };
-
     $scope.searchUser = function searchUser(searchPattern) {
         contactService.searchContact(searchPattern)
             .then(function (serverResponse) {

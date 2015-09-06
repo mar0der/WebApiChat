@@ -20,11 +20,6 @@ webchat.factory('usersService', function ($http, $q, authenticationService, conf
         return $http.post(serviceUrl + 'Logout', null, authenticationService.getHeaders());
     };
 
-    //GET api/users/{username}/preview	
-    service.getUserPreviewData = function getUserPreviewData(username) {
-        return $http.get(serviceUrl + username + '/preview', authenticationService.getHeaders());
-    }
-
     //GET api/users/search?searchTerm={searchTerm}	
     service.searchUserByName = function searchUserByName(searchTerm) {
         return $http.get(serviceUrl + 'search?searchTerm=' + searchTerm, authenticationService.getHeaders());
@@ -35,14 +30,14 @@ webchat.factory('usersService', function ($http, $q, authenticationService, conf
         return $http.get(serviceUrl + username, authenticationService.getHeaders());
     }
 
-    //GET api/users/{username}/wall?StartPostId={StartPostId}&PageSize={PageSize}	
-    service.getUsersWallByPages = function getFriendUsersByPages(friendName, startPostId, pageSize) {
-        return $http.get(serviceUrl + friendName + '/wall?StartPostId=' + startPostId + '&PageSize=' + pageSize, authenticationService.getHeaders());
-    }
-
     //Post api/users/userStatusUpdate
     service.userStatusUpdate = function userStatusUpdate() {
         return $http.post(configService.baseServiceUrl + 'users/userStatusUpdate', authenticationService.getHeaders());
+    };
+
+    service.updateUserCurrentChatId = function udpateUserCurrentChatId(chatId) {
+        return $http.put(configService.baseServiceUrl + 'chat/updateUserCurrentChatId/' + chatId,
+            authenticationService.getHeaders());
     };
 
     return service;

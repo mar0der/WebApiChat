@@ -5,6 +5,7 @@
     using System.Web.Http.Cors;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.SignalR;
+    using System.Threading;
 
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Microsoft.AspNet.SignalR.Authorize]
@@ -74,9 +75,6 @@
 
             return base.OnDisconnected(stopCalled);
         }
-
-
-
 
         //    public static ConnectionMapping<string> connectedUsers = new ConnectionMapping<string>();
 

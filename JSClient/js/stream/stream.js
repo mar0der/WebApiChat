@@ -1,10 +1,11 @@
 'use strict';
 
 webchat.factory('signalR', ['$rootScope', 'configService', function ($rootScope, configService) {
+
+    var connection = $.hubConnection(configService.signalRUrl);
+    var postHubProxy = connection.createHubProxy('baseHub');
     return {
         on: function (eventName, callback) {
-            var connection = $.hubConnection(configService.signalRUrl);
-            var postHubProxy = connection.createHubProxy('baseHub');
 
             postHubProxy.on(eventName, function () {
                 var args = arguments;
@@ -13,6 +14,7 @@ webchat.factory('signalR', ['$rootScope', 'configService', function ($rootScope,
                 });
             });
             connection.start().done(function () { });
-        }
+        },
+        baseHub: postHubProxy
     }
 }]);

@@ -11,6 +11,9 @@ webchat.config(function ($routeProvider) {
         .when('/login', {
             templateUrl: 'partials/login.html'
         })
+        .when('/test', {
+            templateUrl: 'partials/test.html'
+        })
         .when('/', {
             templateUrl: 'partials/chatContainer.html',
             controller: 'chatController'

@@ -33,7 +33,7 @@
             }
 
             this.CurrentUser.ReceivedMessages.Where(m => m.SenderId == userId)
-                .Select(m => m.Status = MessageStatus.Sent)
+                .Select(m => m.Status = MessageStatus.Seen)
                 .ToList();
 
             this.Data.SaveChanges();
@@ -43,9 +43,10 @@
                     .Where(
                         u => u.SenderId == userId && u.ReceiverId == this.CurrentUserId
                         || u.ReceiverId == userId && u.SenderId == this.CurrentUserId)
-                    .OrderBy(m => m.Id)
+                     .OrderByDescending(m => m.Id)
                     .Take(20)
-                    .Select(m => new { m.Text, Sender = m.Sender.UserName });
+                    .OrderBy(m => m.Id)
+                    .Select(m => new { Id = m.Id, m.Text, Sender = m.Sender.UserName, Status = m.Status.ToString() });
 
             return this.Ok(privateChatMessages);
         }
@@ -56,15 +57,15 @@
         {
             var messages =
                 this.CurrentUser.ReceivedMessages.Where(
-                    m => m.Status == MessageStatus.NotDelivered && m.ReceiverId == this.CurrentUserId)
+                    m => m.Status != MessageStatus.Seen && m.ReceiverId == this.CurrentUserId)
                     .Select(
                         x =>
                         new
                             {
-                                sender = x.Sender.UserName, 
+                                sender = x.Sender.UserName,
                                 count =
                             x.Sender.SentMessages.Where(
-                                m => m.ReceiverId == this.CurrentUserId && m.Status == MessageStatus.NotDelivered)
+                                m => m.ReceiverId == this.CurrentUserId && m.Status != MessageStatus.Seen)
                             })
                     .GroupBy(x => new { x.sender })
                     .Select(x => new { x.Key.sender, count = x.Count() })
@@ -92,38 +93,49 @@
             }
 
             var receiver = this.Data.Users.Find(messageBindingModel.ReceiverId);
-
             if (receiver == null)
             {
                 return this.BadRequest("The user you are trying to message does not exists!");
             }
 
             var currentUsers = ConnectionManager.Users.Keys;
-
             var message = new PrivateMessage
                               {
-                                  Sender = this.CurrentUser, 
-                                  SenderId = this.CurrentUserId, 
-                                  Receiver = receiver, 
-                                  ReceiverId = receiver.Id, 
+                                  Sender = this.CurrentUser,
+                                  SenderId = this.CurrentUserId,
+                                  Receiver = receiver,
+                                  ReceiverId = receiver.Id,
                                   Text = messageBindingModel.Text
                               };
 
-            message.Status = !currentUsers.Contains(receiver.UserName) ? MessageStatus.NotDelivered : MessageStatus.Sent;
+            if (currentUsers.Contains(receiver.UserName)
+                && receiver.CurrentChatId == this.CurrentUser.Id)
+            {
+                message.Status = MessageStatus.Seen;
+                //call signal r to the licent to display seend
+            }
+            else if (currentUsers.Contains(receiver.UserName))
+            {
+                message.Status = MessageStatus.Sent;
+            }
+            else
+            {
+                message.Status = MessageStatus.NotDelivered;
+            }
 
             this.Data.Messages.Add(message);
             this.Data.SaveChanges();
-
             this.HubContex.Clients.User(receiver.UserName)
                 .pushMessageToClient(
                     new
                         {
-                            message.Text, 
-                            Sender = this.CurrentUserUserName, 
-                            Receiver = receiver.UserName, 
-                            Status = message.Status.ToString(), 
-                            SenderId = this.CurrentUserId, 
-                            ReceiverId = receiver.Id, 
+                            message.Id,
+                            message.Text,
+                            Sender = this.CurrentUserUserName,
+                            Receiver = receiver.UserName,
+                            Status = message.Status.ToString(),
+                            SenderId = this.CurrentUserId,
+                            ReceiverId = receiver.Id,
                             MessageId = message.Id
                         });
 
@@ -132,11 +144,42 @@
                 this.Ok(
                     new
                         {
-                            message.Text, 
-                            Sender = this.CurrentUserUserName, 
-                            Status = message.Status.ToString(), 
+                            message.Text,
+                            Sender = this.CurrentUserUserName,
+                            Status = message.Status.ToString(),
                             MessageId = message.Id
                         });
+        }
+
+        [HttpPut]
+        [Route("updateUserCurrentChatId/{chatId}")]
+        public IHttpActionResult UpdateUserCurrentChatId(string chatId)
+        {
+            this.CurrentUser.CurrentChatId = chatId;
+            this.Data.SaveChanges();
+            var sender = this.Data.Users.Find(chatId);
+
+            if (sender.CurrentChatId == this.CurrentUserId)
+            {
+                var messages = this.Data.Messages.All()
+                .Where(m => m.SenderId == sender.Id && m.ReceiverId == this.CurrentUserId
+                || m.SenderId == this.CurrentUserId && m.ReceiverId == sender.Id)
+                .OrderByDescending(m => m.Id)
+                .Take(20)
+                .OrderBy(m => m.Id)
+                .Select(m => new
+                {
+                    Id = m.Id,
+                    Sender = m.Sender.UserName,
+                    Text = m.Text,
+                    Status = m.Status.ToString()
+                })
+                .ToList();
+
+                this.HubContex.Clients.User(sender.UserName).seenMessages(messages);
+            }
+
+            return this.Ok();
         }
     }
 }

@@ -4,6 +4,6 @@
     {
         Sent = 0,
         NotDelivered = 1,
-        Seen = 1
+        Seen = 2
     }
 }

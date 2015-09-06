@@ -8,6 +8,8 @@
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     #endregion
 
@@ -37,6 +39,8 @@
         // [Required]
         public string FirstName { get; set; }
 
+        public string CurrentChatId { get; set; }
+        
         // [Required]
         public string LastName { get; set; }
 
