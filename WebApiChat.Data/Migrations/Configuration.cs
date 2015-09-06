@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -126,9 +127,37 @@ namespace WebApiChat.Data.Migrations
                     User =  userChocho,
                     ContactUser = userPesho,
                     IsBlocked =  false
-                }; 
+                };
 
+                var group = new GroupChat()
+                {
+                    Name = "grupichkata mi"
+                };
+                group.Users.Add(userPesho);
+                group.Users.Add(userGosho);
+                group.Users.Add(userMinka);
 
+                var contact7 = new Contact()
+                {
+                   User =  userMinka,
+                   ContactUser = userGosho,
+
+                };
+
+                var groupMessage1 = new GroupMessage()
+                {
+                    GroupChat = group,
+                    Date = DateTime.Now,
+                    Sender = userPesho,
+                    Text = "maraba grupa",
+                };
+
+                groupMessage1.RecievedUsers.Add(userMinka);
+                groupMessage1.RecievedUsers.Add(userGosho);
+
+                context.GroupChats.Add(group);
+                context.GroupMessages.Add(groupMessage1);
+                context.Contacts.Add(contact7);
                 context.Contacts.Add(contact);
                 context.Contacts.Add(contact2);
                 context.Contacts.Add(contact3);
@@ -136,9 +165,7 @@ namespace WebApiChat.Data.Migrations
                 context.Contacts.Add(contact5);
                 context.Contacts.Add(contact6);
 
-
                 context.SaveChanges();
-
             }
         }
     }

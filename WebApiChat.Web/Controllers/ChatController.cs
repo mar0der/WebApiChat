@@ -159,26 +159,29 @@
             this.Data.SaveChanges();
             var sender = this.Data.Users.Find(chatId);
 
-            if (sender.CurrentChatId == this.CurrentUserId)
+            if (sender != null)
             {
-                var messages = this.Data.Messages.All()
-                .Where(m => m.SenderId == sender.Id && m.ReceiverId == this.CurrentUserId
-                || m.SenderId == this.CurrentUserId && m.ReceiverId == sender.Id)
-                .OrderByDescending(m => m.Id)
-                .Take(20)
-                .OrderBy(m => m.Id)
-                .Select(m => new
+
+                if (sender.CurrentChatId == this.CurrentUserId)
                 {
-                    Id = m.Id,
-                    Sender = m.Sender.UserName,
-                    Text = m.Text,
-                    Status = m.Status.ToString()
-                })
-                .ToList();
+                    var messages = this.Data.Messages.All()
+                    .Where(m => m.SenderId == sender.Id && m.ReceiverId == this.CurrentUserId
+                    || m.SenderId == this.CurrentUserId && m.ReceiverId == sender.Id)
+                    .OrderByDescending(m => m.Id)
+                    .Take(20)
+                    .OrderBy(m => m.Id)
+                    .Select(m => new
+                    {
+                        Id = m.Id,
+                        Sender = m.Sender.UserName,
+                        Text = m.Text,
+                        Status = m.Status.ToString()
+                    })
+                    .ToList();
 
-                this.HubContex.Clients.User(sender.UserName).seenMessages(messages);
+                    this.HubContex.Clients.User(sender.UserName).seenMessages(messages);
+                }
             }
-
             return this.Ok();
         }
     }

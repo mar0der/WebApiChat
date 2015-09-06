@@ -1,4 +1,6 @@
-﻿namespace WebApiChat.Web.Controllers
+﻿using WebApiChat.Web.Models.Messages;
+
+namespace WebApiChat.Web.Controllers
 {
     #region
 
@@ -25,8 +27,8 @@
                     g =>
                     new
                         {
-                            GroupId = g.Id, 
-                            GroupName = g.Name.Length == 0 ? string.Join(", ", g.Users.Select(u => u.UserName)) : g.Name
+                            GroupId = g.Id,
+                            GroupName = g.Name ?? string.Join(", ", g.Users.Select(u => u.UserName))
                         });
 
             return this.Ok(groupChats);
@@ -103,10 +105,11 @@
                     gp =>
                     new GroupMessagesBindingModel
                         {
-                            Id = gp.Id, 
-                            Content = gp.Text, 
-                            SenderId = gp.SenderId, 
-                            SenderUsername = gp.Sender.UserName
+                            Id = gp.Id,
+                            Content = gp.Text,
+                            SenderId = gp.SenderId,
+                            SenderUsername = gp.Sender.UserName,
+                            Text = gp.Text
                         }).AsQueryable();
         }
 
@@ -114,6 +117,11 @@
         [Route("addMessage")]
         public IHttpActionResult AddMessage(AddGroupMessageBindingModel groupMessage)
         {
+            if (groupMessage == null)
+            {
+                return this.BadRequest("no data provided");
+            }
+
             var group = this.CurrentUser.GroupChats.FirstOrDefault(g => g.Id == groupMessage.GroupId);
 
             if (group == null)
@@ -121,12 +129,44 @@
                 return this.BadRequest("Group was not found.");
             }
 
-            group.GroupMessages.Add(
-                new GroupMessage { Text = groupMessage.Text, SenderId = this.CurrentUserId, Date = DateTime.Now });
+            var groupMessageForAdd = new GroupMessage
+            {
+              
+                GroupChatId =  groupMessage.GroupId,
+                Text = groupMessage.Text,
+                SenderId = this.CurrentUserId,
+                Date = DateTime.Now
+            };
+
+            var onlineUsers = ConnectionManager.Users.Keys;
+
+            var groupOnlineUsers = group.Users.Where(g => onlineUsers.Contains(g.UserName) && g.UserName != this.CurrentUserUserName).ToList();
+
+            var offlineGroupUsers = group.Users.Where(g => !onlineUsers.Contains(g.UserName) && g.UserName != this.CurrentUserUserName).ToList();
+
+            groupMessageForAdd.RecievedUsers = groupOnlineUsers;
+
+
+            //TODO check for optimisation. One is unnessary
+            groupMessageForAdd.UnRecievedUsers = offlineGroupUsers;
+
+            group.GroupMessages.Add(groupMessageForAdd);
+
+            
+      
 
             this.Data.SaveChanges();
 
-            return this.Ok("Message was added.");
+
+            var messageViewModel = GroupMessageView.CreateOne(groupMessageForAdd);
+
+            var uaasda = groupOnlineUsers.Select(u => u.UserName).ToList();
+
+            this.HubContex.Clients.Users(uaasda).toggleGroupMessage(messageViewModel);
+
+
+
+            return this.Ok(messageViewModel);
         }
     }
 }

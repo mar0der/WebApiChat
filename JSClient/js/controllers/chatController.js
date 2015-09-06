@@ -2,7 +2,7 @@
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
     usersService, contactService) {
-    $scope.rightContainerTemplate = 'partials/welcomeScreen.html';
+    $rootScope.rightContainerTemplate = 'partials/welcomeScreen.html';
     $scope.chatLog = [];
     $rootScope.currentChanelId = "";
     $scope.me = authenticationService.getUsername();
@@ -18,7 +18,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     $scope.getAllFriends = function () {
         contactService.getAllFriends()
             .then(function (data) {
-                $scope.contacts = data.data;
+                $rootScope.contacts = data.data;
             }, function (err) {
                 console.error(err.responseText);
             });
@@ -35,8 +35,8 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     function attachNotificationsToSpecificContacts(notification) {
         for (var i = 0; i < $scope.contacts.length; i++) {
             for (var k = 0 ; k < notification.data.length; k++) {
-                if ($scope.contacts[i].UserName === notification.data[k].sender) {
-                    $scope.contacts[i].UnreceivedMessages = notification.data[k].count;
+                if ($rootScope.contacts[i].UserName === notification.data[k].sender) {
+                    $rootScope.contacts[i].UnreceivedMessages = notification.data[k].count;
                     break;
                 }
             }
@@ -91,7 +91,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     };
 
     $scope.getChatWithUser = function (userId) {
-        $scope.rightContainerTemplate = 'partials/chatBox.html';
+        $rootScope.rightContainerTemplate = 'partials/chatBox.html';
 
         chatService.GetChatWithUser(userId)
             .then(function (serverResponse) {
@@ -137,7 +137,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     };
 
     $scope.laodAddContactForm = function () {
-        $scope.rightContainerTemplate = 'partials/addContactForm.html';
+        $rootScope.rightContainerTemplate = 'partials/addContactForm.html';
     }
 
 });

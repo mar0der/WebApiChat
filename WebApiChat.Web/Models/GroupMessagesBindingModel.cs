@@ -14,5 +14,7 @@ namespace WebApiChat.Web.Models
         public string SenderId { get; set; }
 
         public string SenderUsername { get; set; }
+
+        public string Text { get; set; }
     }
 }
