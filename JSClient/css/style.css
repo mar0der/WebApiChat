@@ -159,3 +159,11 @@ html {
   width:0px;
   background: transparent;
 }
+
+.addButton{
+    background-color: green;
+}
+
+.red{
+    color : red !important;
+}

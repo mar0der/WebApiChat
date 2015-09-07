@@ -1,4 +1,5 @@
-﻿using WebApiChat.Web.Models.Messages;
+﻿using System.Collections.Generic;
+using WebApiChat.Web.Models.Messages;
 
 namespace WebApiChat.Web.Controllers
 {
@@ -46,6 +47,8 @@ namespace WebApiChat.Web.Controllers
                 return this.BadRequest("Cannot create group without contacts.");
             }
 
+
+            //need to be query
             foreach (var userId in groupChatBindingModel.UserIds)
             {
                 var currentContactUser = this.Data.Users.Find(userId);
@@ -57,12 +60,27 @@ namespace WebApiChat.Web.Controllers
                 groupChat.Users.Add(currentContactUser);
             }
 
+
+
             this.Data.GroupChats.Add(groupChat);
+
+
+
             this.Data.SaveChanges();
 
+
+
+            var result = new
+            {
+                GroupId = groupChat.Id,
+                GroupName = groupChat.Name
+            };
+
+            List<string> groupUsers = groupChat.Users.Where(u => u.UserName != CurrentUserUserName).Select(u => u.UserName).ToList();
+            this.HubContex.Clients.Users(groupUsers).toggleGroupCreation(result);
             // TODO test 
             // TODO add view for the UI
-            return this.Ok(new { groupChat.Id, users = groupChat.Users.Select(u => u.UserName) });
+            return this.Ok(result);
         }
 
         [HttpPost]
@@ -131,8 +149,8 @@ namespace WebApiChat.Web.Controllers
 
             var groupMessageForAdd = new GroupMessage
             {
-              
-                GroupChatId =  groupMessage.GroupId,
+
+                GroupChatId = groupMessage.GroupId,
                 Text = groupMessage.Text,
                 SenderId = this.CurrentUserId,
                 Date = DateTime.Now
@@ -151,22 +169,63 @@ namespace WebApiChat.Web.Controllers
             groupMessageForAdd.UnRecievedUsers = offlineGroupUsers;
 
             group.GroupMessages.Add(groupMessageForAdd);
-
-            
-      
-
             this.Data.SaveChanges();
 
 
             var messageViewModel = GroupMessageView.CreateOne(groupMessageForAdd);
 
-            var uaasda = groupOnlineUsers.Select(u => u.UserName).ToList();
+            var onlineUserNamesList = groupOnlineUsers.Select(u => u.UserName).ToList();
 
-            this.HubContex.Clients.Users(uaasda).toggleGroupMessage(messageViewModel);
-
-
+            this.HubContex.Clients.Users(onlineUserNamesList).toggleGroupMessage(messageViewModel);
 
             return this.Ok(messageViewModel);
+        }
+
+
+        [HttpGet]
+        [Route("unreceived")]
+        public IHttpActionResult GetMissedMessages()
+        {
+            //var missedMessages = this.Data.GroupMessages
+            //    .All()
+            //    .Where(m => m.UnRecievedUsers.
+            //        Any(u => u.Id == this.CurrentUserId))
+            //    .Select(m => new
+            //    {
+            //        groupId = m.GroupChatId,
+            //        Sender = m.Sender.UserName,
+            //    }).GroupBy(x=> new {x.groupId})
+            //    .Select(x=> new
+            //    {
+            //        GroupId = x.Key.groupId,
+            //        Count = x.Count()
+
+            //    }).ToList();
+
+            var currentUserName = this.CurrentUserUserName;
+
+            var missedMessages =
+                this.Data.GroupMessages
+                    .All()
+                    .Where(x => x.UnRecievedUsers.Any(u => u.UserName == CurrentUserUserName))
+                    .Select(x => new
+                    {
+                        groupId = x.GroupChatId,
+                        MessagesCount = x.GroupChat.GroupMessages.Select(o => o.Text).ToList().Count
+                    })
+                //.ToList();
+                //    .GroupBy(x => new { x.groupId })
+                //           .Select(x => new
+                //{
+                //    GroupId = x.Key.groupId,
+                //    Count = x.Count()
+
+                //})
+                .ToList();
+
+
+
+            return this.Ok(missedMessages);
         }
     }
 }

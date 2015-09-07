@@ -12,7 +12,7 @@
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-default" ng-click="toggleSidebar('contacts');">Contacts</button>
     </div>
-    <div class="btn-group" role="group">
+    <div ng-class="{'red': groupMissedMessages}" class="btn-group" role="group">
         <button type="button" class="btn btn-default" ng-click="toggleSidebar('groups');">Groups</button>
     </div>
 </div>
@@ -59,22 +59,13 @@
         </button>
     </div>
     <!--todo Groups-->
-    <div ng-if="currentSidebar.isGroups" ng-controller="groupsController" ng-init="getAllGroups()">
-        <!--<button class="btn btn-warning col-lg-24" type="button">-->
-            <!--Pesho, Ivan <span class="badge">2</span>-->
-        <!--</button>-->
-        <!--<button class="btn btn-success col-lg-24" type="button">-->
-            <!--Gosho, Atanas <span class="badge"></span>-->
-        <!--</button>-->
-        <!--<button class="btn btn-default col-lg-24" type="button">-->
-            <!--Za Seks <span class="badge"></span>-->
-        <!--</button>-->
-
+    <div ng-if="currentSidebar.isGroups" ng-controller="groupsController" ng-init="getAllGroups();">
+<div ng-init=" getMissedGroupChats()"></div>
         <button class="btn btn-warning col-lg-24" type="button" ng-repeat="group in groups" ng-click="getGroupMessages(group.GroupId)">
             {{group.GroupName}} <span class="badge">2</span>
         </button>
 
-        <button  class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
+        <button ng-click="loadAddGroupFrom()"  class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
             + Add Group<span class="badge"></span>
         </button>
     </div>

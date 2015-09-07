@@ -1,0 +1,26 @@
+<div>
+    <p>GROUPS</p>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">
+                    Group Name: {{$rootScope.currentPrivateChatReceiver}}
+                </span>
+            </div>
+        </div>
+    </nav>
+    <div id="chatContent" class="col-lg-24 well">
+        <!--left-->
+        <div ng-repeat="message in groupMessages">
+        <p>{{message.SenderUsername}} : {{message.Text}}</p>
+        </div>
+    </div>
+    <div class="col-lg-24 well">
+        <div class="input-group">
+            <input ng-model="groupMessage.Text" type="text" class="form-control">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" ng-click="sendMessageToGroup(groupMessage)">Send</button>
+            </span>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,12 @@
 'use strict';
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
-    usersService, contactService) {
+                                               usersService, contactService) {
     $rootScope.rightContainerTemplate = 'partials/welcomeScreen.html';
     $scope.chatLog = [];
     $rootScope.currentChanelId = "";
     $scope.me = authenticationService.getUsername();
-    
+
 
     if ($scope.me.length > 0) {
         setTimeout(function () {
@@ -19,6 +19,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
         contactService.getAllFriends()
             .then(function (data) {
                 $rootScope.contacts = data.data;
+                console.log(data)
             }, function (err) {
                 console.error(err.responseText);
             });
@@ -34,7 +35,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
 
     function attachNotificationsToSpecificContacts(notification) {
         for (var i = 0; i < $scope.contacts.length; i++) {
-            for (var k = 0 ; k < notification.data.length; k++) {
+            for (var k = 0; k < notification.data.length; k++) {
                 if ($rootScope.contacts[i].UserName === notification.data[k].sender) {
                     $rootScope.contacts[i].UnreceivedMessages = notification.data[k].count;
                     break;
@@ -128,11 +129,13 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
                 isContacts: true,
                 isGroups: false
             };
+            sessionStorage['currentSelection'] = "contacts";
         } else {
             $scope.currentSidebar = {
                 isContacts: false,
                 isGroups: true
             };
+            sessionStorage['currentSelection'] = "groups";
         }
     };
 
