@@ -57,6 +57,15 @@ webchat.controller("contactsController", function ($scope, contactService, $loca
             });
     };
 
+    //$scope.searchInContacts = function searchUser(searchPattern) {
+    //    contactService.searchInContacts(searchPattern)
+    //        .then(function (serverResponse) {
+    //            $scope.searchInContactsResults = serverResponse.data;
+    //        }, function (serverError) {
+    //            console.log(serverError);
+    //        });
+    //};
+
     $scope.addContact = function addContact(userId) {
         contactService.addContact(userId)
             .then(function (serverResponse) {

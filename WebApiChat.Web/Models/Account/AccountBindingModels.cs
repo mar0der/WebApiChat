@@ -1,4 +1,4 @@
-﻿namespace WebApiChat.Web.Models
+﻿namespace WebApiChat.Web.Models.Account
 {
     #region
 

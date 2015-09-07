@@ -5,7 +5,7 @@
             ng-click="addToGroupPreview(contact); addUserIdToGroup(contact.Id)">
 
             <svg height="10" width="10" ng-show="contact.IsOnline">
-                <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00"/>
+                <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />
                 Sorry, your browser does not support inline SVG.
             </svg>
             {{contact.UserName}}
@@ -13,37 +13,32 @@
         </li>
     </ul>
 </div>
-
 <div>
-
     <h1>Group users</h1>
-
-
+    <div class="row col-lg-24 pull-right">
+        <div class="input-group">
+            <input ng-model="groupName" type="text" class="form-control" placeholder="Custom group name (optional)">
+            <span class="input-group-btn">
+                <button ng-disabled="!checkForGroupCreation()" ng-click="createGroup(groupName)" class="btn btn-default" type="button">
+                    Go!
+                </button>
+            </span>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
     <ul>
-        <li class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in groupUsersPreview"
+        <li class="btn btn-warning col-lg-24" ng-repeat="contact in groupUsersPreview"
             ng-click="removeFromGroupPreview(contact); removeUserIdFromGroup(contact.Id)">
-
             <svg height="10" width="10" ng-show="contact.IsOnline">
-                <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00"/>
+                <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />
                 Sorry, your browser does not support inline SVG.
             </svg>
             {{contact.UserName}}
             <span class="addButton">Remove</span>
         </li>
     </ul>
-
 </div>
 
-<div class="row">
 
-
-    <div class="input-group">
-        <input ng-model="groupName" type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button ng-if="checkForGroupCreation(groupName)" ng-click="createGroup()" class="btn btn-default" type="button">
-            Go!
-        </button>
-      </span>
-    </div>
-
-</div>

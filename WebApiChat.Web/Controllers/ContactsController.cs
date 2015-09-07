@@ -34,9 +34,11 @@
                     c => new
                              {
                                  // ContactsOwer = c.ContactUser.UserName,
-                                 Id = c.ContactUserId, 
-                                 c.ContactUser.UserName, 
-                                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName), 
+                                 Id = c.ContactUserId,
+                                 c.ContactUser.UserName,
+                                 c.ContactUser.LastName,
+                                 c.ContactUser.FirstName,
+                                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName),
 
                                  // TODO: Why messages are 0 
                                  UnreceivedMessages = 0
@@ -75,9 +77,9 @@
             var addedContactUser =
                 new
                     {
-                        userContact.Id, 
-                        userContact.UserName, 
-                        IsOnline = onlineUsers.Contains(userContact.UserName), 
+                        userContact.Id,
+                        userContact.UserName,
+                        IsOnline = onlineUsers.Contains(userContact.UserName),
                         UnreceivedMessages = 0
                     };
 
@@ -119,7 +121,6 @@
         [Route("searchUser")]
         public IHttpActionResult SearchUser([FromUri] string searchPattern)
         {
-            var onlineUsers = ConnectionManager.Users.Keys;
             var contacts =
                 this.Data.Contacts.All().Where(c => c.UserId == this.CurrentUserId).Select(u => u.ContactUser.UserName);
 
@@ -131,6 +132,24 @@
                          || u.PhoneNumber.Contains(searchPattern) || u.LastName.Contains(searchPattern))
                         && u.UserName != this.CurrentUserUserName && !contacts.Contains(u.UserName))
                     .Select(UserSearchViewModel.ViewModel)
+                    .Take(5)
+                    .ToList();
+
+            return this.Ok(users);
+        }
+
+        [HttpGet]
+        [Route("searchInContacts")]
+        public IHttpActionResult SearchInContacts([FromUri] string searchPattern)
+        {
+            var users =
+                this.Data.Contacts.All()
+                .Where(c => c.UserId == this.CurrentUserId &&
+                    (c.ContactUser.FirstName.Contains(searchPattern)
+                    || c.ContactUser.Email.Contains(searchPattern)
+                    || c.ContactUser.PhoneNumber.Contains(searchPattern) 
+                    || c.ContactUser.LastName.Contains(searchPattern)))
+                    .Select(UserSearchViewModel.ViewModelFromContact)
                     .Take(5)
                     .ToList();
 

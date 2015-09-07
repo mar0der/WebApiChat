@@ -1,4 +1,4 @@
-﻿namespace WebApiChat.Web.Models
+﻿namespace WebApiChat.Web.Models.Account
 {
     #region
 
@@ -29,7 +29,6 @@
 
     public class UserInfoViewModel
     {
-
         public string Email { get; set; }
 
         public bool HasRegistered { get; set; }

@@ -24,6 +24,25 @@ namespace WebApiChat.Web.Models
                     
         }
 
+        public static Expression<Func<Contact, UserSearchViewModel>> ViewModelFromContact
+        {
+            get
+            {
+                var onlineUsers = ConnectionManager.Users.Keys;
+
+                return c => new UserSearchViewModel()
+                {
+                    Id = c.ContactUser.Id,
+                    FirstName = c.ContactUser.FirstName,
+                    LastName = c.ContactUser.LastName,
+                    Email = c.ContactUser.Email,
+                    Phone = c.ContactUser.PhoneNumber,
+                    IsOnline = onlineUsers.Contains(c.ContactUser.UserName)
+                };
+            }
+
+        }
+
         public string Id { get; set; }
 
         public string FirstName { get; set; }

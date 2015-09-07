@@ -10,10 +10,15 @@ webchat.factory('contactService', function ($http, $q, authenticationService, co
         return $http.get(serviceUrl);
     };
 
-    service.searchContact = function (username) {
+    service.searchContact = function (searchPattern) {
         authenticationService.setHeaders($http);
-        return $http.get(serviceUrl + 'searchUser?searchPattern=' + username);
+        return $http.get(serviceUrl + 'searchUser?searchPattern=' + searchPattern);
     };
+
+    //service.searchInContacts = function (searchPattern) {
+    //    authenticationService.setHeaders($http);
+    //    return $http.get(serviceUrl + 'searchInContacts?searchPattern=' + searchPattern);
+    //};
 
     service.addContact = function addContact(userId) {
         authenticationService.setHeaders($http);

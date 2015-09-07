@@ -1,4 +1,4 @@
-﻿namespace SocialNetwork.Services.Controllers
+﻿namespace WebApiChat.Web.Controllers
 {
     #region
 
@@ -21,7 +21,7 @@
     using WebApiChat.Models.Models;
     using WebApiChat.Web;
     using WebApiChat.Web.Hubs;
-    using WebApiChat.Web.Models;
+    using WebApiChat.Web.Models.Account;
     using WebApiChat.Web.Providers;
     using WebApiChat.Web.Results;
 

@@ -91,14 +91,15 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
         $scope.currentPrivateChatReceiver = receiverId;
     };
 
-    $scope.getChatWithUser = function (userId) {
+    $scope.getChatWithUser = function (contact) {
         $rootScope.rightContainerTemplate = 'partials/chatBox.html';
 
-        chatService.GetChatWithUser(userId)
+        chatService.GetChatWithUser(contact.Id)
             .then(function (serverResponse) {
-                usersService.updateUserCurrentChatId(userId);
+                usersService.updateUserCurrentChatId(contact.Id);
+                $scope.currentPrivateChatReceiver = contact.FirstName + ' ' + contact.LastName;
                 for (var i = 0; i < $scope.contacts.length; i++) {
-                    if ($scope.contacts[i].Id === userId) {
+                    if ($scope.contacts[i].Id === contact.Id) {
                         $scope.contacts[i].UnreceivedMessages = 0;
                         break;
                     }
