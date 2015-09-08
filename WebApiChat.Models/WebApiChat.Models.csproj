@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Enums\MessageStatus.cs" />
     <Compile Include="Enums\PrivateMessageStatus.cs" />
+    <Compile Include="Models\GrouMessageReceiver.cs" />
     <Compile Include="Models\GroupChat.cs" />
     <Compile Include="Models\GroupMessage.cs" />
     <Compile Include="Models\Contact.cs" />

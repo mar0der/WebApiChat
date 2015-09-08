@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Web.Http;
 
+    using WebApiChat.Models.Enums;
     using WebApiChat.Models.Models;
     using WebApiChat.Web.Hubs;
     using WebApiChat.Web.Models.GroupChat;
@@ -22,11 +23,13 @@
         {
             var groupChats =
                 this.CurrentUser.GroupChats.Select(
-                    g => new
-                             {
-                                 GroupId = g.Id,
-                                 GroupName = g.Name.Trim().Length == 0 ? string.Join(", ", g.Users.Select(u => u.UserName)) : g.Name
-                             });
+                    g =>
+                    new
+                        {
+                            GroupId = g.Id, 
+                            GroupName =
+                        g.Name.Trim().Length == 0 ? string.Join(", ", g.Users.Select(u => u.UserName)) : g.Name
+                        });
 
             return this.Ok(groupChats);
         }
@@ -104,14 +107,14 @@
                 throw new ApplicationException("Group not found.");
             }
 
-            return group.GroupMessages.Select(gm =>
-                    new GroupMessageViewModel(
+            return
+                group.GroupMessages.Select(
+                    gm =>
+                    new GroupMessageViewModel()
                         {
-                            Id = gm.Id, 
-                            GroupId = gm.GroupChatId, 
-                            Sender = gm.Sender.UserName, 
-                            Text = gm.Text
-                        }).AsQueryable();
+                             Id = gm.Id, GroupId = gm.GroupChatId, Sender = gm.Sender.UserName, Text = gm.Text 
+                         })
+                    .AsQueryable();
         }
 
         [HttpPost]
@@ -129,15 +132,26 @@
             {
                 return this.BadRequest("Group was not found.");
             }
+            var groupReceivers =
+               this.Data.GroupChats.Find(groupMessage.GroupId).Users
+               .Where(u => u.Id != this.CurrentUserId)
+               .Select(u => new GroupMessageReceiver()
+               {
+                   Receiver = u,
+                   Status = MessageStatus.NotDelivered
+               })
+               .ToList();
 
             var groupMessageForAdd = new GroupMessage
                                          {
                                              GroupChatId = groupMessage.GroupId, 
                                              Text = groupMessage.Text, 
                                              SenderId = this.CurrentUserId, 
-                                             Date = DateTime.Now
+                                             Date = DateTime.Now,
+                                             GroupMessageReceivers = groupReceivers
                                          };
-
+           
+            
             var onlineUsers = ConnectionManager.Users.Keys;
 
             var groupOnlineUsers =
@@ -147,11 +161,6 @@
             var offlineGroupUsers =
                 group.Users.Where(g => !onlineUsers.Contains(g.UserName) && g.UserName != this.CurrentUserUserName)
                     .ToList();
-
-            groupMessageForAdd.RecievedUsers = groupOnlineUsers;
-
-            // TODO check for optimisation. One is unnessary
-            groupMessageForAdd.UnRecievedUsers = offlineGroupUsers;
 
             group.GroupMessages.Add(groupMessageForAdd);
             this.Data.SaveChanges();
@@ -169,45 +178,33 @@
         [Route("unreceived")]
         public IHttpActionResult GetMissedMessages()
         {
-            // var missedMessages = this.Data.GroupMessages
-            // .All()
-            // .Where(m => m.UnRecievedUsers.
-            // Any(u => u.Id == this.CurrentUserId))
-            // .Select(m => new
-            // {
-            // groupId = m.GroupChatId,
-            // Sender = m.Sender.UserName,
-            // }).GroupBy(x=> new {x.groupId})
-            // .Select(x=> new
-            // {
-            // GroupId = x.Key.groupId,
-            // Count = x.Count()
+            //var messages = this.CurrentUser.GroupMessages
+            //    .GroupBy(gm => new
+            //                       {
+            //                           gm.GroupChatId,
+            //                           gm.GroupChat.Name
+            //                       })
+            //    .Select(gm => new
+            //                      {
+            //                          Name = gm.Key.Name,
+            //                          Count = gm.Count()
+            //                      });
 
-            // }).ToList();
-            var currentUserName = this.CurrentUserUserName;
+            var messages =
+                this.Data.GroupMessageReceivers.All()
+                    .Where(gmr => gmr.ReceiverId == this.CurrentUserId)
+                    .GroupBy(gmr => new
+                                        {
+                                            Name = gmr.GroupMessage.GroupChat.Name, 
+                                            Id = gmr.GroupMessage.GroupChatId
+                                        }).ToList();
+                    //.Select(gmr => new
+                    //                   {
+                    //                       Name = gmr.Key.Name,
+                    //                       Count = gmr.Count()
+                    //                   });
 
-            var missedMessages =
-                this.Data.GroupMessages.All()
-                    .Where(x => x.UnRecievedUsers.Any(u => u.UserName == this.CurrentUserUserName))
-                    .Select(
-                        x =>
-                        new
-                            {
-                                groupId = x.GroupChatId, 
-                                MessagesCount = x.GroupChat.GroupMessages.Select(o => o.Text).ToList().Count
-                            })
-
-                    // .ToList();
-                    // .GroupBy(x => new { x.groupId })
-                    // .Select(x => new
-                    // {
-                    // GroupId = x.Key.groupId,
-                    // Count = x.Count()
-
-                    // })
-                    .ToList();
-
-            return this.Ok(missedMessages);
+            return this.Ok(messages);
         }
     }
 }

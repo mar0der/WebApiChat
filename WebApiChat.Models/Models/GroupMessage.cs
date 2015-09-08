@@ -10,16 +10,13 @@
 
     public class GroupMessage
     {
-        private ICollection<User> recievedUsers;
-
-        private ICollection<User> unRecievedUsers;
+        private ICollection<GroupMessageReceiver> groupMessageReceivers;
 
         public GroupMessage()
         {
-            this.recievedUsers = new HashSet<User>();
-            this.unRecievedUsers = new HashSet<User>();
+            this.groupMessageReceivers = new HashSet<GroupMessageReceiver>();
         }
-        
+            
         [Key]
         public int Id { get; set; }
 
@@ -35,29 +32,16 @@
 
         public DateTime Date { get; set; }
 
-        public virtual ICollection<User> RecievedUsers
+        public virtual ICollection<GroupMessageReceiver> GroupMessageReceivers
         {
             get
             {
-                return this.recievedUsers;
+                return this.groupMessageReceivers;
             }
 
             set
             {
-                this.recievedUsers = value;
-            }
-        }
-
-        public virtual ICollection<User> UnRecievedUsers
-        {
-            get
-            {
-                return this.unRecievedUsers;
-            }
-
-            set
-            {
-                this.unRecievedUsers = value;
+                this.groupMessageReceivers = value;
             }
         }
     }

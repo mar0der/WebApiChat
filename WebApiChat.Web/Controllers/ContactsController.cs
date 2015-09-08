@@ -34,11 +34,11 @@
                     c => new
                              {
                                  // ContactsOwer = c.ContactUser.UserName,
-                                 Id = c.ContactUserId,
-                                 c.ContactUser.UserName,
-                                 c.ContactUser.LastName,
-                                 c.ContactUser.FirstName,
-                                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName),
+                                 Id = c.ContactUserId, 
+                                 c.ContactUser.UserName, 
+                                 c.ContactUser.LastName, 
+                                 c.ContactUser.FirstName, 
+                                 IsOnline = onlineUsers.Contains(c.ContactUser.UserName), 
 
                                  // TODO: Why messages are 0 
                                  UnreceivedMessages = 0
@@ -77,9 +77,9 @@
             var addedContactUser =
                 new
                     {
-                        userContact.Id,
-                        userContact.UserName,
-                        IsOnline = onlineUsers.Contains(userContact.UserName),
+                        userContact.Id, 
+                        userContact.UserName, 
+                        IsOnline = onlineUsers.Contains(userContact.UserName), 
                         UnreceivedMessages = 0
                     };
 
@@ -144,11 +144,13 @@
         {
             var users =
                 this.Data.Contacts.All()
-                .Where(c => c.UserId == this.CurrentUserId &&
-                    (c.ContactUser.FirstName.Contains(searchPattern)
-                    || c.ContactUser.Email.Contains(searchPattern)
-                    || c.ContactUser.PhoneNumber.Contains(searchPattern) 
-                    || c.ContactUser.LastName.Contains(searchPattern)))
+                    .Where(
+                        c =>
+                        c.UserId == this.CurrentUserId
+                        && (c.ContactUser.FirstName.Contains(searchPattern)
+                            || c.ContactUser.Email.Contains(searchPattern)
+                            || c.ContactUser.PhoneNumber.Contains(searchPattern)
+                            || c.ContactUser.LastName.Contains(searchPattern)))
                     .Select(UserSearchViewModel.ViewModelFromContact)
                     .Take(5)
                     .ToList();

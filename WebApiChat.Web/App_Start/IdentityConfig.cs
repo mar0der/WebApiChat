@@ -9,7 +9,6 @@
 
     using WebApiChat.Data;
     using WebApiChat.Models.Models;
-    using WebApiChat.Web.Models;
 
     #endregion
 
@@ -27,8 +26,7 @@
         {
             context.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-            var manager = new ApplicationUserManager(
-                new UserStore<User>(context.Get<WebApiChatDbContext>()));
+            var manager = new ApplicationUserManager(new UserStore<User>(context.Get<WebApiChatDbContext>()));
 
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<User>(manager)

@@ -19,7 +19,6 @@
     using Microsoft.Owin.Security.OAuth;
 
     using WebApiChat.Models.Models;
-    using WebApiChat.Web;
     using WebApiChat.Web.Hubs;
     using WebApiChat.Web.Models.Account;
     using WebApiChat.Web.Providers;

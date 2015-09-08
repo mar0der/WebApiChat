@@ -3,7 +3,6 @@
     #region
 
     using System;
-    using System.Linq;
     using System.Linq.Expressions;
 
     using WebApiChat.Models.Models;

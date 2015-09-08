@@ -1,6 +1,10 @@
 ﻿namespace WebApiChat.Web.Models.GroupMessage
 {
+    #region
+
     using System.ComponentModel.DataAnnotations;
+
+    #endregion
 
     public class GroupMessagesBindingModel
     {

@@ -2,8 +2,10 @@
 {
     public enum MessageStatus
     {
-        Sent = 0,
-        NotDelivered = 1,
+        Sent = 0, 
+
+        NotDelivered = 1, 
+
         Seen = 2
     }
 }

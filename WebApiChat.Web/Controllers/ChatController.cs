@@ -41,12 +41,13 @@
             var privateChatMessages =
                 this.Data.Messages.All()
                     .Where(
-                        u => u.SenderId == userId && u.ReceiverId == this.CurrentUserId
+                        u =>
+                        u.SenderId == userId && u.ReceiverId == this.CurrentUserId
                         || u.ReceiverId == userId && u.SenderId == this.CurrentUserId)
-                     .OrderByDescending(m => m.Id)
+                    .OrderByDescending(m => m.Id)
                     .Take(20)
                     .OrderBy(m => m.Id)
-                    .Select(m => new { Id = m.Id, m.Text, Sender = m.Sender.UserName, Status = m.Status.ToString() });
+                    .Select(m => new { m.Id, m.Text, Sender = m.Sender.UserName, Status = m.Status.ToString() });
 
             return this.Ok(privateChatMessages);
         }
@@ -62,7 +63,7 @@
                         x =>
                         new
                             {
-                                sender = x.Sender.UserName,
+                                sender = x.Sender.UserName, 
                                 count =
                             x.Sender.SentMessages.Where(
                                 m => m.ReceiverId == this.CurrentUserId && m.Status != MessageStatus.Seen)
@@ -101,18 +102,18 @@
             var currentUsers = ConnectionManager.Users.Keys;
             var message = new PrivateMessage
                               {
-                                  Sender = this.CurrentUser,
-                                  SenderId = this.CurrentUserId,
-                                  Receiver = receiver,
-                                  ReceiverId = receiver.Id,
+                                  Sender = this.CurrentUser, 
+                                  SenderId = this.CurrentUserId, 
+                                  Receiver = receiver, 
+                                  ReceiverId = receiver.Id, 
                                   Text = messageBindingModel.Text
                               };
 
-            if (currentUsers.Contains(receiver.UserName)
-                && receiver.CurrentChatId == this.CurrentUser.Id)
+            if (currentUsers.Contains(receiver.UserName) && receiver.CurrentChatId == this.CurrentUser.Id)
             {
                 message.Status = MessageStatus.Seen;
-                //call signal r to the licent to display seend
+
+                // call signal r to the licent to display seend
             }
             else if (currentUsers.Contains(receiver.UserName))
             {
@@ -129,13 +130,13 @@
                 .pushMessageToClient(
                     new
                         {
-                            message.Id,
-                            message.Text,
-                            Sender = this.CurrentUserUserName,
-                            Receiver = receiver.UserName,
-                            Status = message.Status.ToString(),
-                            SenderId = this.CurrentUserId,
-                            ReceiverId = receiver.Id,
+                            message.Id, 
+                            message.Text, 
+                            Sender = this.CurrentUserUserName, 
+                            Receiver = receiver.UserName, 
+                            Status = message.Status.ToString(), 
+                            SenderId = this.CurrentUserId, 
+                            ReceiverId = receiver.Id, 
                             MessageId = message.Id
                         });
 
@@ -144,9 +145,9 @@
                 this.Ok(
                     new
                         {
-                            message.Text,
-                            Sender = this.CurrentUserUserName,
-                            Status = message.Status.ToString(),
+                            message.Text, 
+                            Sender = this.CurrentUserUserName, 
+                            Status = message.Status.ToString(), 
                             MessageId = message.Id
                         });
         }
@@ -161,27 +162,24 @@
 
             if (sender != null)
             {
-
                 if (sender.CurrentChatId == this.CurrentUserId)
                 {
-                    var messages = this.Data.Messages.All()
-                    .Where(m => m.SenderId == sender.Id && m.ReceiverId == this.CurrentUserId
-                    || m.SenderId == this.CurrentUserId && m.ReceiverId == sender.Id)
-                    .OrderByDescending(m => m.Id)
-                    .Take(20)
-                    .OrderBy(m => m.Id)
-                    .Select(m => new
-                    {
-                        Id = m.Id,
-                        Sender = m.Sender.UserName,
-                        Text = m.Text,
-                        Status = m.Status.ToString()
-                    })
-                    .ToList();
+                    var messages =
+                        this.Data.Messages.All()
+                            .Where(
+                                m =>
+                                m.SenderId == sender.Id && m.ReceiverId == this.CurrentUserId
+                                || m.SenderId == this.CurrentUserId && m.ReceiverId == sender.Id)
+                            .OrderByDescending(m => m.Id)
+                            .Take(20)
+                            .OrderBy(m => m.Id)
+                            .Select(m => new { m.Id, Sender = m.Sender.UserName, m.Text, Status = m.Status.ToString() })
+                            .ToList();
 
                     this.HubContex.Clients.User(sender.UserName).seenMessages(messages);
                 }
             }
+
             return this.Ok();
         }
     }

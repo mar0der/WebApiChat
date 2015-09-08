@@ -39,6 +39,14 @@
             }
         }
 
+        public IRepository<GroupMessageReceiver> GroupMessageReceivers
+        {
+            get
+            {
+                return this.GetRepository<GroupMessageReceiver>();
+            }
+        }
+
         public IRepository<Contact> Contacts
         {
             get

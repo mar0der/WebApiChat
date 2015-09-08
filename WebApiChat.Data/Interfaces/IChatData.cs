@@ -16,7 +16,9 @@
 
         IRepository<GroupChat> GroupChats { get; }
 
-        IRepository<GroupMessage> GroupMessages { get; } 
+        IRepository<GroupMessage> GroupMessages { get; }
+
+        IRepository<GroupMessageReceiver> GroupMessageReceivers { get; }
 
         int SaveChanges();
     }

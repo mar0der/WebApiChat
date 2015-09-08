@@ -8,8 +8,6 @@
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     #endregion
 
@@ -21,9 +19,9 @@
 
         private ICollection<GroupMessage> groupMessages;
 
-        private ICollection<PrivateMessage> privateSentMessages;
-
         private ICollection<PrivateMessage> privateReceivedMessages;
+
+        private ICollection<PrivateMessage> privateSentMessages;
 
         public User()
         {
@@ -40,7 +38,7 @@
         public string FirstName { get; set; }
 
         public string CurrentChatId { get; set; }
-        
+
         // [Required]
         public string LastName { get; set; }
 
@@ -110,7 +108,7 @@
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
-            UserManager<User> manager,
+            UserManager<User> manager, 
             string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
