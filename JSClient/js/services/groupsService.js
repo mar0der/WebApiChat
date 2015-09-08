@@ -17,7 +17,7 @@ webchat.factory('groupService', function ($http, $q, authenticationService, conf
 
     service.SendMessageToGroup = function(messageData){
         authenticationService.setHeaders($http);
-        return $http.post(serviceUrl + 'addMessage', messageData)
+        return $http.post(serviceUrl + 'addMessage', messageData);
     };
 
     service.createGroup = function(groupData){

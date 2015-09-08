@@ -96,7 +96,7 @@
 
         [HttpGet]
         [Route("getMessages/{groupId}")]
-        public IQueryable<GroupMessagesBindingModel> GetGroupMessages(int groupId)
+        public IQueryable<GroupMessageViewModel> GetGroupMessages(int groupId)
         {
             var group = this.CurrentUser.GroupChats.FirstOrDefault(g => g.Id == groupId);
             if (group == null)
@@ -104,16 +104,13 @@
                 throw new ApplicationException("Group not found.");
             }
 
-            return
-                group.GroupMessages.Select(
-                    gp =>
-                    new GroupMessagesBindingModel
+            return group.GroupMessages.Select(gm =>
+                    new GroupMessageViewModel(
                         {
-                            Id = gp.Id, 
-                            Content = gp.Text, 
-                            SenderId = gp.SenderId, 
-                            SenderUsername = gp.Sender.UserName, 
-                            Text = gp.Text
+                            Id = gm.Id, 
+                            GroupId = gm.GroupChatId, 
+                            Sender = gm.Sender.UserName, 
+                            Text = gm.Text
                         }).AsQueryable();
         }
 
@@ -159,11 +156,11 @@
             group.GroupMessages.Add(groupMessageForAdd);
             this.Data.SaveChanges();
 
-            var messageViewModel = GroupMessageView.CreateOne(groupMessageForAdd);
+            var messageViewModel = GroupMessageViewModel.CreateOne(groupMessageForAdd);
 
             var onlineUserNamesList = groupOnlineUsers.Select(u => u.UserName).ToList();
 
-            this.HubContex.Clients.Users(onlineUserNamesList).toggleGroupMessage(messageViewModel);
+            this.HubContex.Clients.Users(onlineUserNamesList).pushGroupMessage(messageViewModel);
 
             return this.Ok(messageViewModel);
         }

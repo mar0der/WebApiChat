@@ -7,7 +7,7 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
                                                  usersService, groupService) {
     $rootScope.rightContainerTemplate = 'partials/GroupChatBox.html';
     $rootScope.groups = [];
-    $rootScope.groupMessages = [];
+    $scope.groupMessages = [];
     $rootScope.currentGroupId = "";
     $rootScope.groupUsersPreview = [];
     $rootScope.groupContactPreview = $rootScope.contacts;
@@ -15,13 +15,21 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
     $rootScope.groupMissedMessages = 0;
     $rootScope.groupChatUsers = [];
 
-    //todo clear currentGroup on click on chat
+    //todo clear currentGroup on click on 
 
-    signalR.on('toggleGroupMessage', function (message) {
+    function updateChatWindow() {
+        setTimeout(function () {
+            $('#chatContent').stop().animate({
+                scrollTop: $("#chatContent")[0].scrollHeight
+            }, 400);
+        }, 100);
+    }
+
+    signalR.on('pushGroupMessage', function (message) {
         if (message.GroupId === $rootScope.currentGroupId) {
-            $rootScope.groupMessages.push(message);
+            $scope.groupMessages.push(message);
         }
-        console.log(message);
+        updateChatWindow();
     });
 
     signalR.on('toggleGroupCreation', function (group) {
@@ -51,15 +59,15 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
             });
     };
 
-    $scope.getGroupMessages = function (id) {
+    $rootScope.getGroupMessages = function (id) {
         $rootScope.rightContainerTemplate = 'partials/GroupChatBox.html';
         console.log("container");
         $scope.groupMessages = [];
         groupService.getMessageByGroup(id)
             .then(function (data) {
-                $rootScope.groupMessages = data.data;
+                $scope.groupMessages = data.data;
                 $rootScope.currentGroupId = id;
-                console.log($rootScope.groupMessages);
+                updateChatWindow();
             }, function (err) {
                 console.log(err);
             });
@@ -67,12 +75,12 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
 
     $rootScope.sendMessageToGroup = function (groupMessage) {
         groupMessage['GroupId'] = $rootScope.currentGroupId;
-        console.log(groupMessage);
         groupService.SendMessageToGroup(groupMessage)
             .then(function (data) {
-                console.log(data.data);
+                updateChatWindow();
                 if ($rootScope.currentGroupId === data.data.GroupId) {
-                    $rootScope.groupMessages.push(data.data);
+                    $scope.groupMessages.push(data.data);
+                    groupMessage.Text = '';
                 }
             }, function (err) {
                 console.log(err);

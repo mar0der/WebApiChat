@@ -1,26 +1,50 @@
 ﻿namespace WebApiChat.Web.Models.GroupMessage
 {
+    #region
+
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+
     using WebApiChat.Models.Models;
 
-    public class GroupMessageView
+    #endregion
+
+    public class GroupMessageViewModel
     {
         public int Id { get; set; }
 
-        public string SenderUsername { get; set; }
+        public string Sender { get; set; }
 
         public string Text { get; set; }
 
-        public int  GroupId { get; set; }
+        public int GroupId { get; set; }
 
-        public static GroupMessageView CreateOne(GroupMessage message)
+        public static Expression<Func<GroupMessage, GroupMessageViewModel>> ViewModel
         {
-            return new GroupMessageView()
+            get
             {
-                GroupId = message.GroupChatId,
-                Id =  message.Id,
-                Text=  message.Text,
-                SenderUsername = message.Sender.UserName
-            };
+                return
+                    gm =>
+                    new GroupMessageViewModel
+                        {
+                            Id = gm.Id, 
+                            GroupId = gm.GroupChatId, 
+                            Sender = gm.Sender.UserName, 
+                            Text = gm.Text
+                        };
+            }
+        }
+
+        public static GroupMessageViewModel CreateOne(GroupMessage message)
+        {
+            return new GroupMessageViewModel
+                       {
+                           GroupId = message.GroupChatId, 
+                           Id = message.Id, 
+                           Text = message.Text, 
+                           Sender = message.Sender.UserName
+                       };
         }
     }
 }

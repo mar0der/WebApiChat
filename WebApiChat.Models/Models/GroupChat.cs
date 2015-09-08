@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebApiChat.Models.Models
+﻿namespace WebApiChat.Models.Models
 {
+    #region
+
+    using System.Collections.Generic;
+
+    #endregion
+
     public class GroupChat
     {
-        private ICollection<User> users;
-
         private ICollection<GroupMessage> groupMessageses;
+
+        private ICollection<User> users;
 
         public GroupChat()
         {
@@ -24,15 +24,28 @@ namespace WebApiChat.Models.Models
 
         public virtual ICollection<User> Users
         {
-            get { return this.users; }
-            set { this.users = value; }
-        }
+            get
+            {
+                return this.users;
+            }
 
+            set
+            {
+                this.users = value;
+            }
+        }
 
         public virtual ICollection<GroupMessage> GroupMessages
         {
-            get { return this.groupMessageses; }
-            set { this.groupMessageses = value; }
+            get
+            {
+                return this.groupMessageses;
+            }
+
+            set
+            {
+                this.groupMessageses = value;
+            }
         }
     }
 }

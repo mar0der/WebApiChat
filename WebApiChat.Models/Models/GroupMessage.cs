@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace WebApiChat.Models.Models
+﻿namespace WebApiChat.Models.Models
 {
+    #region
+
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
+    #endregion
+
     public class GroupMessage
     {
         private ICollection<User> recievedUsers;
+
         private ICollection<User> unRecievedUsers;
 
         public GroupMessage()
@@ -15,12 +19,13 @@ namespace WebApiChat.Models.Models
             this.recievedUsers = new HashSet<User>();
             this.unRecievedUsers = new HashSet<User>();
         }
+        
+        [Key]
+        public int Id { get; set; }
 
         public int GroupChatId { get; set; }
 
         public virtual GroupChat GroupChat { get; set; }
-
-        public int Id { get; set; }
 
         public string Text { get; set; }
 
@@ -43,12 +48,17 @@ namespace WebApiChat.Models.Models
             }
         }
 
-
         public virtual ICollection<User> UnRecievedUsers
         {
-            get { return this.unRecievedUsers; }
-            set { this.unRecievedUsers = value; }
-        }
+            get
+            {
+                return this.unRecievedUsers;
+            }
 
+            set
+            {
+                this.unRecievedUsers = value;
+            }
+        }
     }
 }
