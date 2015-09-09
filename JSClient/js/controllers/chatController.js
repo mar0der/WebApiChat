@@ -20,7 +20,6 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
         contactService.getAllFriends()
             .then(function (data) {
                 $rootScope.contacts = data.data;
-                console.log(data)
             }, function (err) {
                 console.error(err.responseText);
             });

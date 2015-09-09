@@ -1,32 +1,3 @@
-<!--
-<div>
-    <p>GROUPS</p>
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <span class="navbar-brand">
-                    Group Name: {{$rootScope.currentPrivateChatReceiver}}
-                </span>
-            </div>
-        </div>
-    </nav>
-    <div id="chatContent" class="col-lg-24 well">
-
-        <div ng-repeat="message in groupMessages">
-            <p>{{message.SenderUsername}} : {{message.Text}}</p>
-        </div>
-    </div>
-    <div class="col-lg-24 well">
-        <div class="input-group">
-            <input ng-model="groupMessage.Text" type="text" class="form-control">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="submit" ng-click="sendMessageToGroup(groupMessage)">Send</button>
-            </span>
-        </div>
-    </div>
-</div>
-  -->
-
 <div ng-controller="groupsController">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -38,10 +9,46 @@
         </div>
     </nav>
     <div id="chatContent" class="col-lg-24 well">
-        <!--left-->
         <div ng-repeat="message in groupMessages">
-            <div ng-include="'partials/leftMessageBox.html'"></div>
-            <div ng-include="'partials/rightMessageBox.html'"></div>
+            <!--left-->
+            <div ng-show="message.Sender== me">
+                <div class="media">
+                    <div class="media-left pull-left">
+                        <a href="#">
+                            <img class="media-object" src="http://dummyimage.com/48/abc/0011ff" alt="...">
+                        </a>
+                    </div>
+                    <div class="pull-left col-lg-20">
+                        <h4 class="media-heading">{{message.Sender}}</h4>
+                        
+                        <small ng-if="message.SeenBy.length > 0">
+                            Seen: <span ng-repeat="user in message.SeenBy">{{user}} </span>
+                        </small>
+                        <div class="list-group-item-text">{{message.Text}}</div>
+                    </div>
+                </div>
+            </div>
+            <!--left end-->
+            <!-- right -->
+
+            <div class="media" ng-show="message.Sender != me">
+                <div class="media-right pull-right">
+                    <a href="#">
+                        <img class="media-object" src="http://dummyimage.com/48/abc/0011ff" alt="...">
+                    </a>
+                </div>
+                <div class="pull-right col-lg-20">
+                    <h4 class="media-heading pull-right">{{message.Sender}}</h4>
+                    <div style="clear: both; height: 0px;"></div>
+                    <small class="pull-right" ng-if="message.SeenBy.length > 0">
+                        Seen: <span ng-repeat="user in message.SeenBy">{{user}} </span>
+                    </small>
+                    <div style="clear: both;"></div>
+                    <div class="list-group-item-text pull-right">{{message.Text}}</div>
+                </div>
+            </div>
+
+
         </div>
     </div>
     <div class="col-lg-24 well">

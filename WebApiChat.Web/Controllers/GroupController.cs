@@ -107,11 +107,18 @@
                 throw new ApplicationException("Group not found.");
             }
 
-            var groupMessages = group.GroupMessages
-                .OrderByDescending(m => m.Id)
-                .Take(20)
-                .OrderBy(m => m.Id)
-                .ToList();
+            var groupMessages = group.GroupMessages;
+
+            foreach (var message in groupMessages)
+            {
+                var me = message.GroupMessageReceivers.FirstOrDefault(mr => mr.ReceiverId == this.CurrentUserId);
+                if (me != null)
+                {
+                    me.Status = MessageStatus.Seen;
+                }
+            }
+
+            this.Data.SaveChanges();
 
             var groupMessagesView = groupMessages.Select(
                     gm =>
@@ -120,8 +127,21 @@
                             Id = gm.Id,
                             GroupId = gm.GroupChatId,
                             Sender = gm.Sender.UserName,
-                            Text = gm.Text
+                            Text = gm.Text,
+                            SeenBy = gm
+                            .GroupMessageReceivers.Where( mr => mr.Status == MessageStatus.Seen)
+                            .Select( mr => mr.Receiver.FirstName)
                         });
+
+            var receivers = group.Users;
+            var onlineUsers = ConnectionManager.Users.Keys;
+            foreach (var receiver in receivers)
+            {
+                if (onlineUsers.Contains(receiver.UserName) && receiver.CurrentChatId == groupId.ToString())
+                {
+                    this.HubContex.Clients.User(receiver.UserName).seenMessages(groupMessagesView);
+                }
+            }
 
             return groupMessagesView.AsQueryable();
         }
@@ -183,7 +203,7 @@
             group.GroupMessages.Add(groupMessageForAdd);
             this.Data.SaveChanges();
 
-            var messageViewModel = GroupMessageViewModel.CreateOne(groupMessageForAdd);
+            var messageViewModel = GroupMessageViewModel.CreateOne(groupMessageForAdd, this.CurrentUserId);
 
             var onlineUserNamesList = groupOnlineUsers.Select(u => u.UserName).ToList();
 

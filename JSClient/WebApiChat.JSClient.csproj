@@ -117,6 +117,7 @@
     <Content Include="partials\addContactForm.html" />
     <Content Include="partials\chatBox.html" />
     <Content Include="partials\contactsList.html" />
+    <Content Include="partials\GroupChatBox.html" />
     <Content Include="partials\groupList.html" />
     <Content Include="partials\leftMessageBox.html" />
     <Content Include="partials\rightMessageBox.html" />

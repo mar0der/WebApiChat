@@ -28,7 +28,16 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
     signalR.on('pushGroupMessage', function (message) {
         if (message.GroupId === $rootScope.currentGroupId) {
             $scope.groupMessages.push(message);
+        } else {
+            
+            for (var i = 0; i < $scope.groups.length; i++) {
+                if ($scope.groups[i].GroupId == message.GroupId) {
+                    $scope.groups[i].UnreceivedMessages++;
+                    break;
+                }
+            }
         }
+
         updateChatWindow();
     });
 
@@ -39,6 +48,10 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
         else {
             $rootScope.groupMissedMessages = true;
         }
+    });
+
+    signalR.on('seenMessages', function (groupMessages) {
+        $scope.groupMessages = groupMessages;
     });
 
     $scope.me = authenticationService.getUsername();
@@ -65,6 +78,13 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
         $scope.groupMessages = [];
         groupService.getMessageByGroup(id)
             .then(function (data) {
+                for (var i = 0; i < $scope.groups.length; i++) {
+                    if ($scope.groups[i].GroupId == id) {
+                        $scope.groups[i].UnreceivedMessages = 0;
+                        break;
+                    }
+                }
+
                 usersService.updateUserCurrentChatId(id);
                 $scope.groupMessages = data.data;
                 $rootScope.currentGroupId = id;
@@ -152,18 +172,16 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
     $scope.getMissedGroupChats = function () {
         groupService.getMissedGroupChats()
             .then(function (data) {
-                console.log("missed");
-                console.log(data);
             }, function (err) {
                 console.log(err);
             });
     }
 
     function attachMissedGroupMessages(notification) {
-        for (var i = 0; i < $rootScope.groups.length; i++) {
+        for (var i = 0; i < $scope.groups.length; i++) {
             for (var k = 0; k < notification.length; k++) {
-                if ($rootScope.groups[i].GroupName == notification[k].Name) {
-                    $rootScope.groups[i].UnreceivedMessages = notification[k].Count;
+                if ($scope.groups[i].GroupName == notification[k].Name) {
+                    $scope.groups[i].UnreceivedMessages = notification[k].Count;
                     break;
                 }
             }
