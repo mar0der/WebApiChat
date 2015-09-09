@@ -60,7 +60,7 @@
     <div ng-if="currentSidebar.isGroups" ng-controller="groupsController" ng-init="getAllGroups();">
         <div ng-init=" getMissedGroupChats()"></div>
         <button class="btn btn-warning col-lg-24" type="button" ng-repeat="group in groups" ng-click="getGroupMessages(group.GroupId)">
-            {{group.GroupName | limitTo: 12}}<span ng-if="group.GroupName.length > 12">...</span><span class="badge pull-right">2</span>
+            {{group.GroupName | limitTo: 12}}<span ng-if="group.GroupName.length > 12">...</span><span class="badge pull-right">{{group.UnreceivedMessages}}</span>
         </button>
         <button ng-click="loadAddGroupFrom()" class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
             + Add Group<span class="badge"></span>

@@ -112,7 +112,6 @@
             if (currentUsers.Contains(receiver.UserName) && receiver.CurrentChatId == this.CurrentUser.Id)
             {
                 message.Status = MessageStatus.Seen;
-
                 // call signal r to the licent to display seend
             }
             else if (currentUsers.Contains(receiver.UserName))

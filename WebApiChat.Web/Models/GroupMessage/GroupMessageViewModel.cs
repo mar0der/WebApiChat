@@ -4,7 +4,7 @@
 
     using System;
     using System.Linq.Expressions;
-
+    using System.Collections.Generic;
     using WebApiChat.Models.Models;
 
     #endregion
@@ -18,6 +18,8 @@
         public string Text { get; set; }
 
         public int GroupId { get; set; }
+
+        public IList<string> SeenBy { get; set; }
 
         public static Expression<Func<GroupMessage, GroupMessageViewModel>> ViewModel
         {

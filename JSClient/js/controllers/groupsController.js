@@ -53,7 +53,7 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
         groupService.getAllGroups()
             .then(function (data) {
                 $rootScope.groups = data.data;
-                console.log(data);
+                $rootScope.getUnreceived();
             }, function (err) {
                 console.log(err);
             });
@@ -65,6 +65,7 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
         $scope.groupMessages = [];
         groupService.getMessageByGroup(id)
             .then(function (data) {
+                usersService.updateUserCurrentChatId(id);
                 $scope.groupMessages = data.data;
                 $rootScope.currentGroupId = id;
                 updateChatWindow();
@@ -157,4 +158,25 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
                 console.log(err);
             });
     }
+
+    function attachMissedGroupMessages(notification) {
+        for (var i = 0; i < $rootScope.groups.length; i++) {
+            for (var k = 0; k < notification.length; k++) {
+                if ($rootScope.groups[i].GroupName == notification[k].Name) {
+                    $rootScope.groups[i].UnreceivedMessages = notification[k].Count;
+                    break;
+                }
+            }
+        }
+    }
+
+    $rootScope.getUnreceived = function () {
+        groupService.getUnreceived()
+            .then(function (serverdata) {
+                attachMissedGroupMessages(serverdata.data);
+            }, function (error) {
+                console.log(error);
+            });
+    };
+
 });

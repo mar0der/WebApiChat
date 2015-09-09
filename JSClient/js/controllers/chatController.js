@@ -1,3 +1,4 @@
+/// <reference path="groupsController.js" />
 'use strict';
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,

@@ -31,6 +31,11 @@ webchat.factory('groupService', function ($http, $q, authenticationService, conf
         return $http.get(serviceUrl + 'unreceived');
     };
 
+    service.getUnreceived = function () {
+        authenticationService.setHeaders($http);
+        return $http.get(serviceUrl + 'unreceived');
+    };
+
     return service;
 
 });

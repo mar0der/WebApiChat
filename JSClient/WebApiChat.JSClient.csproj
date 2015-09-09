@@ -107,10 +107,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="js\controllers\chatController.js" />
     <Content Include="js\controllers\contactsController.js" />
+    <Content Include="js\controllers\groupsController.js" />
     <Content Include="js\filters\isOnline.js" />
     <Content Include="js\services\authenticationService.js" />
     <Content Include="js\services\configService.js" />
     <Content Include="js\services\contactService.js" />
+    <Content Include="js\services\groupsService.js" />
     <Content Include="js\stream\stream.js" />
     <Content Include="partials\addContactForm.html" />
     <Content Include="partials\chatBox.html" />
