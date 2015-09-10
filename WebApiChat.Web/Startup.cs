@@ -20,7 +20,7 @@ namespace WebApiChat.Web
     #endregion
 
     // new code
-    [assembly: OwinStartup(typeof(Startup))]
+   // [assembly: OwinStartup(typeof(Startup))]
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
