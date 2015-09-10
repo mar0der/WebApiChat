@@ -177,3 +177,4 @@ C:\Users\ibaky\Desktop\asd\JSClient\bin\System.Web.Http.Cors.xml
 C:\Users\ibaky\Desktop\asd\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
 C:\Users\ibaky\Desktop\asd\JSClient\obj\Debug\JSClient.dll
 C:\Users\ibaky\Desktop\asd\JSClient\obj\Debug\JSClient.pdb
+C:\Users\peter\Dropbox\1.SoftUni\Petar\Level 3\WSC\WebApiChat\JSClient\obj\Debug\WebApiChat.JSClient.csprojResolveAssemblyReference.cache
