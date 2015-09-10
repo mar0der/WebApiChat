@@ -1,7 +1,12 @@
-<div id="contactList" ng-init="getAllFriends()">
+<div id="contactList" ng-init="getAllFriends();">
     <h1>All contacts</h1>
+    <div class="form-group">
+        <input ng-model="searchContactForGroupFilter" type="text" class="form-control"
+               placeholder="Search" autocomplete="off" />
+    </div>
     <ul>
-        <li class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in groupContactPreview"
+        <li class="btn btn-warning col-lg-24" type="button"
+            ng-repeat="contact in groupContactPreview | filter: {UserName: searchContactForGroupFilter}"
             ng-click="addToGroupPreview(contact); addUserIdToGroup(contact.Id)">
 
             <svg height="10" width="10" ng-show="contact.IsOnline">
@@ -12,6 +17,8 @@
             <span class="addButton">Add</span>
         </li>
     </ul>
+    <div ng-if="(groupContactPreview | filter: {UserName: searchContactForGroupFilter}).length == 0">No matched contacts</div>
+    <div ng-if="groupContactPreview.length == 0">No contacts</div>
 </div>
 <div>
     <h1>Group users</h1>

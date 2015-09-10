@@ -7,6 +7,15 @@ webchat.controller("authenticationController", function ($scope, usersService, a
         $scope.userData = "";
         $scope.passwordData = "";
     };
+    $scope.me = authenticationService.getUsername();
+
+    if ($scope.me && $scope.me.length > 0) {
+        setTimeout(function () {
+            usersService.userStatusUpdate();
+            usersService.updateUserCurrentChatId(null);
+            $rootScope.currentPrivateChatReceiverId = "";
+        }, 200);
+    }
 
     $scope.login = function login(loginData) {
         usersService.login(loginData)

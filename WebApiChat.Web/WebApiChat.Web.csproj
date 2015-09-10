@@ -292,6 +292,7 @@
     <Compile Include="Hubs\BaseHub.cs" />
     <Compile Include="Models\Account\AccountBindingModels.cs" />
     <Compile Include="Models\Account\AccountViewModels.cs" />
+    <Compile Include="Models\Account\UserPreviewViewModel.cs" />
     <Compile Include="Models\GroupChat\GroupChatBindingModel.cs" />
     <Compile Include="Models\GroupChat\AddGroupMessageBindingModel.cs" />
     <Compile Include="Models\GroupMessage\GroupMessagesBindingModel.cs" />

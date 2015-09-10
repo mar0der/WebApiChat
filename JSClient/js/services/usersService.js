@@ -40,5 +40,10 @@ webchat.factory('usersService', function ($http, $q, authenticationService, conf
             authenticationService.getHeaders());
     };
 
+    service.getUserPreview = function getUserPreview(username) {
+        return $http.get(configService.baseServiceUrl + '/users/getUserInfoByUsername?username=' + username,
+            authenticationService.getHeaders());
+    };
+
     return service;
 });

@@ -9,7 +9,10 @@
     <link href="css/style.css" rel="stylesheet" />
 </head>
 <body ng-app="webchat" ng-controller="authenticationController">
-    <div class="rown well-lg" ng-view></div>
+    <div ng-controller="signalRController"></div>
+        <div class="col-lg-4" ng-if="isLoggedIn()" ng-include="'partials/sidebar.html'"
+             ng-controller="sidebarController" ng-init="toggleSidebar('contacts')"></div>
+        <div class="col-lg-10" ng-view></div>
 
     <!-- Angular JS libs-->
     <script src="Scripts/jquery-1.6.4.js"></script>
@@ -42,8 +45,10 @@
 
     <!-- controllers -->
     <script src="js/controllers/authenticationController.js"></script>
+    <script src="js/controllers/sidebarController.js"></script>
     <script src="js/controllers/contactsController.js"></script>
     <script src="js/controllers/chatController.js"></script>
+    <script src="js/controllers/signalRController.js"></script>
     <script src="js/controllers/groupsController.js"></script>
 </body>
 </html>

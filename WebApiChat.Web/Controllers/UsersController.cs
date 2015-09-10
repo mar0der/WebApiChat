@@ -10,6 +10,8 @@
     using Microsoft.AspNet.SignalR;
 
     using WebApiChat.Web.Hubs;
+    using WebApiChat.Web.Models.Account;
+    using System.Collections.Generic;
 
     #endregion
 
@@ -56,6 +58,27 @@
             hubContext.Clients.All.userLogged(new { Id = this.CurrentUserId, this.CurrentUser.UserName });
 
             return this.Ok(Thread.CurrentPrincipal.Identity.GetUserId());
+        }
+
+        [HttpGet]
+        [Route("getUserInfoByUsername")]
+        public IHttpActionResult GetUserInfoByUsername([FromUri]string username)
+        {
+
+            var user = this.Data.Users.All().FirstOrDefault(u => u.UserName == username);
+            if (user == null)
+            {
+                return this.BadRequest("user was not found.");
+            }
+
+            var viewModel = new UserPreviewViewModel()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return this.Ok(viewModel);
         }
     }
 }

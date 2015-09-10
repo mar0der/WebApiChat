@@ -3,13 +3,13 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <span class="navbar-brand">
-                    Chat with: {{currentPrivateChatReceiver}}
+                    Chat with: {{groupName}}
                 </span>
             </div>
         </div>
     </nav>
     <div id="chatContent" class="col-lg-24 well">
-        <div ng-repeat="message in groupMessages">
+        <div ng-repeat="message in groupMessages track by $index">
             <!--left-->
             <div ng-show="message.Sender== me">
                 <div class="media">
@@ -20,10 +20,11 @@
                     </div>
                     <div class="pull-left col-lg-20">
                         <h4 class="media-heading">{{message.Sender}}</h4>
-                        
+
                         <small ng-if="message.SeenBy.length > 0">
                             Seen: <span ng-repeat="user in message.SeenBy">{{user}} </span>
                         </small>
+                        <small ng-if="message.SeenBy.length == 0">Sent</small>
                         <div class="list-group-item-text">{{message.Text}}</div>
                     </div>
                 </div>
@@ -43,6 +44,7 @@
                     <small class="pull-right" ng-if="message.SeenBy.length > 0">
                         Seen: <span ng-repeat="user in message.SeenBy">{{user}} </span>
                     </small>
+                    <small ng-if="message.SeenBy.length == 0" class="pull-right">Sent</small>
                     <div style="clear: both;"></div>
                     <div class="list-group-item-text pull-right">{{message.Text}}</div>
                 </div>

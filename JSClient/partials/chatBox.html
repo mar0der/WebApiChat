@@ -10,7 +10,7 @@
     </nav>
     <div id="chatContent" class="col-lg-24 well">
         <!--left-->
-        <div ng-repeat="message in chatLog">
+        <div ng-repeat="message in chatLog track by $index">
             <div ng-include="'partials/leftMessageBox.html'"></div>
             <div ng-include="'partials/rightMessageBox.html'"></div>
         </div>

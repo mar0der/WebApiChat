@@ -4,16 +4,13 @@
 'use strict';
 
 webchat.controller("groupsController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
-                                                 usersService, groupService) {
-    $rootScope.rightContainerTemplate = 'partials/GroupChatBox.html';
-    $rootScope.groups = [];
+                                                 usersService, groupService, $routeParams, contactService) {
+    $scope.groups = [];
     $scope.groupMessages = [];
-    $rootScope.currentGroupId = "";
-    $rootScope.groupUsersPreview = [];
-    $rootScope.groupContactPreview = $rootScope.contacts;
-    $rootScope.groupName = "";
-    $rootScope.groupMissedMessages = 0;
-    $rootScope.groupChatUsers = [];
+    $scope.groupUsersPreview = [];
+    $scope.groupContactPreview = [];
+    $scope.groupChatUsers = [];
+    $scope.groupName = $routeParams.groupName;
 
     //todo clear currentGroup on click on 
 
@@ -24,57 +21,35 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
             }, 400);
         }, 100);
     }
-
-    signalR.on('pushGroupMessage', function (message) {
-        if (message.GroupId === $rootScope.currentGroupId) {
-            $scope.groupMessages.push(message);
-        } else {
-            
-            for (var i = 0; i < $scope.groups.length; i++) {
-                if ($scope.groups[i].GroupId == message.GroupId) {
-                    $scope.groups[i].UnreceivedMessages++;
-                    break;
-                }
-            }
-        }
-
-        updateChatWindow();
-    });
-
     signalR.on('toggleGroupCreation', function (group) {
         if (sessionStorage['currentSelection'] === "groups") {
-            $rootScope.groups.push(group);
+            $scope.groups.push(group);
         }
         else {
-            $rootScope.groupMissedMessages = true;
+            $scope.groupMissedMessages = true;
         }
     });
 
-    signalR.on('seenMessages', function (groupMessages) {
-        $scope.groupMessages = groupMessages;
-    });
 
     $scope.me = authenticationService.getUsername();
     if ($scope.me.length > 0) {
         setTimeout(function () {
             usersService.userStatusUpdate();
             usersService.updateUserCurrentChatId(null);
+            if ($routeParams.chatId !== undefined) {
+                $scope.getGroupMessages($routeParams.chatId);
+            }
         }, 100);
     }
 
-    $rootScope.getAllGroups = function () {
-        groupService.getAllGroups()
-            .then(function (data) {
-                $rootScope.groups = data.data;
-                $rootScope.getUnreceived();
-            }, function (err) {
-                console.log(err);
-            });
+    $scope.getAllFriends = function getAllFriends() {
+        contactService.getAllFriends()
+        .then(function (serverData) {
+            $scope.groupContactPreview = serverData.data;
+        });
     };
 
-    $rootScope.getGroupMessages = function (id) {
-        $rootScope.rightContainerTemplate = 'partials/GroupChatBox.html';
-        console.log("container");
+    $scope.getGroupMessages = function (id) {
         $scope.groupMessages = [];
         groupService.getMessageByGroup(id)
             .then(function (data) {
@@ -94,76 +69,67 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
             });
     };
 
-    $rootScope.sendMessageToGroup = function (groupMessage) {
+    $scope.sendMessageToGroup = function (groupMessage) {
         groupMessage['GroupId'] = $rootScope.currentGroupId;
         groupService.SendMessageToGroup(groupMessage)
             .then(function (data) {
                 updateChatWindow();
-                if ($rootScope.currentGroupId === data.data.GroupId) {
-                    $scope.groupMessages.push(data.data);
-                    groupMessage.Text = '';
-                }
+                $scope.groupMessages.push(data.data);
+                groupMessage.Text = '';
             }, function (err) {
                 console.log(err);
             });
     };
 
-    $rootScope.addToGroupPreview = function (user) {
-        $rootScope.groupUsersPreview.push(user);
-        for (var i = 0 ; i < $rootScope.groupContactPreview.length; i++) {
-            if ($rootScope.groupContactPreview[i].Id === user.Id) {
-                $rootScope.groupContactPreview.splice(i, 1);
-                break;
-            }
-        }
-        console.log($rootScope.groupUsersPreview);
-    };
-
-    $rootScope.removeFromGroupPreview = function (user) {
-        for (var i = 0 ; i < $rootScope.groupUsersPreview.length; i++) {
-            if ($rootScope.groupUsersPreview[i].Id === user.Id) {
-                $rootScope.groupUsersPreview.splice(i, 1);
-                $rootScope.groupContactPreview.push(user);
+    $scope.addToGroupPreview = function (user) {
+        $scope.groupUsersPreview.push(user);
+        for (var i = 0 ; i < $scope.groupContactPreview.length; i++) {
+            if ($scope.groupContactPreview[i].Id === user.Id) {
+                $scope.groupContactPreview.splice(i, 1);
                 break;
             }
         }
     };
 
-    $rootScope.addUserIdToGroup = function (id) {
-        $rootScope.groupChatUsers.push(id);
-        console.log($rootScope.groupChatUsers);
+    $scope.removeFromGroupPreview = function (user) {
+        for (var i = 0 ; i < $scope.groupUsersPreview.length; i++) {
+            if ($scope.groupUsersPreview[i].Id === user.Id) {
+                $scope.groupUsersPreview.splice(i, 1);
+                $scope.groupContactPreview.push(user);
+                break;
+            }
+        }
     };
 
-    $rootScope.removeUserIdFromGroup = function (id) {
-        var index = $rootScope.groupChatUsers.indexOf(id);
+    $scope.addUserIdToGroup = function (id) {
+        $scope.groupChatUsers.push(id);
+
+    };
+
+    $scope.removeUserIdFromGroup = function (id) {
+        var index = $scope.groupChatUsers.indexOf(id);
         if (index > -1) {
-            $rootScope.groupChatUsers.splice(index, 1);
+            $scope.groupChatUsers.splice(index, 1);
         }
-        console.log($rootScope.groupChatUsers);
     };
 
-    $rootScope.loadAddGroupFrom = function () {
-        $rootScope.rightContainerTemplate = 'partials/addGroupView.html';
-    };
-
-
-
-    $rootScope.createGroup = function (groupName) {
+    $scope.createGroup = function (groupName) {
         var groupData = {
-            GroupName: groupName,
-            UserIds: $rootScope.groupChatUsers
+            GroupName: groupName || '',
+            UserIds: $scope.groupChatUsers
         };
 
         groupService.createGroup(groupData)
-            .then(function (data) {
-                console.log(data);
+            .then(function (serverData) {
+                $rootScope.$broadcast('newGroupAdded', serverData.data);
+                $location.path('/groupChat/' + serverData.data.GroupId + '/' + serverData.data.GroupName);
             }, function (error) {
                 console.log(error);
             });
     };
 
-    $rootScope.checkForGroupCreation = function () {
-        if ($rootScope.groupChatUsers.length > 0) {
+    $scope.checkForGroupCreation = function () {
+        if ($scope.groupChatUsers.length > 0) {
             return true;
         }
         return false;
@@ -172,29 +138,52 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
     $scope.getMissedGroupChats = function () {
         groupService.getMissedGroupChats()
             .then(function (data) {
+                for (var i = 0; i < data.data.length; i++) {
+                    for (var j = 0; j < $scope.groups.length; j++) {
+                        if (data.data[i].Id == $scope.groups[j].GroupId) {
+                            $scope.groups[j].UnreceivedMessages = data.data[i].UnreceivedMessages;
+                        }
+                    }
+                }
             }, function (err) {
                 console.log(err);
             });
     }
 
-    function attachMissedGroupMessages(notification) {
-        for (var i = 0; i < $scope.groups.length; i++) {
-            for (var k = 0; k < notification.length; k++) {
-                if ($scope.groups[i].GroupName == notification[k].Name) {
-                    $scope.groups[i].UnreceivedMessages = notification[k].Count;
-                    break;
+    $scope.getAllGroups = function getAllGroups() {
+        groupService.getAllGroups()
+        .then(function (serverData) {
+            $scope.groups = serverData.data;
+            $scope.getMissedGroupChats();
+        });
+    };
+
+    $rootScope.$on('newGroupAdded', function (event, data) {
+        $scope.groups.push(data);
+    });
+
+    $scope.$on('updateGroupMessages', function (event, groupMessages) {
+        for (var i = 0; i < groupMessages.length; i++) {
+            for (var j = 0; j < $scope.groupMessages.length; j++) {
+                if (groupMessages[i].Id === $scope.groupMessages[j].Id) {
+                    $scope.groupMessages[j].SeenBy = groupMessages[i].SeenBy;
                 }
             }
         }
-    }
 
-    $rootScope.getUnreceived = function () {
-        groupService.getUnreceived()
-            .then(function (serverdata) {
-                attachMissedGroupMessages(serverdata.data);
-            }, function (error) {
-                console.log(error);
-            });
-    };
+    });
 
+    $scope.$on('newGroupMessageAdded', function (event, message) {
+        if ($rootScope.currentGroupId == message.GroupId) {
+            $scope.groupMessages.push(message);
+            updateChatWindow();
+        } else {
+            for (var i = 0; i < $scope.groups.length; i++) {
+                if ($scope.groups[i].GroupId == message.GroupId) {
+                    $scope.groups[i].UnreceivedMessages++;
+                    console.log('+');
+                }
+            }
+        }
+    });
 });

@@ -108,6 +108,8 @@
     <Content Include="js\controllers\chatController.js" />
     <Content Include="js\controllers\contactsController.js" />
     <Content Include="js\controllers\groupsController.js" />
+    <Content Include="js\controllers\sidebarController.js" />
+    <Content Include="js\controllers\signalRController.js" />
     <Content Include="js\filters\isOnline.js" />
     <Content Include="js\services\authenticationService.js" />
     <Content Include="js\services\configService.js" />
@@ -115,6 +117,7 @@
     <Content Include="js\services\groupsService.js" />
     <Content Include="js\stream\stream.js" />
     <Content Include="partials\addContactForm.html" />
+    <Content Include="partials\addGroupView.html" />
     <Content Include="partials\chatBox.html" />
     <Content Include="partials\contactsList.html" />
     <Content Include="partials\GroupChatBox.html" />

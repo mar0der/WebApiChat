@@ -139,6 +139,12 @@
                             MessageId = message.Id
                         });
 
+            this.HubContex.Clients.User(receiver.UserName).newPrivateMessage(new
+            {
+                SenderId = this.CurrentUserId,
+                Sender = this.CurrentUserUserName
+            });
+
             // TODO use viewModel
             return
                 this.Ok(
