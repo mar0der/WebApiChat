@@ -1,0 +1,62 @@
+﻿<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#/">Hi, {{me}}</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav pull-right">
+            <li><a href="#" ng-click="logout()">Logout <span class="glyphicon glyphicon-log-out"></span></a></li>
+        </ul>
+    </div>
+</nav>
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" ng-click="toggleSidebar('contacts');">Contacts</button>
+    </div>
+    <div ng-class="{'red': groupMissedMessages}" class="btn-group" role="group">
+        <button type="button" class="btn btn-default" ng-click="toggleSidebar('groups');">Groups</button>
+    </div>
+</div>
+<div ng-controller="contactsController">
+    <div ng-if="currentSidebar.isContacts" ng-init="getAllFriends(); getUnreceived()">
+        <div class="form-group">
+            <input ng-model="searchContactFilter" type="text" class="form-control"
+                   placeholder="Search" autocomplete="off" />
+        </div>
+        <div id="contactList">
+            <a href="#/privateChat/{{contact.UserName}}" ng-click="clearNotificaions(contact.UserName); test();"
+               class="btn btn-warning col-lg-24" type="button" ng-repeat="contact in contacts | filter: {UserName: searchContactFilter}">
+                <div class="col-lg-18 pull-left">
+                    <svg height="10" width="10" ng-show="contact.IsOnline">
+                        <circle cx="5" cy="5" r="5" stroke="#33CC33" stroke-width="1" fill="#00FF00" />Sorry, your browser does not support inline SVG.
+                    </svg>
+                    {{contact.UserName}}
+                    <span class="badge">
+                        <span ng-if="contact.UnreceivedMessages >0">
+                            {{contact.UnreceivedMessages}}
+                        </span>
+                    </span>
+                </div>
+            </a>
+            <div ng-if="(contacts | filter: {UserName: searchContactFilter}).length == 0">No matched contacts</div>
+            <div ng-if="contacts.length == 0">No contacts</div>
+        </div>
+        <br />
+
+        <!--todo make this pretty-->
+      
+        <!--todo make this pretty-->
+
+        <a href="#/addContact" class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
+            + Add Contact <span class="badge"></span>
+        </a>
+    </div>
+    <!--todo Groups-->
+    <div ng-if="currentSidebar.isGroups" ng-controller="groupsController" ng-init="getAllGroups();">
+        <a href="#/groupChat/{{group.GroupId}}/{{group.GroupName}}" class="btn btn-warning col-lg-24" type="button" ng-repeat="group in groups" ng-click="getGroupMessages(group.GroupId)">
+            {{group.GroupName | limitTo: 12}}<span ng-if="group.GroupName.length > 12">...</span><span class="badge pull-right">{{group.UnreceivedMessages}}</span>
+        </a>
+        <a href="#/createGroup" class="btn btn-default col-lg-18 col-lg-offset-3" type="button">
+            + Add Group<span class="badge"></span>
+        </a>
+    </div>
+</div>
