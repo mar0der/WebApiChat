@@ -3,7 +3,7 @@
 webchat.factory('configService', function () {
     var config = {
         baseServiceUrl: 'http://viber.apphb.com/api/',
-        signalRUrl: 'http://viber.apphb.com/signalr/'
+        signalRUrl: 'http://viber.apphb.com/'
     };
 
     return config;
