@@ -36,8 +36,6 @@
 
         public AccountController()
         {
-
-
         }
 
         public AccountController(
