@@ -70,16 +70,16 @@ webchat.controller("contactsController", function ($scope, contactService, $loca
             });
     };
 
-    signalR.on('newPrivateMessage', function (message) {
-        if (message.SenderId !== $rootScope.currentPrivateChatReceiverId) {
-            for (var i = 0; i < $scope.contacts.length; i++) {
-                if ($scope.contacts[i].UserName === message.Sender) {
-                        $scope.contacts[i].UnreceivedMessages++;
-                    break;
-                }
-            }
-        }
-    });
+    //signalR.on('newPrivateMessage', function (message) {
+    //    if (message.SenderId !== $rootScope.currentPrivateChatReceiverId) {
+    //        for (var i = 0; i < $scope.contacts.length; i++) {
+    //            if ($scope.contacts[i].UserName === message.Sender) {
+    //                    $scope.contacts[i].UnreceivedMessages++;
+    //                break;
+    //            }
+    //        }
+    //    }
+    //});
 
     $scope.clearNotificaions = function clearNotifications(username) {
         for (var i = 0; i < $scope.contacts.length; i++) {

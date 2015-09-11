@@ -41,6 +41,7 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     }
 
     signalR.on('seenMessages', function (messages) {
+        console.log('asdasd');
         $scope.chatLog = messages;
     });
 
