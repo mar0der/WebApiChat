@@ -8,7 +8,10 @@
         <div class="pull-left col-lg-20">
             <h4 class="media-heading">{{message.Sender}}</h4>
             <small>{{message.Status}}</small>
-            <div class="list-group-item-text">{{message.Text}}</div>
+            <div class="list-group-item-text">
+                <span ng-if="message.IsFileLink"><a href="{{message.Text}}" target="_blank">Attached File</a></span>
+                <span ng-if="!message.IsFileLink">{{message.Text}}</span>
+            </div>
         </div>
     </div>
 </div>

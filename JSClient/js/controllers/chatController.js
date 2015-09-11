@@ -89,10 +89,8 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     }
 
     $scope.$on('newPrivateMessage', function (event, message) {
-        if (message.SenderId === $rootScope.currentPrivateChatReceiverId) {
-            $scope.chatLog.push(message);
-            updateChatWindow();
-        }
+        $scope.chatLog.push(message);
+        updateChatWindow();
     });
 
 });

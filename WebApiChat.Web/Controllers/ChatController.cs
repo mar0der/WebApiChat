@@ -47,7 +47,14 @@
                     .OrderByDescending(m => m.Id)
                     .Take(20)
                     .OrderBy(m => m.Id)
-                    .Select(m => new { m.Id, m.Text, Sender = m.Sender.UserName, Status = m.Status.ToString() });
+                    .Select(m => new
+                    {
+                        Id = m.Id,
+                        Text = m.Text,
+                        Sender = m.Sender.UserName,
+                        Status = m.Status.ToString(),
+                        IsFileLink = m.IsFileLink
+                    });
 
             return this.Ok(privateChatMessages);
         }
@@ -63,7 +70,7 @@
                         x =>
                         new
                             {
-                                sender = x.Sender.UserName, 
+                                sender = x.Sender.UserName,
                                 count =
                             x.Sender.SentMessages.Where(
                                 m => m.ReceiverId == this.CurrentUserId && m.Status != MessageStatus.Seen)
@@ -102,10 +109,10 @@
             var currentUsers = ConnectionManager.Users.Keys;
             var message = new PrivateMessage
                               {
-                                  Sender = this.CurrentUser, 
-                                  SenderId = this.CurrentUserId, 
-                                  Receiver = receiver, 
-                                  ReceiverId = receiver.Id, 
+                                  Sender = this.CurrentUser,
+                                  SenderId = this.CurrentUserId,
+                                  Receiver = receiver,
+                                  ReceiverId = receiver.Id,
                                   Text = messageBindingModel.Text
                               };
 
@@ -129,13 +136,13 @@
                 .pushMessageToClient(
                     new
                         {
-                            message.Id, 
-                            message.Text, 
-                            Sender = this.CurrentUserUserName, 
-                            Receiver = receiver.UserName, 
-                            Status = message.Status.ToString(), 
-                            SenderId = this.CurrentUserId, 
-                            ReceiverId = receiver.Id, 
+                            message.Id,
+                            message.Text,
+                            Sender = this.CurrentUserUserName,
+                            Receiver = receiver.UserName,
+                            Status = message.Status.ToString(),
+                            SenderId = this.CurrentUserId,
+                            ReceiverId = receiver.Id,
                             MessageId = message.Id
                         });
 
@@ -150,9 +157,9 @@
                 this.Ok(
                     new
                         {
-                            message.Text, 
-                            Sender = this.CurrentUserUserName, 
-                            Status = message.Status.ToString(), 
+                            message.Text,
+                            Sender = this.CurrentUserUserName,
+                            Status = message.Status.ToString(),
                             MessageId = message.Id
                         });
         }
@@ -178,7 +185,14 @@
                             .OrderByDescending(m => m.Id)
                             .Take(20)
                             .OrderBy(m => m.Id)
-                            .Select(m => new { m.Id, Sender = m.Sender.UserName, m.Text, Status = m.Status.ToString() })
+                            .Select(m => new
+                            {
+                                m.Id,
+                                Sender = m.Sender.UserName,
+                                m.Text,
+                                Status = m.Status.ToString(),
+                                IsFileLink = m.IsFileLink
+                            })
                             .ToList();
 
                     this.HubContex.Clients.User(sender.UserName).seenMessages(messages);

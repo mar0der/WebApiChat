@@ -28,6 +28,8 @@
 
         public virtual User Receiver { get; set; }
 
+        public bool IsFileLink { get; set; }
+
         public MessageStatus Status { get; set; }
     }
 }

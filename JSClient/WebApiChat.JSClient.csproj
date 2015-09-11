@@ -105,6 +105,7 @@
     <Content Include="css\custom-icons.css" />
     <Content Include="css\style.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="helpers\uploader.js" />
     <Content Include="js\controllers\chatController.js" />
     <Content Include="js\controllers\contactsController.js" />
     <Content Include="js\controllers\groupsController.js" />

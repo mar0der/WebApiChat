@@ -22,5 +22,8 @@
                 <button class="btn btn-default" type="submit" ng-click="sendMessageToUser(messageData)">Send</button>
             </span>
         </div>
+
+        <span id="uploadStatus" style="display: none;">Uploading...</span>
+        <input type="file" class="form-control" onchange="sendFile(event);" id="file" value="Send file" />
     </div>
 </div>

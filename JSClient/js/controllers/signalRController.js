@@ -22,7 +22,6 @@ webchat.controller("signalRController", function ($rootScope, signalR) {
 
 
     signalR.on('pushMessageToClient', function (message) {
-        console.log('bah maa mu');
         $rootScope.$broadcast('newPrivateMessage', message);
     });
 });

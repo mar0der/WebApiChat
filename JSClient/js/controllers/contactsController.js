@@ -122,6 +122,17 @@ webchat.controller("contactsController", function ($scope, contactService, $loca
         }
     });
 
+    $rootScope.$on('newPrivateMessage', function (event, message) {
+        if (message.SenderId !== $rootScope.currentPrivateChatReceiverId) {
+            for (var i = 0; i < $scope.contacts.length; i++) {
+                if ($scope.contacts[i].UserName === message.Sender) {
+                    $scope.contacts[i].UnreceivedMessages++;
+                    break;
+                }
+            }
+        }
+    });
+
     $rootScope.$on('userLogged', function (event, userLogged) {
         var user = {
             Id: userLogged.Id,
