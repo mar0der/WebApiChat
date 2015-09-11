@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-webchat.controller("authenticationController", function ($scope, usersService, authenticationService, $location, signalR, $rootScope) {
+webchat.controller("authenticationController", function ($scope, usersService, authenticationService, $location, signalR, $rootScope, usSpinnerService) {
     var clearData = function () {
         //$scope.loginData = "";
         $scope.registerData = "";
@@ -18,15 +18,18 @@ webchat.controller("authenticationController", function ($scope, usersService, a
     }
 
     $scope.login = function login(loginData) {
+        usSpinnerService.spin('spinner');
         usersService.login(loginData)
         .then(function (serverData) {
             //notyService.showInfo("Successful Login!");
             authenticationService.setCredentials(serverData.data);
             $rootScope.$broadcast('login');
             clearData();
+            usSpinnerService.stop('spinner');
             $location.path('/');
         },
         function (serverError) {
+            usSpinnerService.stop('spinner');
             console.log(serverError);
             //notyService.showError("Unsuccessful Login!", serverError);
         });
@@ -34,16 +37,19 @@ webchat.controller("authenticationController", function ($scope, usersService, a
 
     $scope.register = function register(registerData) {
         //usSpinnerService.spin('spinner');
+        usSpinnerService.spin('spinner');
         usersService.register(registerData)
         .then(function (serverData) {
             //notyService.showInfo("Successful Registeration!");
             authenticationService.setCredentials(serverData.data);
             $rootScope.$broadcast('login');
             clearData();
+            usSpinnerService.stop('spinner');
             //usSpinnerService.stop('spinner');
             $location.path('/');
         },
         function (serverError) {
+            usSpinnerService.stop('spinner');
             //usSpinnerService.stop('s
             // pinner');
             //notyService.showError("Unsuccessful Registeration!", serverError);

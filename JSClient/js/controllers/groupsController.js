@@ -4,7 +4,7 @@
 'use strict';
 
 webchat.controller("groupsController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
-                                                 usersService, groupService, $routeParams, contactService) {
+                                                 usersService, groupService, $routeParams, contactService, usSpinnerService) {
     $scope.groups = [];
     $scope.groupMessages = [];
     $scope.groupUsersPreview = [];
@@ -50,6 +50,7 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
     };
 
     $scope.getGroupMessages = function (id) {
+        usSpinnerService.spin('spinner');
         $scope.groupMessages = [];
         groupService.getMessageByGroup(id)
             .then(function (data) {
@@ -59,12 +60,13 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
                         break;
                     }
                 }
-
+                usSpinnerService.stop('spinner');
                 usersService.updateUserCurrentChatId(id);
                 $scope.groupMessages = data.data;
                 $rootScope.currentGroupId = id;
                 updateChatWindow();
             }, function (err) {
+                usSpinnerService.stop('spinner');
                 console.log(err);
             });
     };
@@ -186,4 +188,10 @@ webchat.controller("groupsController", function ($scope, chatService, $location,
             }
         }
     });
+
+    $scope.submit = function submit(e) {
+        if (e.keyCode == 13) {
+            $scope.sendMessageToGroup($scope.messageData);
+        }
+    }
 });

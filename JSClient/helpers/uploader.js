@@ -8,7 +8,7 @@
     statusDiv.fadeIn(200);
     uploadInput.fadeOut(100);
     $.ajax({
-        url: 'http://localhost:3660/api/File', // point to server-side PHP script 
+        url: 'http://viber.azurewebsites.net/api/File', // point to server-side PHP script 
         cache: false,
         contentType: false,
         processData: false,

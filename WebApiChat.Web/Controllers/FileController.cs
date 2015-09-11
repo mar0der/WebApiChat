@@ -34,7 +34,7 @@ namespace WebApiChat.Web.Controllers
             var task = Task.Run(() => DropBoxManager.Upload(uniqueName, buffer));
             task.Wait();
 
-            var link = "http://localhost:3660/api/File?fileName=" + uniqueName;
+            var link = "http://viber.azurewebsites.net/api/File?fileName=" + uniqueName;
             var receiverId = this.CurrentUser.CurrentChatId;
             var receiver = this.Data.Users.All()
                 .FirstOrDefault(u => u.Id == receiverId);

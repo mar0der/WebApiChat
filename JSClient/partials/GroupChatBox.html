@@ -55,7 +55,7 @@
     </div>
     <div class="col-lg-24 well">
         <div class="input-group">
-            <input ng-model="messageData.Text" type="text" class="form-control">
+            <input ng-model="messageData.Text" ng-keyup="submit($event);" type="text" class="form-control">
             <span class="input-group-btn">
                 <button class="btn btn-default" type="submit" ng-click="sendMessageToGroup(messageData)">Send</button>
             </span>

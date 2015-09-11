@@ -12,7 +12,8 @@
     <div ng-controller="signalRController"></div>
         <div class="col-lg-4" ng-if="isLoggedIn()" ng-include="'partials/sidebar.html'"
              ng-controller="sidebarController" ng-init="toggleSidebar('contacts')"></div>
-        <div class="col-lg-10" ng-view></div>
+    <div class="col-lg-10" ng-view></div>
+    <span us-spinner="{radius:15, width:3, length: 10}" spinner-key="spinner"></span>
 
     <!-- Angular JS libs-->
     <script src="Scripts/jquery-1.6.4.js"></script>
@@ -20,10 +21,12 @@
     <script src="Scripts/angular-route.js"></script>
     <script src="Scripts/angular-resource.js"></script>
     <script src="Scripts/jquery.signalR-2.2.0.js"></script>
-    <script src="http://localhost:3660/signalr/hubs"></script>
+    <script src="http://viber.azurewebsites.net/signalr/hubs"></script>
     <script src="Scripts/signalr-hub.js"></script>
-    <script src="Scripts/bootstrap/bootstrap.js"></script>
+    <!--<script src="Scripts/bootstrap/bootstrap.js"></script>-->
     <script src="Scripts/bootstrap/ui-bootstrap-tpls-0.13.0.js"></script>
+    <script src="js/libs/spin.js"></script>
+    <script src="js/libs/angular-spinner.min.js"></script>
 
     <!-- My JS code -->
     <script src="helpers/uploader.js"></script>

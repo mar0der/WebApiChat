@@ -112,6 +112,8 @@
     <Content Include="js\controllers\sidebarController.js" />
     <Content Include="js\controllers\signalRController.js" />
     <Content Include="js\filters\isOnline.js" />
+    <Content Include="js\libs\angular-spinner.min.js" />
+    <Content Include="js\libs\spin.js" />
     <Content Include="js\services\authenticationService.js" />
     <Content Include="js\services\configService.js" />
     <Content Include="js\services\contactService.js" />

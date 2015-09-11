@@ -2,7 +2,7 @@
 'use strict';
 
 webchat.controller("chatController", function ($scope, chatService, $location, signalR, $rootScope, authenticationService,
-                                               usersService, contactService, $routeParams) {
+                                               usersService, contactService, $routeParams, usSpinnerService) {
     $scope.chatLog = [];
     $rootScope.currentChanelId = "";
     $scope.me = authenticationService.getUsername();
@@ -45,13 +45,16 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     });
 
     $scope.getChatWithUser = function (contact) {
+        usSpinnerService.spin('spinner');
         chatService.GetChatWithUser(contact.Id)
             .then(function (serverResponse) {
                 usersService.updateUserCurrentChatId(contact.Id);
                 $scope.currentPrivateChatReceiver = contact.FirstName + ' ' + contact.LastName;
                 $scope.chatLog = serverResponse.data;
                 updateChatWindow();
+                usSpinnerService.stop('spinner');
             }, function (err) {
+                usSpinnerService.stop('spinner');
                 console.log(err);
             });
     };
@@ -101,5 +104,11 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
 
         updateChatWindow();
     });
+
+    $scope.submit = function submit(e) {
+        if (e.keyCode == 13) {
+            $scope.sendMessageToUser($scope.messageData);
+        }
+    }
 
 });
