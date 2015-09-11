@@ -41,7 +41,6 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     }
 
     signalR.on('seenMessages', function (messages) {
-        console.log('asdasd');
         $scope.chatLog = messages;
     });
 
@@ -90,7 +89,16 @@ webchat.controller("chatController", function ($scope, chatService, $location, s
     }
 
     $scope.$on('newPrivateMessage', function (event, message) {
+        if (message.SenderId == $rootScope.currentPrivateChatReceiverId) {
+            $scope.chatLog.push(message);
+        }
+
+        updateChatWindow();
+    });
+
+    $scope.$on('pushSelfMessage', function (event, message) {
         $scope.chatLog.push(message);
+
         updateChatWindow();
     });
 

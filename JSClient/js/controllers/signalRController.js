@@ -20,6 +20,10 @@ webchat.controller("signalRController", function ($rootScope, signalR) {
         $rootScope.$broadcast('userLogged', userLogged);
     });
 
+    signalR.on('pushSelfMessage', function (message) {
+        $rootScope.$broadcast('pushSelfMessage', message);
+    });
+
 
     signalR.on('pushMessageToClient', function (message) {
         $rootScope.$broadcast('newPrivateMessage', message);
